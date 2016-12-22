@@ -1,0 +1,5 @@
+alias ssh='ssh -XY'
+alias so='source'
+alias gitlso='git ls-files --others --exclude-standard'
+alias sshbwrc='ssh -XY erichang@bwrcrdsl-2.eecs.berkeley.edu'
+alias sshtunnel='ssh -f erichang@bwrcrdsl-2.eecs.berkeley.edu -L 5901:localhost:5901 -N'
