@@ -1,0 +1,44 @@
+#! /usr/bin/env tcsh -f
+
+# disable core dump generation.
+limit coredumpsize 0
+
+# set default CD path.
+set cdpath = ~
+
+# set default file permissions
+umask 022
+
+# disable path search hashing
+unhash
+
+# interactive shell configuration
+if ($?prompt) then
+    # set history size
+    set history = 100
+
+    # enable filename completion
+    set filec
+
+    # set to notify job status change immediately
+    # set notify
+
+    # ignore EOF (^D) for this shell
+    set ignoreeof
+
+    # set default pager
+    setenv PAGER /usr/bin/less
+
+    # vim configuration; enable auto-indent
+    setenv EXINIT "set ai"
+
+    # setup to print custom prompt banner
+    alias precmd "bash ${HOME}/bin/setup_prompt.sh"
+    set prompt="%{${YELLOW}%}-%{${LIGHT_BLUE}%}>%{${NO_COLOR}%} "
+    set prompt2="%{${YELLOW}%}-%{${LIGHT_BLUE}%}>%{${NO_COLOR}%} "
+endif
+
+# add custom aliases
+if ( -e ~/.csh_aliases ) then
+        source ~/.csh_aliases
+endif

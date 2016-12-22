@@ -1,0 +1,6 @@
+#! /usr/bin/env tcsh -f
+
+setenv PATH "/usr/local/bin:/bin:/usr/bin"
+unsetenv LD_LIBRARY_PATH
+
+exec "vncserver" -geometry 1680x1000

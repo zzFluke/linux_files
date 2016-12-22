@@ -1,0 +1,11 @@
+#! /usr/bin/env tcsh -f
+
+alias rm 'rm -i' 
+alias mv 'mv -i'
+alias cp 'cp -i'
+alias ls 'ls --color=auto'
+alias so 'source'
+alias ssh 'ssh -XY'
+alias gitlso 'git ls-files --others --exclude-standard'
+
+
