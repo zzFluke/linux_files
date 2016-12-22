@@ -2,6 +2,9 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# set default file permissions
+umask 022
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -103,17 +106,8 @@ PS2="$LIGHT_BLUE-$YELLOW-$YELLOW-$NO_COLOUR "
 termwide
 
 # enable color support of ls for macxs
-export CLICOLOR=1
-export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
+# export CLICOLOR=1
+# export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 
 # MATLAB SHELL
 # export MATLAB_SHELL='/bin/tcsh -f'
@@ -122,8 +116,7 @@ alias mv='mv -i'
 # export GDFONTPATH=/usr/share/fonts/truetype/msttcorefonts
 
 # add local directory to path
-export PATH="/Users/erichang/Applications/anaconda2/bin:${HOME}/bin:$PATH"
-# export PATH="${HOME}/bin:$PATH"
+export PATH="${HOME}/bin:$PATH"
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -142,4 +135,4 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # use java 1.7
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home"
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home"
