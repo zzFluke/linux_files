@@ -2,6 +2,7 @@
 
 # standard aliases
 alias ls='ls --color=auto'
+alias l.='ls -d .* --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
 alias ssh='ssh -XY'
