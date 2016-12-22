@@ -1,3 +1,5 @@
+#! /usr/bin/env bash -f
+
 source .bashrc_base
 
 # set X11 display

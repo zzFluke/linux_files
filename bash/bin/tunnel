@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -f
 
 cmd="ssh -f erichang@bwrcrdsl-${2:-2}.eecs.berkeley.edu -L ${1}:localhost:${1} -N"
 echo $cmd

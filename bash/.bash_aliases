@@ -1,3 +1,5 @@
+#! /usr/bin/env bash -f
+
 # standard aliases
 alias ls='ls --color=auto'
 alias rm='rm -i'
