@@ -1,0 +1,4 @@
+source .bashrc_base
+
+# set X11 display
+export DISPLAY=localhost:0.0
