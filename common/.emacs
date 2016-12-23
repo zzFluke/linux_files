@@ -34,6 +34,9 @@
 (add-hook 'prog-mode-hook
 	  '(lambda () (define-key prog-mode-map "\C-m" 'newline-and-indent)))
 
+;; set default font to DejaVu Sans Mono
+(set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
