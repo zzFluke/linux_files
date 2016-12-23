@@ -1,4 +1,4 @@
-#! /usr/bin/env bash -f
+#! /usr/bin/env bash
 # bash script that prints out custom prompt banner
 
 # Grab host name

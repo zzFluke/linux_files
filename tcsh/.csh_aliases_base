@@ -1,4 +1,4 @@
-#! /usr/bin/env tcsh -f
+#! /usr/bin/env tcsh
 
 alias rm 'rm -i' 
 alias mv 'mv -i'

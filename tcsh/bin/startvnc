@@ -1,4 +1,4 @@
-#! /usr/bin/env tcsh -f
+#! /usr/bin/env tcsh
 
 setenv PATH "/usr/local/bin:/bin:/usr/bin"
 unsetenv LD_LIBRARY_PATH
