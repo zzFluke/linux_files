@@ -39,9 +39,6 @@ export PS2="\[\033[1;33m\]-\[\033[1;34m\]>\[\033[0m\] "
 # for GNUPLOT PNG font
 # export GDFONTPATH=/usr/share/fonts/truetype/msttcorefonts
 
-# add local directory to path
-export PATH="${HOME}/bin:$PATH"
-
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
