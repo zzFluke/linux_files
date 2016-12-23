@@ -27,7 +27,7 @@ then
 fi
 
 # define colors
-NO_COLOUR="\033[0m"
+NO_COLOR="\033[0m"
 LIGHT_BLUE="\033[1;34m"
 YELLOW="\033[1;33m"
 
