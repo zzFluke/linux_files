@@ -1,5 +1,6 @@
 #! /usr/bin/env tcsh
 
+# standard aliases
 alias rm 'rm -i' 
 alias mv 'mv -i'
 alias cp 'cp -i'
@@ -7,6 +8,9 @@ alias ls 'ls --color=auto'
 alias l. 'ls -d .* --color=auto'
 alias so 'source'
 alias ssh 'ssh -XY'
+
+# utility aliases
 alias gitlso 'git ls-files --others --exclude-standard'
+alias mycfg 'git --git-dir=${HOME}/.mycfg --work-tree=${HOME}'
 
 
