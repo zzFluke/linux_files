@@ -1,3 +1,0 @@
-#!/usr/bin/env tcsh
-
-echo "\033]0;${1}\007"
