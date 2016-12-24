@@ -1,4 +1,4 @@
-#! /usr/bin/env tcsh
+#!/usr/bin/env tcsh
 
 # standard aliases
 alias rm 'rm -i' 

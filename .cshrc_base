@@ -1,4 +1,4 @@
-#! /usr/bin/env tcsh
+#!/usr/bin/env tcsh
 
 # disable core dump generation.
 limit coredumpsize 0
