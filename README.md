@@ -22,7 +22,7 @@ To set up on a new computer:
    mycfg config status.showUntrackedFiles no
    ```
    
-   to hide untracked files when using ```shell mycfg status```.
+   to hide untracked files.
 
 4. type:
 
