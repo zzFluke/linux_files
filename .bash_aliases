@@ -1,8 +1,16 @@
 #! /usr/bin/env bash
 
 # standard aliases
-alias ls='ls --color=auto'
-alias l.='ls -d .* --color=auto'
+if [ "$(uname -s)" == "Darwin" ]; then
+    export CLICOLOR=1
+    export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
+    alias l.='ls -d .*'
+    alias la='ls -a'
+else
+    alias ls='ls --color=auto'
+    alias l.='ls -d .* --color=auto'
+    alias la='ls -a'
+fi
 alias rm='rm -i'
 alias mv='mv -i'
 alias ssh='ssh -XY'
