@@ -7,11 +7,6 @@ To set up on a new computer:
 
    ```shell
    git clone --bare git@github.com:pkerichang/linux_files.git ${HOME}/.mycfg
-   ```
-
-   then type:
-
-   ```shell
    alias mycfg='git --git-dir=${HOME}/.mycfg --work-tree=${HOME}'
    ```
 
@@ -26,6 +21,8 @@ To set up on a new computer:
    ```shell
    mycfg config status.showUntrackedFiles no
    ```
+   
+   to hide untracked files when using ```shell mycfg status```.
 
 4. type:
 
