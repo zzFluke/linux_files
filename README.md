@@ -31,3 +31,24 @@ To set up on a new computer:
    ```
 
    to make the current branch track master at origin.
+
+To setup a new branch, type:
+
+   ```shell
+   mycfg checkout -b [name_of_your_new_branch]
+   mycfg push origin [name_of_your_new_branch]
+   ```
+
+To update master branch with updated file(s) in other branch:
+
+   ```shell
+   mycfg checkout master
+   mycfg checkout [branch_name] -- [file_name] ...
+   ```
+
+To merge master into current branch:
+
+   ```shell
+   git checkout [current_branch_name]
+   git merge master
+   ```
