@@ -43,5 +43,15 @@ endif
 
 # add custom aliases
 if ( -e ~/.csh_aliases ) then
-        source ~/.csh_aliases
+    source ~/.csh_aliases
 endif
+
+setenv MY_APPLICATIONS ${HOME}/Applications
+if ( -e ${MY_APPLICATIONS}/.cshrc ) then
+    source ${MY_APPLICATIONS}/.cshrc
+endif
+
+set path = ( \
+    ${HOME}/bin \
+    $path \
+    )
