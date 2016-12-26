@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+
+exec ssh "erichang@bwrcrdsl-${1:-2}.eecs.berkeley.edu"
+
