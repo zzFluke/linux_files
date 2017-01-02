@@ -1,4 +1,0 @@
-#!/usr/bin/env tcsh
-
-
-exec /users/erichang/Applications/core/bin/emacs $argv:q &

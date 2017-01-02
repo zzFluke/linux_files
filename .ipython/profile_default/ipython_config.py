@@ -32,6 +32,8 @@ c = get_config()
 ## lines of code to run at IPython startup.
 c.InteractiveShellApp.exec_lines = [
     'import numpy as np',
+    # disable inline plot in jupyter
+    '%matplotlib qt5',
 ]
 
 ## A list of dotted module names of IPython extensions to load.
@@ -45,7 +47,7 @@ c.InteractiveShellApp.exec_lines = [
 
 ## Enable GUI event loop integration with any of ('glut', 'gtk', 'gtk2', 'gtk3',
 #  'osx', 'pyglet', 'qt', 'qt4', 'qt5', 'tk', 'wx', 'gtk2', 'qt4').
-#c.InteractiveShellApp.gui = None
+# c.InteractiveShellApp.gui = 'qt5'
 
 ## Should variables loaded at startup (by startup files, exec_lines, etc.) be
 #  hidden from tools like %who?
