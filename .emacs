@@ -9,6 +9,7 @@
 (autoload 'spice-mode "spice-mode" "Spice Editing Mode" t)
 (autoload 'spectre-mode "spectre-mode" "Spectre Editing MOde" t)
 (autoload 'yaml-mode "yaml-mode" "YAML Editing Mode" t)
+(autoload 'cython-mode "cython-mode" "Cython Editing Mode" t)
 
 (setq auto-mode-alist (append '(("\\.\\(ssp\\|sp\\|hsp\\|spi\\)$" .
                                  spice-mode)) auto-mode-alist))
@@ -20,6 +21,8 @@
                                  verilog-mode)) auto-mode-alist)) 
 (setq auto-mode-alist (append '(("\\.\\(yaml\\|yml\\)$" .
                                  yaml-mode)) auto-mode-alist)) 
+(setq auto-mode-alist (append '(("\\.\\(pyx\\|pxd\\)$" .
+                                 cython-mode)) auto-mode-alist)) 
 
 ;; set hot key to uncomment region in spice
 (defun my-spice-mode-keys ()
@@ -33,6 +36,23 @@
 ;; bind enter key to newline-and-indent for programming
 (add-hook 'prog-mode-hook
 	  '(lambda () (define-key prog-mode-map "\C-m" 'newline-and-indent)))
+
+;; set c++ indentation to 4 spaces
+(c-add-style "my-style" 
+	     '("stroustrup"
+	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
+	       (c-basic-offset . 4)            ; indent by four spaces
+	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
+				   (brace-list-open . 0)
+				   (statement-case-open . +)))))
+
+(defun my-c++-mode-hook ()
+  (c-set-style "my-style")        ; use my-style defined above
+  (auto-fill-mode)         
+  (c-toggle-auto-hungry-state 1))
+
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
 
 ;; set default font to DejaVu Sans Mono
 (set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
