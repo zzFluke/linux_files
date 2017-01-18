@@ -10,6 +10,7 @@
 (autoload 'spectre-mode "spectre-mode" "Spectre Editing MOde" t)
 (autoload 'yaml-mode "yaml-mode" "YAML Editing Mode" t)
 (autoload 'cython-mode "cython-mode" "Cython Editing Mode" t)
+(autoload 'cmake-mode "cmake-mode" "CMake Editing Mode" t)
 
 (setq auto-mode-alist (append '(("\\.\\(ssp\\|sp\\|hsp\\|spi\\)$" .
                                  spice-mode)) auto-mode-alist))
@@ -23,6 +24,8 @@
                                  yaml-mode)) auto-mode-alist)) 
 (setq auto-mode-alist (append '(("\\.\\(pyx\\|pxd\\)$" .
                                  cython-mode)) auto-mode-alist)) 
+(setq auto-mode-alist (append '(("CMakeLists\\.txt$" .
+                                 cmake-mode)) auto-mode-alist)) 
 
 ;; set hot key to uncomment region in spice
 (defun my-spice-mode-keys ()
