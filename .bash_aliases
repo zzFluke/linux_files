@@ -6,13 +6,16 @@ if [ "$(uname -s)" == "Darwin" ]; then
     export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
     alias l.='ls -d .*'
     alias la='ls -a'
+    alias lt='ls -ltr'
 else
     alias ls='ls --color=auto'
     alias l.='ls -d .* --color=auto'
     alias la='ls -a'
+    alias lt='ls -ltr'
 fi
 alias rm='rm -i'
 alias mv='mv -i'
+alias cp='cp -i'
 alias ssh='ssh -XY'
 alias so='source'
 

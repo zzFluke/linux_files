@@ -6,6 +6,7 @@ alias mv 'mv -i'
 alias cp 'cp -i'
 alias ls 'ls --color=auto'
 alias l. 'ls -d .* --color=auto'
+alias lt 'ls -ltr --color=auto'
 alias so 'source'
 alias ssh 'ssh -XY'
 
