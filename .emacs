@@ -60,6 +60,8 @@
 ;; set default font to DejaVu Sans Mono
 (set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 
+(setq x-select-enable-clipboard t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
