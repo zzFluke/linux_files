@@ -3,6 +3,13 @@
 
 (add-to-list 'load-path "~/emacs_init/site-lisp")
 
+; use space for indentation
+(setq-default indent-tabs-mode nil)
+; when inserting tabs,  insert 4 spaces instead
+(setq tab-stop-list (number-sequence 4 120 4))
+; existing tabs looks like 4 spaces
+(setq tab-width 4)
+
 ;; setup custom modes
 (autoload 'skill-mode "skill-mode" "Skill/Ocean Editing Mode" t)
 (autoload 'verilog-mode "verilog-mode" "Verilog Editing Mode" t)
