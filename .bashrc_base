@@ -59,8 +59,9 @@ fi
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home"
 
 # setup path.
-export MY_APPLICATIONS="${HOME}/Applications"
-if [ -f ${MY_APPLICATIONS}/.bashrc ]; then
-    . ${MY_APPLICATIONS}/.bashrc
-fi
+# export MY_APPLICATIONS="${HOME}/Applications"
+# if [ -f ${MY_APPLICATIONS}/.bashrc ]; then
+#     . ${MY_APPLICATIONS}/.bashrc
+# fi
+
 export PATH="${HOME}/bin:${PATH}"
