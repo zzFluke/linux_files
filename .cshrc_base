@@ -46,10 +46,13 @@ if ( -e ~/.csh_aliases ) then
     source ~/.csh_aliases
 endif
 
+# set default editor
+setenv EDITOR emacs
+
 setenv MY_APPLICATIONS ${HOME}/Applications
-if ( -e ${MY_APPLICATIONS}/.cshrc ) then
-    source ${MY_APPLICATIONS}/.cshrc
-endif
+# if ( -e ${MY_APPLICATIONS}/.cshrc ) then
+#     source ${MY_APPLICATIONS}/.cshrc
+# endif
 
 set path = ( \
     ${HOME}/bin \
