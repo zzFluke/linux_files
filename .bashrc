@@ -15,6 +15,7 @@ else
 	# enable opengl acceleration for vcXsrv
 	export LIBGL_ALWAYS_INDIRECT=1
     else
-	echo "linux"
+        # linux setup
+	:
     fi
 fi
