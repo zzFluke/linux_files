@@ -4,7 +4,7 @@ source ~/.bashrc_base
 
 if [[ $(uname) == 'Darwin' ]]; then
     # MAC setup
-    echo "MAC"
+    :
 else
     if grep -q Microsoft /proc/version; then
 	# WSL setup
