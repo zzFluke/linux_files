@@ -20,5 +20,8 @@ alias ssh='ssh -XY'
 alias so='source'
 
 # utility aliases
+alias cdl='cd ${MYBAGGENDIR}'
 alias gitlso='git ls-files --others --exclude-standard'
 alias mycfg='git --git-dir=${HOME}/.mycfg --work-tree=${HOME}'
+alias xmod='xmodmap ${HOME}/.Xmodmap'
+alias ade='virtuoso &'
