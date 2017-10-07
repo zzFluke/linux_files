@@ -1,6 +1,11 @@
-#!/bin/tcsh -f
+#!/usr/bin/env bash
 
-unsetenv SESSION_MANAGER
+unset SESSION_MANAGER
+
+# setup LSF environment
+source /tools/support/lsf/conf/profile.lsf
+export LBS_BASE_SYSTEM=LBS_LSF
+export LBS_CLUSTER_MASTER="bwrcrdsl-2.eecs.berkeley.edu"
 
 bsub -Is -XF -R "select[hname!='bwrcr720-5.eecs.berkeley.edu']" \
 -R "select[hname!='bwrcr720-6.eecs.berkeley.edu']" \

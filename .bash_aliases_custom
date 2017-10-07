@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+alias cdl='cd ${MYBAGGENDIR}'
+alias xmod='xmodmap ${HOME}/.Xmodmap'
+alias ade='virtuoso &'
+alias mat='matlab &'

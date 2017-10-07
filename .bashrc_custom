@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+export MYBAGGENDIR=/tools/projects/erichang/bag_gen/bag_gen_tsmc16
