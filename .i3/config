@@ -37,7 +37,7 @@ set $mod Mod3
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec /usr/bin/urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -179,4 +179,4 @@ focus_follows_mouse no
 # new_window normal 5
 
 # start a terminal by default
-exec /usr/bin/xterm
+exec /usr/bin/urxvt

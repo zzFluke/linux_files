@@ -2,6 +2,9 @@
 
 source ~/.bashrc_base
 
+# set emacs as editor
+export EDITOR="emacs"
+
 if [[ $(uname) == 'Darwin' ]]; then
     # MAC setup
     :
