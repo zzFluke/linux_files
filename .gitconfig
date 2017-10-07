@@ -1,0 +1,8 @@
+[user]
+	name = Eric Chang
+	email = pkerichang@berkeley.edu
+[core]
+	editor = emacs
+	autocrlf = input
+[push]
+	default = matching
