@@ -1,12 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
 vncconfig -nowin &
 xsetroot -solid grey
+
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
-
-# if [ -f /etc/X11/xinit/xinitrc ]; then
-#   exec sh /etc/X11/xinit/xinitrc
-# fi
-exec sh $HOME/.xinitrc
+exec bash $HOME/.xinitrc
