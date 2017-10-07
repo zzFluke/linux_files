@@ -46,6 +46,9 @@ if ( -e ~/.csh_aliases ) then
     source ~/.csh_aliases
 endif
 
+# set emacs as editor
+setenv EDITOR "emacs"
+
 setenv MY_APPLICATIONS ${HOME}/Applications
 if ( -e ${MY_APPLICATIONS}/.cshrc ) then
     source ${MY_APPLICATIONS}/.cshrc
@@ -55,3 +58,8 @@ set path = ( \
     ${HOME}/bin \
     $path \
     )
+
+# add additional site-specific customizations
+if ( -e ${HOME}/.cshrc_custom ) then
+    source ${HOME}/.cshrc_custom
+endif
