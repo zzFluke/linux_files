@@ -19,20 +19,15 @@
 (autoload 'cython-mode "cython-mode" "Cython Editing Mode" t)
 (autoload 'cmake-mode "cmake-mode" "CMake Editing Mode" t)
 
-(setq auto-mode-alist (append '(("\\.\\(ssp\\|sp\\|hsp\\|spi\\)$" .
-                                 spice-mode)) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.\\(il\\|ocn\\|\\cdf\\)$" .
-                                 skill-mode)) auto-mode-alist)) 
-(setq auto-mode-alist (append '(("\\.\\(scs\\)$" .
-                                 spectre-mode)) auto-mode-alist)) 
-(setq auto-mode-alist (append '(("\\.\\(v\\|sv\\|vams\\|va\\)$" .
-                                 verilog-mode)) auto-mode-alist)) 
-(setq auto-mode-alist (append '(("\\.\\(yaml\\|yml\\)$" .
-                                 yaml-mode)) auto-mode-alist)) 
-(setq auto-mode-alist (append '(("\\.\\(pyx\\|pxd\\)$" .
-                                 cython-mode)) auto-mode-alist)) 
-(setq auto-mode-alist (append '(("CMakeLists\\.txt$" .
-                                 cmake-mode)) auto-mode-alist)) 
+(add-to-list 'auto-mode-alist '("\\.\\(ssp\\|sp\\|hsp\\|spi\\)\\'" . spice-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(il\\|ocn\\|cdf\\)\\'" . skill-mode))
+;; match any file that starts with .cdsinit 
+(add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.cdsinit" . skill-mode))
+(add-to-list 'auto-mode-alist '("\\.scs\\'" . spectre-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(v\\|sv\\|vams\\|va\\)\\'" . verilog-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(yaml\\|yml\\)\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(pyx\\|pxd\\)\\'" . cython-mode))
+(add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-mode))
 
 ;; set hot key to uncomment region in spice
 (defun my-spice-mode-keys ()
@@ -65,7 +60,7 @@
 
 
 ;; set default font to DejaVu Sans Mono
-(set-default-font "-PfEd-Dejavu Sans Mono-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1")
+(set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 
 (setq x-select-enable-clipboard t)
 
