@@ -6,4 +6,8 @@ xsetroot -solid grey
 
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
+<<<<<<< HEAD
 exec bash $HOME/.xinitrc
+=======
+exec bash $HOME/.xinitrc_i3
+>>>>>>> master
