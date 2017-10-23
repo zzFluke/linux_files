@@ -37,11 +37,7 @@ set $mod Mod3
 floating_modifier $mod
 
 # start a terminal
-<<<<<<< HEAD
-bindsym $mod+Return exec /usr/bin/urxvt
-=======
 bindsym $mod+Return exec /usr/bin/urxvt256c
->>>>>>> master
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -183,8 +179,4 @@ focus_follows_mouse no
 # new_window normal 5
 
 # start a terminal by default
-<<<<<<< HEAD
-exec /usr/bin/urxvt
-=======
 exec /usr/bin/urxvt256c
->>>>>>> master
