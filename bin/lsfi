@@ -15,4 +15,4 @@ bsub -Is -XF -R "select[hname!='bwrcr720-5.eecs.berkeley.edu']" \
 -R "select[hname!='bwrcr720-2.eecs.berkeley.edu']" \
 -R "select[hname!='bwrcr720-3.eecs.berkeley.edu']" \
 -R "select[hname!='bwrcr720-1.eecs.berkeley.edu']" \
-"gnome-terminal" &
+"xterm" &
