@@ -1,8 +1,27 @@
-XTerm*background : black
-XTerm*foreground : white
-XTerm*faceName   : Liberation Mono
-XTerm*faceSize   : 10
+XTerm*faceName   : DejaVuSans Mono
+XTerm*faceSize   : 11
+XTerm*visualBell : false
 XTerm*geometry   : 90x30
+XTerm*background: black
+XTerm*foreground: white
+!XTerm*background: rgb:10/10/10
+!XTerm*foreground: rgb:d3/d3/d3
+!XTerm*color0:     rgb:10/10/10
+!XTerm*color1:     rgb:cd/5c/5c
+!XTerm*color2:     rgb:2e/8b/57
+!XTerm*color3:     rgb:f0/e6/8c
+!XTerm*color4:     rgb:b0/c4/de
+!XTerm*color5:     rgb:ba/55/d3
+!XTerm*color6:     rgb:46/82/b4
+!XTerm*color7:     rgb:d3/d3/d3
+!XTerm*color8:     rgb:4d/4d/4d
+!XTerm*color9:     rgb:ff/6a/6a
+!XTerm*color10:    rgb:8f/bc/8f
+!XTerm*color11:    rgb:ff/fa/cd
+!XTerm*color12:    rgb:1e/90/ff
+!XTerm*color13:    rgb:db/70/93
+!XTerm*color14:    rgb:5f/9e/a0
+!XTerm*color15:    rgb:ff/ff/ff
 
 !Theme Eight
 URxvt*background: rgb:10/10/10
