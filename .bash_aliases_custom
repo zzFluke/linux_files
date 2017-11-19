@@ -6,4 +6,5 @@ alias cdlgf='cd /tools/projects/ISG/isg_chips/projects/BAG_45RFSOI_Workspace/use
 alias xmod='xmodmap ${HOME}/.Xmodmap'
 alias gterm='dbus-launch --exit-with-session gnome-terminal'
 alias ade='virtuoso &'
+alias vtest='which virtuoso'
 alias mat='matlab &'
