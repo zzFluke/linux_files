@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-export MYBAGGENDIR=/tools/projects/erichang/bag_gen/bag_gen_tsmc16
 # disable blinking text for missing symbolic links
 export LS_COLORS="$LS_COLORS:mi=01;37;41"
