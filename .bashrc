@@ -51,7 +51,7 @@ fi
 export EDITOR="emacs"
 
 # setup custom application path.
-export MY_APPLICATIONS="${HOME}/Applications"
+export MY_APPLICATIONS=$(readlink -f ~/Applications)
 if [ -f ${MY_APPLICATIONS}/.bashrc ]; then
     . ${MY_APPLICATIONS}/.bashrc
 fi
