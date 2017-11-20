@@ -23,29 +23,62 @@ XTerm*foreground: white
 !XTerm*color14:    rgb:5f/9e/a0
 !XTerm*color15:    rgb:ff/ff/ff
 
-!Theme Eight
-URxvt*background: rgb:10/10/10
-URxvt*foreground: rgb:d3/d3/d3
-URxvt*color0:     rgb:10/10/10
-URxvt*color1:     rgb:cd/5c/5c
-URxvt*color2:     rgb:2e/8b/57
-URxvt*color3:     rgb:f0/e6/8c
-URxvt*color4:     rgb:b0/c4/de
-URxvt*color5:     rgb:ba/55/d3
-URxvt*color6:     rgb:46/82/b4
-URxvt*color7:     rgb:d3/d3/d3
-URxvt*color8:     rgb:4d/4d/4d
-URxvt*color9:     rgb:ff/6a/6a
-URxvt*color10:    rgb:8f/bc/8f
-URxvt*color11:    rgb:ff/fa/cd
-URxvt*color12:    rgb:1e/90/ff
-URxvt*color13:    rgb:db/70/93
-URxvt*color14:    rgb:5f/9e/a0
-URxvt*color15:    rgb:ff/ff/ff
-
-URxvt*scrollBar: false
+! URxvt color scheme to match gnome-terminal
+URxvt*background: #2B2B2B
+URxvt*foreground: #DEDEDE
 URxvt*font: xft:DejaVuSansMono:size=11
 URxvt*boldFont: xft:DejaVuSansMono-Bold:size=11
-! copy primary to clipboard automatically
-URxvt.perl-ext-common: selection-to-clipboard
+URxvt*saveLines: 12000
+URxvt*scrollBar: false
+URxvt*scrollstyle: rxvt
+! default,macher: implement clickable URL
+! selection-to-clipboard: copy primary to clipboard automatically
+URxvt.perl-ext-common: default,matcher,selection-to-clipboard
+URxvt*urlLauncher: firefox
+URxvt*matcher.button: 1
+URxvt*colorUL: #86a2be
+! color settings
+! black
+URxvt*color0  : #2E3436
+URxvt*color8  : #555753
+! red
+URxvt*color1  : #CC0000
+URxvt*color9  : #EF2929
+! green
+URxvt*color2  : #4E9A06
+URxvt*color10 : #8AE234
+! yellow
+URxvt*color3  : #C4A000
+URxvt*color11 : #FCE94F
+! blue
+URxvt*color4  : #3465A4
+URxvt*color12 : #729FCF
+! magenta
+URxvt*color5  : #75507B
+URxvt*color13 : #AD7FA8
+! cyan
+URxvt*color6  : #06989A
+URxvt*color14 : #34E2E2
+! white
+URxvt*color7  : #D3D7CF
+URxvt*color15 : #EEEEEC
 
+!Theme Eight
+!URxvt*background: rgb:10/10/10
+!URxvt*foreground: rgb:d3/d3/d3
+!URxvt*color0:     rgb:10/10/10
+!URxvt*color1:     rgb:cd/5c/5c
+!URxvt*color2:     rgb:2e/8b/57
+!URxvt*color3:     rgb:f0/e6/8c
+!URxvt*color4:     rgb:b0/c4/de
+!URxvt*color5:     rgb:ba/55/d3
+!URxvt*color6:     rgb:46/82/b4
+!URxvt*color7:     rgb:d3/d3/d3
+!URxvt*color8:     rgb:4d/4d/4d
+!URxvt*color9:     rgb:ff/6a/6a
+!URxvt*color10:    rgb:8f/bc/8f
+!URxvt*color11:    rgb:ff/fa/cd
+!URxvt*color12:    rgb:1e/90/ff
+!URxvt*color13:    rgb:db/70/93
+!URxvt*color14:    rgb:5f/9e/a0
+!URxvt*color15:    rgb:ff/ff/ff
