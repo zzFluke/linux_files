@@ -1,0 +1,9 @@
+#!/usr/bin/env tcsh
+
+alias cdl16 'cd /tools/projects/erichang/bag_gen/bag_gen_tsmc16'
+alias cdl28 'cd /tools/projects/erichang/bag_gen/bag_gen_tsmc28'
+alias cdlgf 'cd /tools/projects/ISG/isg_chips/projects/BAG_45RFSOI_Workspace/user/erichang/BAG_45RFSOI_Workspace_bag'
+alias xmod 'xmodmap ${HOME}/.Xmodmap'
+alias ade 'virtuoso &'
+alias vtest 'which virtuoso'
+alias mat 'matlab &'

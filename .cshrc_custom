@@ -1,0 +1,18 @@
+#!/usr/bin/env tcsh
+
+# Set up PATH, MANPATH, and TEXINPUTS
+if ( -e /usr/cluster/bin/setpath ) then
+    source /usr/cluster/bin/setpath
+endif
+
+# add lsf
+setenv XAUTHORITY $HOME/.Xauthority
+# source /tools/support/lsf/conf/cshrc.lsf
+# setenv LBS_BASE_SYSTEM LBS_LSF
+# setenv LBS_CLUSTER_MASTER "bwrcrdsl-2.eecs.berkeley.edu"
+
+# set openwin home path
+setenv OPENWINHOME /usr/openwin
+
+# set terminfo database location.  This makes Anaconda's infocmp not go crazy
+setenv TERMINFO /usr/share/terminfo
