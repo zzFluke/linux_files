@@ -2,3 +2,5 @@
 
 # disable blinking text for missing symbolic links
 export LS_COLORS="$LS_COLORS:mi=01;37;41"
+# set terminfo database location.  This makes Anaconda's infocmp not go crazy.
+export TERMINFO=/usr/share/terminfo
