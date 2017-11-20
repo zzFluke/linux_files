@@ -10,4 +10,4 @@ export LBS_CLUSTER_MASTER="bwrcrdsl-2.eecs.berkeley.edu"
 bsub -Is -XF \
      -R "select[hname!='bwrcr820-1.eecs.berkeley.edu']" \
      -R "select[hname!='bwrcr820-2.eecs.berkeley.edu']" \
-     "xterm" &
+     "urxvt256c" &
