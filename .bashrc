@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# disable core dump generation
+ulimit -c 0
+
 # set default file permissions
 umask 022
 
@@ -12,6 +15,9 @@ export HISTCONTROL=ignoredups:ignorespace
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+
+# disable beeping
+set bell-style none
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTSIZE=1000

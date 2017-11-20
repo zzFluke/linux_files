@@ -54,6 +54,7 @@ if ( -e ${MY_APPLICATIONS}/.cshrc ) then
     source ${MY_APPLICATIONS}/.cshrc
 endif
 
+# add custom scripts to path
 set path = ( \
     ${HOME}/bin \
     $path \
