@@ -20,7 +20,6 @@ alias so='source'
 # utility aliases
 alias gitlso='git ls-files --others --exclude-standard'
 alias mycfg='git --git-dir=${HOME}/.mycfg --work-tree=${HOME}'
-alias jupy='jupyter qtconsole &'
 
 # add additional site-specific aliases
 if [ -f ${HOME}/.bash_aliases_custom ]; then
