@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+alias cdl='cd /tools/projects/erichang/bag_gen'
 alias cdl16='cd /tools/projects/erichang/bag_gen/bag_gen_tsmc16'
 alias cdl28='cd /tools/projects/erichang/bag_gen/bag_gen_tsmc28'
 alias cdlgf='cd /tools/projects/ISG/isg_chips/projects/BAG_45RFSOI_Workspace/user/erichang/BAG_45RFSOI_Workspace_bag'
