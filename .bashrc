@@ -56,21 +56,19 @@ fi
 # set emacs as editor
 export EDITOR="emacs"
 
-# setup custom application path.
-export MY_APPLICATIONS=$(readlink -f ~/Applications)
-if [ -f ${MY_APPLICATIONS}/.bashrc ]; then
-    . ${MY_APPLICATIONS}/.bashrc
-fi
 
 # add custom scripts to path
 export PATH="${HOME}/bin:${PATH}"
 
 if [[ $(uname) == 'Darwin' ]]; then
     # MAC setup
-    # enable color support of ls for macxs
+    # MAC doesn't have readlink
+    export MY_APPLICATIONS=`perl -e 'use Cwd "abs_path";print abs_path(shift)' ~/Applications`
+    # enable color support of ls for macosx
     export CLICOLOR=1
     export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 else
+    export MY_APPLICATIONS=$(readlink -f ~/Applications)
     if grep -q Microsoft /proc/version; then
 	# WSL setup
 	# suppress accessbility-bus DBUS warnings
@@ -83,6 +81,11 @@ else
         # linux setup
 	:
     fi
+fi
+
+# setup custom application path.
+if [ -f ${MY_APPLICATIONS}/.bashrc ]; then
+    . ${MY_APPLICATIONS}/.bashrc
 fi
 
 # add additional site-specific customizations
