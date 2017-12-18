@@ -4,7 +4,7 @@ mapfile -t outputs < <(ps aux | grep ssh | tr -s ' ')
 
 for line in "${outputs[@]}"
 do
-    if [[ $line == *"ssh -f erichang"* ]]
+    if [[ $line == *"ssh -f eric"* ]]
     then
 	ssh_pid=`echo $line | cut -d' ' -f2`
 	echo "killing $ssh_pid"
