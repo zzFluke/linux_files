@@ -39,8 +39,6 @@
 ;; set custom configurations for various modes
 ;; General programming mode configurations
 (defun my-prog-hook ()
-  ;; Bind Enter to newline-and-indent
-  (define-key prog-mode-map "\C-m" 'newline-and-indent)
   ;; use space for indentation
   (setq indent-tabs-mode nil)
   ;; when inserting tabs, insert 4 spaces instead
