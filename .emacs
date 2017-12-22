@@ -1,14 +1,20 @@
+;; General configurations
+;; initialize packages
+;; (package-initialize)
 ;; enable line numbers
 (global-linum-mode t)
-
+;; add initialization files to load path
 (add-to-list 'load-path "~/emacs_init/site-lisp")
-
-; use space for indentation
+;; use space for indentation
 (setq-default indent-tabs-mode nil)
-; when inserting tabs,  insert 4 spaces instead
-(setq tab-stop-list (number-sequence 4 120 4))
-; existing tabs looks like 4 spaces
-(setq tab-width 4)
+;; when inserting tabs,  insert 4 spaces instead
+(setq-default tab-stop-list (number-sequence 4 120 4))
+;; existing tabs look like 4 spaces
+(setq-default tab-width 4)
+;; set default font to DejaVu Sans Mono
+(set-default-font "DejaVu Sans Mono-13")
+;; try to fix emacs cut-and-paste
+(setq-default x-select-enable-clipboard t)
 
 ;; setup custom modes
 (autoload 'skill-mode "skill-mode" "Skill/Ocean Editing Mode" t)
@@ -19,6 +25,7 @@
 (autoload 'cython-mode "cython-mode" "Cython Editing Mode" t)
 (autoload 'cmake-mode "cmake-mode" "CMake Editing Mode" t)
 
+;; associate files with various mods
 (add-to-list 'auto-mode-alist '("\\.\\(ssp\\|sp\\|hsp\\|spi\\)\\'" . spice-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(il\\|ocn\\|cdf\\)\\'" . skill-mode))
 ;; match any file that starts with .cdsinit 
@@ -29,41 +36,47 @@
 (add-to-list 'auto-mode-alist '("\\.\\(pyx\\|pxd\\)\\'" . cython-mode))
 (add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-mode))
 
-;; set hot key to uncomment region in spice
-(defun my-spice-mode-keys ()
+;; set custom configurations for various modes
+;; General programming mode configurations
+(defun my-prog-hook ()
+  ;; use space for indentation
+  (setq indent-tabs-mode nil)
+  ;; when inserting tabs, insert 4 spaces instead
+  (setq tab-stop-list (number-sequence 4 120 4))
+  ;; exiting tabs look like 4 spaces
+  (setq tab-width 4)
+)
+;; Spice mode configurations
+(defun my-spice-hook ()
+  ;; set hot key to uncomment region in spice
   (local-set-key (kbd "C-c C-u") 'uncomment-region)
 )
-(add-hook 'spice-mode-hook 'my-spice-mode-keys)
-
-;; Any files in verilog mode should have their keywords colorized
-(add-hook 'verilog-mode-hook '(lambda () (font-lock-mode 1)))
-
-;; bind enter key to newline-and-indent for programming
-(add-hook 'prog-mode-hook
-	  '(lambda () (define-key prog-mode-map "\C-m" 'newline-and-indent)))
-
-;; set c++ indentation to 4 spaces
-(c-add-style "my-style" 
-	     '("stroustrup"
-	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
-	       (c-basic-offset . 4)            ; indent by four spaces
-	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
-				   (brace-list-open . 0)
-				   (statement-case-open . +)))))
-
+;; C++ mode configurations
+;; add custom C++ style
+(c-add-style "my-c++-style" 
+             '("stroustrup"
+               ;; use space for indentation
+               (indent-tabs-mode . nil)
+               ;; indent by 4 spaces
+               (c-basic-offset . 4)
+               ;; custom indentation rules
+               (c-offsets-alist . ((inline-open . 0)
+                                   (brace-list-open . 0)
+                                   (statement-case-open . +)))
+               )
+)
 (defun my-c++-mode-hook ()
-  (c-set-style "my-style")        ; use my-style defined above
+  (c-set-style "my-c++-style")
   (auto-fill-mode)         
-  (c-toggle-auto-hungry-state 1))
+  (c-toggle-auto-hungry-state 1)
+)
 
+;; add custom configuration hooks
+(add-hook 'spice-mode-hook 'my-spice-hook)
+(add-hook 'prog-mode-hook 'my-prog-hook)
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
-
-;; set default font to DejaVu Sans Mono
-(set-default-font "DejaVu Sans Mono-10")
-
-(setq x-select-enable-clipboard t)
-
+;; automatic customizations
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
