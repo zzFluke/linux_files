@@ -7,7 +7,10 @@ source /tools/support/lsf/conf/profile.lsf
 export LBS_BASE_SYSTEM=LBS_LSF
 export LBS_CLUSTER_MASTER="bwrcrdsl-2.eecs.berkeley.edu"
 
-# block out 720-13 because libtermcap.so.2 is not installed there,
-# causing qrc to fail for 16nm extraction.
+# block out 720-1/720-5 because Jupyter doesn't work there
+# block out 720-14 because firefox doesn't work there
 bsub -Is -XF \
+     -R "select[hname!='bwrcr720-1.eecs.berkeley.edu']" \
+     -R "select[hname!='bwrcr720-5.eecs.berkeley.edu']" \
+     -R "select[hname!='bwrcr720-14.eecs.berkeley.edu']" \
      "urxvt256c" &
