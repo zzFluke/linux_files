@@ -46,6 +46,21 @@
   ;; exiting tabs look like 4 spaces
   (setq tab-width 4)
 )
+;; Verilog mode configurations
+(defun my-verilog-hook ()
+  ;; use space for indentation
+  (setq indent-tabs-mode nil)
+  ;; when inserting tabs, insert 4 spaces instead
+  (setq tab-stop-list (number-sequence 4 120 4))
+  (setq verilog-case-indent 2)
+  (setq verilog-cexp-indent 2)
+  (setq verilog-indent-level 4)
+  (setq verilog-indent-level-behavioral 4)
+  (setq verilog-indent-level-declaration 4)
+  (setq verilog-indent-level-module 4)
+  ;; exiting tabs look like 4 spaces
+  (setq tab-width 4)
+)
 ;; Spice mode configurations
 (defun my-spice-hook ()
   ;; set hot key to uncomment region in spice
@@ -74,6 +89,7 @@
 ;; add custom configuration hooks
 (add-hook 'spice-mode-hook 'my-spice-hook)
 (add-hook 'prog-mode-hook 'my-prog-hook)
+(add-hook 'verilog-mode-hook 'my-verilog-hook)
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;; automatic customizations
