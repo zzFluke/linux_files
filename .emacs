@@ -24,6 +24,8 @@
 (autoload 'yaml-mode "yaml-mode" "YAML Editing Mode" t)
 (autoload 'cython-mode "cython-mode" "Cython Editing Mode" t)
 (autoload 'cmake-mode "cmake-mode" "CMake Editing Mode" t)
+(autoload 'markdown-mode "markdown-mode" "Markdown Editing Mode" t)
+(autoload 'gfm-mode "markdown-mode" "Github Markdown Editing Mode" t)
 
 ;; associate files with various mods
 (add-to-list 'auto-mode-alist '("\\.\\(ssp\\|sp\\|hsp\\|spi\\)\\'" . spice-mode))
@@ -35,6 +37,9 @@
 (add-to-list 'auto-mode-alist '("\\.\\(yaml\\|yml\\)\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(pyx\\|pxd\\)\\'" . cython-mode))
 (add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
 
 ;; set custom configurations for various modes
 ;; General programming mode configurations
@@ -100,10 +105,10 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (tango-dark)))
  '(inhibit-startup-screen t)
-)
+ '(package-selected-packages (quote (markdown-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ )
