@@ -6,7 +6,7 @@
 font xft:Noto Sans 10
 
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
-set $mod Mod4
+set $mod Mod3
 
 # Use Mouse+$mod to drag floating windows
 floating_modifier $mod
