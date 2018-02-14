@@ -33,8 +33,14 @@ This document described the steps I took to setup my Manjaro VM.
 
 ## Customizations
 
-1. edit /etc/inputrc, and add/uncomment the line:
+1. Edit /etc/inputrc, and add/uncomment the line:
    ```
    set bell-style none
    ```
    to disable terminal tab completion sound.
+
+2. Create the file `/etc/modprobe.d/nobeep.conf`, with a single line:
+   ```
+   blacklist pcspkr
+   ```
+   to disable annoying beeps when screen locks.
