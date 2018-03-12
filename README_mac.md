@@ -11,6 +11,7 @@ This document describes the steps I took to setup my Mac.
    
    2. git
    3. tiger-vnc
+   4. pstoedit (for Inkscape LaTeX extension).
 
 2. Next, install the follwing using `brew cask install`:
    
@@ -19,6 +20,7 @@ This document describes the steps I took to setup my Mac.
    3. emacs
    4. inkscape
    5. x2goclient
+   6. mactex 
 
 3. Now, go online, and download the following programs and install them:
    
@@ -77,3 +79,9 @@ This document describes the steps I took to setup my Mac.
 6. Finder
 
    In preferences, check show all file extensions.  in View->Show view options, set defaults to be list view, sorted by date modified.
+
+7. Inkscape
+
+   1. In preferences, set stroke style to always be the last one ones.
+   2. Note that sometimes Document Properties will not show up in multi-monitor setup.  You may have to unplug external monitor
+      to see the dialog window.
