@@ -12,6 +12,16 @@ This document describes the steps I took to setup my Mac.
    2. git
    3. tiger-vnc
    4. pstoedit (for Inkscape LaTeX extension).
+   5. re-install pstoedit, as pstoedit is brkoen for ghostscript version > 9.20.
+      1. uninstall pstoedit and ghostscript with brew uninstall.
+      2. install ghostscript v9.20 with:
+         
+         brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/79e814b80c470c894d24e5b37108c5bacaf45a80/Formula/ghostscript.rb
+
+      3. install pstoedit with:
+      
+         brew install pstoedit --ignore-dependencies
+
 
 2. Next, install the follwing using `brew cask install`:
    
