@@ -24,12 +24,19 @@ This document described the steps I took to setup my Manjaro VM.
    * xorg-xev
    * pacaur
    * tigervnc
+   * ff-theme-util 
+     (for some reason this command is called when startup.  I install this to eliminate erros in .xsession-errors).
 
 4. Use the command `pacaur -S` to install the following packages:
 
    * pycharm-professional
+   * pdftk (for splitting PDFs).
 
 5. Start firefox, download Anaconda, then install.
+
+6. make an empty directory $HOME/.local/share/icons/default.
+   
+   This is used to eliminate a copy error in .xsession-errors.
 
 ## Customizations
 
@@ -44,3 +51,9 @@ This document described the steps I took to setup my Manjaro VM.
    blacklist pcspkr
    ```
    to disable annoying beeps when screen locks.
+
+3. I added ${HOME}/.xsession with permission 755, with a single line of "eval $(ssh-agent)" to
+   run ssh-agent at startup.  This file will be run by lightdm (which Manjaro i3 uses) if it is
+   executable.  A corresponding line "AddKeysToAgent=yes" is added in .ssh/config so that
+   keys are added to ssh-agent on first use without needing ssh-add.
+
