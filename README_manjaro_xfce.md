@@ -22,14 +22,24 @@ This document described the steps I took to setup my Manjaro XFCE.
 
    * pacaur
    * tigervnc
+   * inkscape
+   * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
+     latexextra, pictures, and science).
+ 
+4. Use pacman to install the following Python-related packages:
 
-4. Use the command `pacaur -S` to install the following packages:
+   * ipython
+   * python-scipy
+   * python-pyqt5
+   * python-matplotlib
+
+5. Use the command `pacaur -S` to install the following packages:
 
    * pdftk (for splitting PDFs).
 
-5. Start firefox, download Anaconda, then install.
+6. Start firefox, download Anaconda, then install.
 
-6. make an empty directory $HOME/.local/share/icons/default.
+7. make an empty directory $HOME/.local/share/icons/default.
    
    This is used to eliminate a copy error in .xsession-errors.
 
