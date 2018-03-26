@@ -5,7 +5,8 @@ This document described the steps I took to setup my Manjaro XFCE.
 
 0. Download and install the XFCE distribution of Manjaro.
 
-1. First, run `sudo pacman -Syu` to update, then install the following using 'sudo pacman -S':
+1. First, run `sudo pacman -Syu` to update, then install the following using 
+   'sudo pacman -S':
 
    * emacs
    * ttf-dejavu (so emacs can see the DejaVu fonts).
@@ -14,7 +15,8 @@ This document described the steps I took to setup my Manjaro XFCE.
 
    1. copy SSH config and private/public keys over to .ssh folder.
    2. Create a softlink if you do not have erichang.key.
-   3. Follow the instructions on <https://github.com/pkerichang/linux_files.git>.
+   3. Follow the instructions at: 
+      <https://github.com/pkerichang/linux_files.git>.
 
 3. Use pacman to install the following packages:
 
