@@ -57,6 +57,18 @@ This document described the steps I took to setup my Manjaro XFCE.
    ```
    to disable annoying beeps when screen locks.
 
+3. Run the command:
+   ```
+   inxi -G
+   ```
+   to determine graphics card driver.  If you want to switch to NVIDIA
+   drivers, run:
+   ```
+   sudo mhwd -a pci nonfree 0300
+   ```
+   then reboot.
+
+
 ## Program Notes
 
 ### Inkscape
