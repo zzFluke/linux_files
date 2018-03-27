@@ -17,7 +17,8 @@ This document described the steps I took to setup my Manjaro XFCE.
    2. Create a softlink if you do not have erichang.key.
    3. Follow the instructions at: 
       <https://github.com/pkerichang/linux_files.git>.
-   4. create a softlink from .bashrc_manjaro_xfce to .bashrc_custom
+   4. create a softlink from .xinitrc_manjaro_xfce to .xinitrc.
+   5. create a softlink from .xprofile_manjaro_xfce to .xprofile.
 
 3. Use pacman to install the following packages:
 
@@ -70,6 +71,11 @@ This document described the steps I took to setup my Manjaro XFCE.
    ```
    then reboot.
 
+4. edit /etc/fstab to include the following line:
+   
+   /dev/sdc1 /run/media/erichang/Quaternary ntfs defaults,auto 0 0
+
+    to mount NTFS drive at startup.
 
 ## Program Notes
 
