@@ -41,8 +41,9 @@ This document described the steps I took to setup my Manjaro XFCE.
 5. Use the command `pacaur -S` to install the following packages:
 
    * pdftk (for splitting PDFs)
-   * dropbox
    * textext (for inkscape latex rendering)
+   * dropbox
+   * thunar-dropbox (Thunar integration with Dropbox).
 
 6. Start firefox, download Pycharm, then install.
 
@@ -76,6 +77,9 @@ This document described the steps I took to setup my Manjaro XFCE.
    /dev/sdc1 /run/media/erichang/Quaternary ntfs defaults,auto 0 0
 
     to mount NTFS drive at startup.
+    
+5. in window manager tweaks, disable composite manager to prevent screen
+   tearing.
 
 ## Program Notes
 
