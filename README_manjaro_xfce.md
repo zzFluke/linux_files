@@ -36,6 +36,11 @@ This document described the steps I took to setup my Manjaro XFCE.
    * python-scipy
    * python-pyqt5
    * python-matplotlib
+   * python-h5py
+   * python-networkx
+   * python-pytest
+   * python-jinja
+   * python-pyzmq
    * python2-lxml (for inkscape/textext).
 
 5. Use the command `pacaur -S` to install the following packages:
