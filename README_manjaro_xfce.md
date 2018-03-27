@@ -17,6 +17,7 @@ This document described the steps I took to setup my Manjaro XFCE.
    2. Create a softlink if you do not have erichang.key.
    3. Follow the instructions at: 
       <https://github.com/pkerichang/linux_files.git>.
+   4. create a softlink from .bashrc_manjaro_xfce to .bashrc_custom
 
 3. Use pacman to install the following packages:
 
@@ -26,6 +27,7 @@ This document described the steps I took to setup my Manjaro XFCE.
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
      latexextra, pictures, and science).
    * pdf2svg (for inkscape/textext).
+   * ibus-chewing (for chinese input).
  
 4. Use pacman to install the following Python-related packages:
 
