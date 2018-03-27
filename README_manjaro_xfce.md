@@ -78,8 +78,7 @@ This document described the steps I took to setup my Manjaro XFCE.
 
     to mount NTFS drive at startup.
     
-5. in window manager tweaks, disable composite manager to prevent screen
-   tearing.
+5. in firefox, disable hardware acceleration to prevent screen tearing.
 
 6. disable dropbox auto-start for now, as for some reason icon will not
    show up in system tray.
