@@ -25,6 +25,7 @@ This document described the steps I took to setup my Manjaro XFCE.
    * inkscape
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
      latexextra, pictures, and science).
+   * pdf2svg (for inkscape/textext).
  
 4. Use pacman to install the following Python-related packages:
 
@@ -32,16 +33,15 @@ This document described the steps I took to setup my Manjaro XFCE.
    * python-scipy
    * python-pyqt5
    * python-matplotlib
+   * python2-lxml (for inkscape/textext).
 
 5. Use the command `pacaur -S` to install the following packages:
 
-   * pdftk (for splitting PDFs).
+   * pdftk (for splitting PDFs)
+   * dropbox
+   * textext (for inkscape latex rendering)
 
-6. Start firefox, download Anaconda, then install.
-
-7. make an empty directory $HOME/.local/share/icons/default.
-   
-   This is used to eliminate a copy error in .xsession-errors.
+6. Start firefox, download Pycharm, then install.
 
 ## Customizations
 
@@ -56,3 +56,21 @@ This document described the steps I took to setup my Manjaro XFCE.
    blacklist pcspkr
    ```
    to disable annoying beeps when screen locks.
+
+## Program Notes
+
+### Inkscape
+
+Latex rendering in Inkscape got broken by Ghostscript 9.22 when they
+remove the DELAYBIND option, which breaks the pstoedit program.  The
+current experimental workaround is to use the textext extension, which
+has an experimental feature to use pdf2svg instead of pstoedit.
+   
+To get this to work, follow installation instructions above to install
+all the required packages.  Then, download the file textext.py from the
+following URL:
+
+https://bitbucket.org/pitgarbe/textext/issues/57/pdf2svg-migration
+
+place this textext.py in the folder /usr/share/inkscape/extensions.  Make
+sure to make a backup of the original.
