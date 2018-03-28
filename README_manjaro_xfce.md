@@ -47,8 +47,6 @@ This document described the steps I took to setup my Manjaro XFCE.
 
    * pdftk (for splitting PDFs)
    * textext (for inkscape latex rendering)
-   * dropbox
-   * thunar-dropbox (Thunar integration with Dropbox).
 
 6. Start firefox, download Pycharm, then install.
 
@@ -85,9 +83,6 @@ This document described the steps I took to setup my Manjaro XFCE.
     
 5. in firefox, disable hardware acceleration to prevent screen tearing.
 
-6. disable dropbox auto-start for now, as for some reason icon will not
-   show up in system tray.
-
 ## Program Notes
 
 ### Inkscape
@@ -105,3 +100,15 @@ https://bitbucket.org/pitgarbe/textext/issues/57/pdf2svg-migration
 
 place this textext.py in the folder /usr/share/inkscape/extensions.  Make
 sure to make a backup of the original.
+
+
+## Known issues:
+
+1. cannot get dropbox to auto start with system tray icon (it starts, but
+   no icon).  Removed dropbox for now.
+
+2. get screen tearing in firefox.  I tried to enable composite pipeline in
+   nvidia driver, but everytime I change the nvidia configuration, the
+   screen will first when I first log in.  I have to switch to Ctrl-Alt-F1
+   then back to Ctrl-Alt-F7 to get the XFCE panels again.  I decide to just
+   live with it.
