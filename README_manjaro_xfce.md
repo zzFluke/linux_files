@@ -26,9 +26,11 @@ This document described the steps I took to setup my Manjaro XFCE.
    * tigervnc
    * inkscape
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
-     latexextra, pictures, and science).
-   * pdf2svg (for inkscape/textext).
-   * ibus-chewing (for chinese input).
+     latexextra, pictures, and science)
+   * pdf2svg (for inkscape/textext)
+   * ibus-chewing (for chinese input)
+   * x2goclient
+   * qbittorrent
  
 4. Use pacman to install the following Python-related packages:
 
@@ -82,6 +84,16 @@ This document described the steps I took to setup my Manjaro XFCE.
     to mount NTFS drive at startup.
     
 5. in firefox, disable hardware acceleration to prevent screen tearing.
+
+6. for matplotlib, in the file:
+
+   ~/.config/matplotlib/matplotlibrc
+   
+   comment out the line:
+   
+   backend.qt5 : PyQt5
+   
+   as this option is deprecated.
 
 ## Program Notes
 
