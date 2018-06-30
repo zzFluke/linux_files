@@ -46,7 +46,6 @@ This document described the steps I took to setup my Antergos system.
 
 3. Use pacman to install the following packages:
 
-   * pacaur
    * tigervnc
    * inkscape
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
@@ -55,6 +54,10 @@ This document described the steps I took to setup my Antergos system.
    * ibus-chewing (for chinese input)
    * x2goclient
    * qbittorrent
+   * gnome-disk-utility (for configuring automounting disks at startup)
+   * adobe-source-han-sans-otc-fonts (asian fonts)
+   * dropbox
+   * pacaur
  
 4. Use pacman to install the following Python-related packages:
 
@@ -74,50 +77,43 @@ This document described the steps I took to setup my Antergos system.
    * pdftk (for splitting PDFs)
    * textext (for inkscape latex rendering)
 
-6. Start firefox, download Pycharm, then install.
+6. Start chromium, download Pycharm and CLion, then install.
+
+7. install following (prevent GStreamer plugin errors in xsesson) with pacman:
+
+   * qt5-declarative
+   * opencv
+   * libkate
+   * fluidsynth
+   * zbar
+   * lilv
+
+8. edit `/etc/lightdm/lightdm.conf`, under the [Seat:*] section, change the line:
+   ```
+   display-setup-script=xrandr --output DVI-D-1 --primary
+   ```
+   
+   so that the login screen shows up at the right monitor.  To figure out the monitor name, run `xrandr`.
 
 ## Customizations
 
-1. Edit /etc/inputrc, and add/uncomment the line:
+1. TO disable terminal tab completion sound, edit `/etc/inputrc`, and add/uncomment the line:
    ```
    set bell-style none
    ```
-   to disable terminal tab completion sound.
 
 2. Create the file `/etc/modprobe.d/nobeep.conf`, with a single line:
    ```
    blacklist pcspkr
    ```
    to disable annoying beeps when screen locks.
-
-3. Run the command:
-   ```
-   inxi -G
-   ```
-   to determine graphics card driver.  If you want to switch to NVIDIA
-   drivers, run:
-   ```
-   sudo mhwd -a pci nonfree 0300
-   ```
-   then reboot.
-
-4. edit /etc/fstab to include the following line:
    
-   /dev/sdc1 /run/media/erichang/Quaternary ntfs defaults,auto 0 0
+3. Open Gnome Disk Utility, edit mount options for external drives to mount at startup.
 
-    to mount NTFS drive at startup.
-    
-5. in firefox, disable hardware acceleration to prevent screen tearing.
+4. Set primary monitor display, if necessary.
 
-6. for matplotlib, in the file:
-
-   ~/.config/matplotlib/matplotlibrc
-   
-   comment out the line:
-   
-   backend.qt5 : PyQt5
-   
-   as this option is deprecated.
+5. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
+   `/usr/share/app-info/icons/archlinux-arch-extra/128x128/chromium_chromium.png`.
 
 ## Program Notes
 
@@ -138,13 +134,8 @@ place this textext.py in the folder /usr/share/inkscape/extensions.  Make
 sure to make a backup of the original.
 
 
-## Known issues:
+## TODO
 
-1. cannot get dropbox to auto start with system tray icon (it starts, but
-   no icon).  Removed dropbox for now.
+1. dropbox and cower packages seem broken, so cannot install pacaur and dropbox.  Try later?
 
-2. get screen tearing in firefox.  I tried to enable composite pipeline in
-   nvidia driver, but everytime I change the nvidia configuration, the
-   screen will first when I first log in.  I have to switch to Ctrl-Alt-F1
-   then back to Ctrl-Alt-F7 to get the XFCE panels again.  I decide to just
-   live with it.
+2. install ttf-tw chinese font instead (need pacaur)
