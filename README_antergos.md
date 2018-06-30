@@ -58,6 +58,7 @@ This document described the steps I took to setup my Antergos system.
    * adobe-source-han-sans-otc-fonts (asian fonts)
    * dropbox
    * pacaur
+   * networkmanager-openconnect (for cisco anyconnect VPN).
  
 4. Use pacman to install the following Python-related packages:
 
@@ -94,6 +95,12 @@ This document described the steps I took to setup my Antergos system.
    ```
    
    so that the login screen shows up at the right monitor.  To figure out the monitor name, run `xrandr`.
+
+9. install the following with `pacman` for C++ development:
+
+   * boost
+   * cmake
+   * yaml-cpp
 
 ## Customizations
 
