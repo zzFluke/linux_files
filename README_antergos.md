@@ -59,6 +59,7 @@ This document described the steps I took to setup my Antergos system.
    * dropbox
    * pacaur
    * networkmanager-openconnect (for cisco anyconnect VPN).
+   * pacman-contrib (get pactree for pacaur)
  
 4. Use pacman to install the following Python-related packages:
 
@@ -75,8 +76,10 @@ This document described the steps I took to setup my Antergos system.
 
 5. Use the command `pacaur -S` to install the following packages:
 
-   * pdftk (for splitting PDFs)
+   * pdftk (for splitting PDFs.  WARNING: will compile gcc6, 
+     takes a long time.)
    * textext (for inkscape latex rendering)
+   * ttf-tw (for Taiwan standard Chinese fonts)
 
 6. Start chromium, download Pycharm and CLion, then install.
 
@@ -102,6 +105,15 @@ This document described the steps I took to setup my Antergos system.
    * cmake
    * yaml-cpp
 
+10. To setup chinese input, at the command line, run:
+    ```
+    ibus-setup
+    ```
+    
+    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
+    Since LightDM sources .xprofile, this will make ibus run at startup.
+    
+
 ## Customizations
 
 1. TO disable terminal tab completion sound, edit `/etc/inputrc`, and add/uncomment the line:
@@ -122,7 +134,34 @@ This document described the steps I took to setup my Antergos system.
 5. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
    `/usr/share/app-info/icons/archlinux-arch-extra/128x128/chromium_chromium.png`.
 
+### CLion
+
+1. In Editor/General, set "Strip trailing spaces on Save" to "All", and 
+   uncheck "Always keep trailing spaces on caret line".
+   
+2. In Keymap, set to "Eclipse"
+
+3. In Editor/Code Style, set hard wrap at 100 columns.
+
+4. In inspection settings, uncheck "Unused class", "Unused method", 
+   "Unused struct", and "Unused Global Definition".
+
 ## Program Notes
+
+### Pacman
+
+1. There is a bug with color=never option that caused pacaur to crash.
+   This is solved by uncommenting the line containing a single word "Color" 
+   in `/etc/pacman.conf`.
+
+Sometime for some reason, some package cannot be downloaded due to GPG key
+being invalid.  This is finally solved by running:
+
+```
+sudo pacman -Scc (yes to all options)
+sudo pacman-key --refresh-keys
+sudo pacman -Syyu
+```
 
 ### Inkscape
 
@@ -142,7 +181,3 @@ sure to make a backup of the original.
 
 
 ## TODO
-
-1. dropbox and cower packages seem broken, so cannot install pacaur and dropbox.  Try later?
-
-2. install ttf-tw chinese font instead (need pacaur)
