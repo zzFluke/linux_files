@@ -44,7 +44,12 @@ This document described the steps I took to setup my Antergos system.
 
 ## Finishing Setups
 
-3. Use pacman to install the following packages:
+1. Run the following command to rank antergos mirrors
+   ```
+   sudo rankmirrors -n 0 /etc/pacman.d/antergos-mirrorlist > /tmp/antergos-mirrorlist && sudo cp /tmp/antergos-mirrorlist /etc/pacman.d
+   ```
+
+2. Use pacman to install the following packages:
 
    * tigervnc
    * inkscape
@@ -58,9 +63,12 @@ This document described the steps I took to setup my Antergos system.
    * adobe-source-han-sans-otc-fonts (asian fonts)
    * dropbox
    * pacaur
-   * networkmanager-openconnect (for cisco anyconnect VPN).
+   * networkmanager-openconnect (for cisco anyconnect VPN)
    * pacman-contrib (get pactree for pacaur)
- 
+   * qpdf (for splitting PDFs)
+   * ruby (for some optional dependencies of subversion and texlive-core)
+   * pepper-flash (for chromium flash player)
+
 4. Use pacman to install the following Python-related packages:
 
    * ipython
@@ -76,11 +84,11 @@ This document described the steps I took to setup my Antergos system.
 
 5. Use the command `pacaur -S` to install the following packages:
 
-   * pdftk (for splitting PDFs.  WARNING: will compile gcc6, 
-     takes a long time.)
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
-
+   * mint-themes (for better Cinnamon themes)
+   * nemo-dropbox (for nemo integration)
+   
 6. Start chromium, download Pycharm and CLion, then install.
 
 7. install following (prevent GStreamer plugin errors in xsesson) with pacman:
@@ -113,10 +121,18 @@ This document described the steps I took to setup my Antergos system.
     then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
     Since LightDM sources .xprofile, this will make ibus run at startup.
     
+11. Switch themes to the following settings to have things more readable:
+
+    * Window borders: Mint-Y-Dark
+    * Icons: Mint-Y
+    * Controls: Mint-Y-Dark
+    * Mouse Pointer: Adwaita
+    * Desktop: Mint-Y-Dark
+
 
 ## Customizations
 
-1. TO disable terminal tab completion sound, edit `/etc/inputrc`, and add/uncomment the line:
+1. To disable terminal tab completion sound, edit `/etc/inputrc`, and add/uncomment the line:
    ```
    set bell-style none
    ```
@@ -150,7 +166,7 @@ This document described the steps I took to setup my Antergos system.
 
 ### Pacman
 
-1. There is a bug with color=never option that caused pacaur to crash.
+1. There is a bug with color=never option that caused `pacaur` to crash.
    This is solved by uncommenting the line containing a single word "Color" 
    in `/etc/pacman.conf`.
 
