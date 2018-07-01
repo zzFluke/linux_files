@@ -162,6 +162,12 @@ This document described the steps I took to setup my Antergos system.
 4. In inspection settings, uncheck "Unused class", "Unused method", 
    "Unused struct", and "Unused Global Definition".
 
+## Optional Programs
+
+From AUR:
+
+  * mudlet (for playing MUD)
+
 ## Program Notes
 
 ### Pacman
@@ -194,6 +200,3 @@ https://bitbucket.org/pitgarbe/textext/issues/57/pdf2svg-migration
 
 place this textext.py in the folder /usr/share/inkscape/extensions.  Make
 sure to make a backup of the original.
-
-
-## TODO
