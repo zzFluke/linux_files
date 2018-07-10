@@ -302,10 +302,12 @@ This document described the steps I took to setup my Arch Linux system.
 
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
+   * noto-fonts-tc
+   * mint-x-icons
+   * mint-y-icons
    * mint-themes (for better Cinnamon themes)
    * dropbox
    * nemo-dropbox (for nemo integration)
-   * noto-fonts-tc
    
 4. Start chromium, download Pycharm and CLion, then install.
 
