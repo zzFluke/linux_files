@@ -283,7 +283,6 @@ This document described the steps I took to setup my Arch Linux system.
    * qbittorrent
    * gnome-disk-utility (for configuring automounting disks at startup)
    * dropbox
-   * pacaur
    * networkmanager-openconnect (for cisco anyconnect VPN)
    * pacman-contrib (get pactree for pacaur)
    * qpdf (for splitting PDFs)
@@ -309,7 +308,7 @@ This document described the steps I took to setup my Arch Linux system.
    * python-pyzmq
    * python2-lxml (for inkscape/textext).
 
-5. Use the command `pacaur -S` to install the following packages:
+5. Install the following packages from AUR:
 
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
@@ -319,43 +318,27 @@ This document described the steps I took to setup my Arch Linux system.
    
 6. Start chromium, download Pycharm and CLion, then install.
 
-7. install following (prevent GStreamer plugin errors in xsesson) with pacman:
-
-   * qt5-declarative
-   * opencv
-   * libkate
-   * fluidsynth
-   * zbar
-   * lilv
-
-8. edit `/etc/lightdm/lightdm.conf`, under the [Seat:*] section, change the line:
-   ```
-   display-setup-script=xrandr --output DVI-D-1 --primary
-   ```
-   
-   so that the login screen shows up at the right monitor.  To figure out the monitor name, run `xrandr`.
-
-9. install the following with `pacman` for C++ development:
+7. install the following with `pacman` for C++ development:
 
    * boost
    * cmake
    * yaml-cpp
 
-10. To setup chinese input, at the command line, run:
-    ```
-    ibus-setup
-    ```
+8. To setup chinese input, at the command line, run:
+   ```
+   ibus-setup
+   ```
     
-    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
-    Since LightDM sources .xprofile, this will make ibus run at startup.
+   then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
+   Since LightDM sources .xprofile, this will make ibus run at startup.
     
-11. Switch themes to the following settings to have things more readable:
+9. Switch themes to the following settings to have things more readable:
 
-    * Window borders: Mint-Y-Dark
-    * Icons: Mint-Y
-    * Controls: Mint-Y-Dark
-    * Mouse Pointer: Adwaita
-    * Desktop: Mint-Y-Dark
+   * Window borders: Mint-Y-Dark
+   * Icons: Mint-Y
+   * Controls: Mint-Y-Dark
+   * Mouse Pointer: Adwaita
+   * Desktop: Mint-Y-Dark
 
 
 ## Customizations
@@ -371,11 +354,7 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    to disable annoying beeps when screen locks.
    
-3. Open Gnome Disk Utility, edit mount options for external drives to mount at startup.
-
-4. Set primary monitor display, if necessary.
-
-5. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
+3. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
    `/usr/share/app-info/icons/archlinux-arch-extra/128x128/chromium_chromium.png`.
 
 ### CLion
@@ -398,20 +377,6 @@ From AUR:
 
 ## Program Notes
 
-### Pacman
-
-1. There is a bug with color=never option that caused `pacaur` to crash.
-   This is solved by uncommenting the line containing a single word "Color" 
-   in `/etc/pacman.conf`.
-
-Sometime for some reason, some package cannot be downloaded due to GPG key
-being invalid.  This is finally solved by running:
-
-```
-sudo pacman -Scc (yes to all options)
-sudo pacman-key --refresh-keys
-sudo pacman -Syyu
-```
 
 ### Inkscape
 
