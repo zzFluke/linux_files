@@ -251,22 +251,16 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Initial Setups
 
+1. In mouse and trackpad settings, enable multi-click for right click.
+
 1. In terminal perferences, change color scheme to tango dark.
 
 2. In file explorer, set all new folders to use list view in preferences, 
    and show hidden files (by using right-click context menu).
-
-3. Run the following installation commands to get essential programs:
-   ```
-   sudo pacman -Syu (make sure system is up to date)
-   sudo pacman -S emacs git ttf-dejavu (get git/emacs ready)
-   ```
    
-4. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
+3. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
 
 5. Follow the instructions at <https://github.com/pkerichang/linux_files.git>.
-
-5. remove the file `.bashrc.aliases`.  We don't use this file.
 
 6. close terminal, and restart.
 
