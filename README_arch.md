@@ -266,12 +266,7 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Finishing Setups
 
-1. Run the following command to rank antergos mirrors
-   ```
-   sudo rankmirrors -n 0 /etc/pacman.d/antergos-mirrorlist > /tmp/antergos-mirrorlist && sudo cp /tmp/antergos-mirrorlist /etc/pacman.d
-   ```
-
-2. Use pacman to install the following packages:
+1. Use pacman to install the following packages:
 
    * tigervnc
    * inkscape
@@ -281,21 +276,16 @@ This document described the steps I took to setup my Arch Linux system.
    * ibus-chewing (for chinese input)
    * x2goclient
    * qbittorrent
-   * gnome-disk-utility (for configuring automounting disks at startup)
-   * dropbox
    * networkmanager-openconnect (for cisco anyconnect VPN)
-   * pacman-contrib (get pactree for pacaur)
    * qpdf (for splitting PDFs)
    * ruby (for some optional dependencies of subversion and texlive-core)
    * pepper-flash (for chromium flash player)
    * adobe-source-han-sans-otc-fonts (asian fonts)
    * adobe-source-han-serif-otc-fonts (asian fonts)
    * noto-fonts (some fonts)
-   * noto-fonts-cjk (more fonts for asian characters)
-   * noto-fonts-tc (more fonts for traditional chinese)
-   
+   * noto-fonts-cjk (more fonts for asian characters)	
 
-4. Use pacman to install the following Python-related packages:
+2. Use pacman to install the following Python-related packages:
 
    * ipython
    * python-scipy
@@ -308,23 +298,24 @@ This document described the steps I took to setup my Arch Linux system.
    * python-pyzmq
    * python2-lxml (for inkscape/textext).
 
-5. Install the following packages from AUR:
+3. Install the following packages from AUR:
 
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
    * mint-themes (for better Cinnamon themes)
+   * dropbox
    * nemo-dropbox (for nemo integration)
-   * fmt (C++ string formatting library)
+   * noto-fonts-tc
    
-6. Start chromium, download Pycharm and CLion, then install.
+4. Start chromium, download Pycharm and CLion, then install.
 
-7. install the following with `pacman` for C++ development:
+5. install the following with `pacman` for C++ development:
 
    * boost
    * cmake
    * yaml-cpp
 
-8. To setup chinese input, at the command line, run:
+6. To setup chinese input, at the command line, run:
    ```
    ibus-setup
    ```
@@ -332,7 +323,7 @@ This document described the steps I took to setup my Arch Linux system.
    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
    Since LightDM sources .xprofile, this will make ibus run at startup.
     
-9. Switch themes to the following settings to have things more readable:
+7. Switch themes to the following settings to have things more readable:
 
    * Window borders: Mint-Y-Dark
    * Icons: Mint-Y
