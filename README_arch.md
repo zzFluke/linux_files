@@ -13,7 +13,7 @@ This document described the steps I took to setup my Arch Linux system.
 1. This is tested on LG Gram 2018 15 inch model.
 2. LG gives you an ethernet dongle, so I don't have to worry about wifi.
 
-## Distro installation
+## Distro Installation
 
 1. Download Arch ISO, burn to USB using the command:
    ```
@@ -173,6 +173,64 @@ This document described the steps I took to setup my Arch Linux system.
 
 19. Shut down, unplug USB, then restart.
     
+## Post Installation
+
+### Misc System Setup with Root
+
+1. Login as root.  Update system clock:
+   ```
+   timedatectl set-ntp true
+   ```
+
+2. Write the following to `/etc/hosts`:
+   ```
+   127.0.0.1 localhost
+   ::1       localhost
+   127.0.1.1 <HOSTNAME>.localdomain <HOSTNAME>
+   ```
+
+3. Use `ip link` to find ethernet name, then use `systemctl start dhcpcd@<ETHERNET_NAME>.servce` to start internet.
+
+4. Install and enable Intel microcode updates:
+   ```
+   pacman -S intel-ucode
+   grub-mkconfig -o /boot/grub/grub.cfg
+   ```
+   the grub command enables intel microcode loading in bootloader stage.
+   
+5. As root, add user to sudoer file by running:
+   ```
+   EDITOR=emacs visudo
+   ```
+   and uncommenting the line `%wheel ALL=(ALL) ALL`.
+
+### Desktop Environment Installation
+
+1. Install the following pacman packages for GUI:
+   * cinnamon
+   * lightdm
+
+2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.  Go in that directory.
+
+3. Get lightdm-slick-greeter from AUR, and build with:
+   ```
+   git clone https://aur.archlinux.org/lightdm-slick-greeter.git
+   cd lightdm-slick-greeter
+   makepkg -si
+   ```
+
+4. Modify the file `/etc/lightdm/lightdm.conf` with the following:
+   ```
+   [Seat:*]
+   ...
+   greeter-session=lightdm-yourgreeter-greeter
+   ...
+   ```
+5. Run the following to start the dekstop environment:
+   ```
+   systemctl enable lightdm.service
+   systemctl start lightdm.service
+   ```
 
 ## Initial Setups
 
