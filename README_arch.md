@@ -1,25 +1,178 @@
-# Antergos install notes
-This document described the steps I took to setup my Antergos system.
+# Arch Linux install notes
+This document described the steps I took to setup my Arch Linux system.
+
+## Why Arch (instead of Antergos or Manjaro)
+
+1. I read that Manjaro have some hacky insecure stuffs.
+
+2. For this install I need LVM + LUKS encryption, and Antergos installer
+   is just not working for me.
+
+## Hardware Notes
+
+1. This is tested on LG Gram 2018 15 inch model.
+2. LG gives you an ethernet dongle, so I don't have to worry about wifi.
 
 ## Distro installation
 
-1. Download Antergos minimal ISO, create bootable USB, and install.
-
-2. For DE I choose Cinnamon, because I have the best experience with
-   it before when I try out Manjaro.  It has no screen tearing issues,
-   and notification icons actually works (which is important for Dropbox).
+1. Download Arch ISO, burn to USB using the command:
+   ```
+   dd bs=4M if=<ISO file> of=/dev/sdX status=progress oflag=sync
+   ```
+   You can find the USB disk name with `sudo fdisk -l`.
    
-3. For disk partition, I did not use encryption because I have other Windows
-   game stuff on the same disk, and I separate root and home paritition so
-   hopefully it's easier to change distro/reinstall without losing data.
+   Then, plug in USB, boot computer and enter bios (by pressing F2 for 
+   this laptop).  Disable secure EFI boot in bios, make USB the top
+   boot priority, then boot into USB.
 
-4. I use systemd-boot since I see good things (or rather bad things about
-   grub) online.
+2. Do disk partition with the command:
+   ```
+   gdisk /dev/sdX
+   ```
+   First command, use `o` to erase everything and get new GPT table.
+   Then, use `n` to add the first partition, first sector is default,
+   second sector is `+100M`, to create a 100MB partition.  The type code
+   is `EF00` for EFI System.  This will be the EFI boot partition.
+   
+   For the second partition, make it 250 MB boot partition, by having
+   first sector be default and sector sector be `+250M`.  Type code is
+   `8300`.  For the final partition, both sectors are default (to use up
+   rest of the space), and type code is also `8300`.
+      
+3. Format the partitions, with:
+   ```
+   mkfs.vfat -F32 /dev/sdX1
+   mkfs.ext2 /dev/sdX2
+   ```
+   
+   If they question you, just confirm.
+   
+4. Setup encryption on sdX3, by calling:
+   ```
+   cryptsetup -c aes-xts-plain64 -y --use-random luksFormat /dev/sdX3
+   cryptsetup luksOpen /dev/sdX3 <CRYPT_NAME>
+   ```
+   where `CRYPT_NAME` is a name of your choice (I use CRYPT_EC).  Enter your
+   passphrase when prompted.
+   
+5. Create encrypted partitions with:
+   ```
+   pvcreate /dev/mapper/<CRYPT_NAME>
+   vgcreate <VOL_GRP_NAME> /dev/mapper/<CRYPT_NAME>
+   lvcreate --size 512M <VOL_GRP_NAME> --name swap
+   lvcreate --size 40G <VOL_GRP_NAME> --name root
+   lvcreate -l +100%FREE <VOL_GRP_NAME> --name home
+   ```
+   again `VOL_GRP_NAME` is a name of your choice (I use ARCH_EC).  This
+   creates separate root and home partitions.
 
-5. NOTE: I ran into a bug where I select encryption first, then cancel it
-   later.  However, after installation Antergos cannot boot because it
-   thought the disk is encrypted (when it isn't).  I had to reinstall 
-   Antergos again.
+6. Create filesystems on those partitions with:
+   ```
+   mkfs.ext4 /dev/mapper/<VOL_GRP_NAME>-root
+   mkfs.ext4 /dev/mapper/<VOL_GRP_NAME>-home
+   mkswap /dev/mapper/<VOL_GRP_NAME>-swap
+   ```
+
+7. Mount the new systems:
+   ```
+   mount /dev/mapper/<VOL_GRP_NAME>-root /mnt
+   swapon /dev/mapper/<VOL_GRP_NAME>-swap
+   mkdir /mnt/boot
+   mount /dev/sdX2 /mnt/boot
+   mkdir /mnt/boot/efi
+   mount /dev/sdX1 /mnt/boot/efi
+   ```
+   
+8. Install the base system with:
+   ```
+   pacstrap /mnt base base-devel emacs git grub efibootmgr dialog
+   ```
+
+9. Generate fstab with:
+   ```
+   genfstab -pU /mnt >> /mnt/etc/fstab
+   ```
+   
+10. chroot to the new system:
+    ```
+    arch-chroot /mnt /bin/bash
+    ```
+    
+    then edit fstab (using `emacs`), change all `relatime` to `noatime`
+    (This is needed for SSDs).
+   
+11. Setup system clock:
+    ```
+    rm /etc/localtime
+    ln -s /usr/share/zoneinfo/US/Pacific /etc/localtime
+    hwclock --systohc --utc
+    ```
+    
+12. Set hostname.  I choose "Husky":
+    ```
+    echo <HOSTNAME> > /etc/hostname
+    ```
+    
+13. Set locale.  Uncomment "en_US.UTF-8 UTF-8" from the file 
+    `/etc/locale.gen`, then run:
+    ```
+    echo LANG=en_US.UTF-8 > /etc/locale.conf
+    echo KEYMAP=us > /etc/vconsole.conf
+    local-gen
+    ```
+
+14. Set root password:
+    ```
+    passwd
+    ```
+
+15. Add new user:
+    ```
+    useradd -m -g users -G wheel <USERNAME>
+    ```
+    
+16. etc file `/etc/mkinitcpio.conf`.  Add 'ext4' to `MODULES`.  Add 'encrypt'
+    and 'lvm2' to `HOOKS`, in that order, before 'filesystems'.  Afterwards,
+    regenerate initrd image with:
+    ```
+    mkinitcpio -p linux
+    ```
+    The only warnings should be:
+    ```
+    WARNING: Possibly missing firmware for module: aic94xx
+    WARNING: Possibly missing firmware for module: wd719x
+    ```
+    these are drivers for advance server hardware.
+    
+17. Setup grub with:
+    ```
+    grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
+    ```
+    then, edit the following lines in `/etc/default/grub`:
+    ```
+    GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards:resume=/dev/mapper/<VOL_GRP_NAME>-swap"
+    ```
+    note that "allow-discards" option enable SSD triming (which improves performance), but
+    comes with some security risk because of information leakage.
+    
+    Finally, run the following command to finish setup:
+    ```
+    grub-mkconfig -o /boot/grub/grub.cfg
+    ```
+    the only warnings (quite a few lines) should be:
+    ```
+    WARNING: Failed to connect to lvmetad.  Falling back to device scanning.
+    ```
+
+18. Exit the chroot environment:
+    ```
+    exit
+    umount -R /mnt
+    swapoff -a
+    ```
+
+19. Shut down, unplug USB, then restart.
+    
 
 ## Initial Setups
 
@@ -72,6 +225,7 @@ This document described the steps I took to setup my Antergos system.
    * noto-fonts (some fonts)
    * noto-fonts-cjk (more fonts for asian characters)
    * noto-fonts-tc (more fonts for traditional chinese)
+   
 
 4. Use pacman to install the following Python-related packages:
 
@@ -92,6 +246,7 @@ This document described the steps I took to setup my Antergos system.
    * ttf-tw (for Taiwan standard Chinese fonts)
    * mint-themes (for better Cinnamon themes)
    * nemo-dropbox (for nemo integration)
+   * fmt (C++ string formatting library)
    
 6. Start chromium, download Pycharm and CLion, then install.
 
