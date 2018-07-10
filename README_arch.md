@@ -214,6 +214,7 @@ This document described the steps I took to setup my Arch Linux system.
    * blueberry (for bluetooth support)
    * gnome-keyring
    * gnome-screenshot
+   * chromium
 
 2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.  Go in that directory.
 
@@ -240,6 +241,12 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    systemctl enable NetworkManager.service
    systemctl start NetworkManager.service
+   ```
+
+7. Enable `fstrim.timer` to trim SSDs periodically:
+   ```
+   systemctl enable fstrim.timer
+   systemctl start fstrim.timer
    ```
 
 ## Initial Setups
