@@ -209,6 +209,11 @@ This document described the steps I took to setup my Arch Linux system.
 1. Install the following pacman packages for GUI:
    * cinnamon
    * lightdm
+   * light-locker
+   * gnome-terminal
+   * blueberry (for bluetooth support)
+   * gnome-keyring
+   * gnome-screenshot
 
 2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.  Go in that directory.
 
@@ -230,6 +235,11 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    systemctl enable lightdm.service
    systemctl start lightdm.service
+   ```
+6. Once GUI started, enable NetworkManager:
+   ```
+   systemctl enable NetworkManager.service
+   systemctl start NetworkManager.service
    ```
 
 ## Initial Setups
