@@ -215,6 +215,7 @@ This document described the steps I took to setup my Arch Linux system.
    * gnome-keyring
    * gnome-screenshot
    * chromium
+   * dhclient (NetworkManager only works with dhclient for public wifi)
 
 2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.  Go in that directory.
 
@@ -232,18 +233,27 @@ This document described the steps I took to setup my Arch Linux system.
    greeter-session=lightdm-yourgreeter-greeter
    ...
    ```
-5. Run the following to start the dekstop environment:
+
+5. Create a new file `/etc/NetworkManager/conf.d/dhcp-client.conf`, with the    content:
+   ```
+   [main]
+   dhcp=dhclient
+   ```
+   NetworkManager is not built with dhcpd support (the default Arch Linux 
+   DHCP program).  This allows NetworkManager to connect to public wifi.
+   
+6. Run the following to start the dekstop environment:
    ```
    systemctl enable lightdm.service
    systemctl start lightdm.service
    ```
-6. Once GUI started, enable NetworkManager:
+7. Once GUI started, enable NetworkManager:
    ```
    systemctl enable NetworkManager.service
    systemctl start NetworkManager.service
    ```
 
-7. Enable `fstrim.timer` to trim SSDs periodically:
+8. Enable `fstrim.timer` to trim SSDs periodically:
    ```
    systemctl enable fstrim.timer
    systemctl start fstrim.timer
