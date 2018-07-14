@@ -13,7 +13,7 @@ This document described the steps I took to setup my Arch Linux system.
 1. This is tested on LG Gram 2018 15 inch model.
 2. LG gives you an ethernet dongle, so I don't have to worry about wifi.
 
-## Distro installation
+## Distro Installation
 
 1. Download Arch ISO, burn to USB using the command:
    ```
@@ -173,36 +173,110 @@ This document described the steps I took to setup my Arch Linux system.
 
 19. Shut down, unplug USB, then restart.
     
+## Post Installation
+
+### Misc System Setup with Root
+
+1. Login as root.  Update system clock:
+   ```
+   timedatectl set-ntp true
+   ```
+
+2. Write the following to `/etc/hosts`:
+   ```
+   127.0.0.1 localhost
+   ::1       localhost
+   127.0.1.1 <HOSTNAME>.localdomain <HOSTNAME>
+   ```
+
+3. Use `ip link` to find ethernet name, then use `systemctl start dhcpcd@<ETHERNET_NAME>.servce` to start internet.
+
+4. Install and enable Intel microcode updates:
+   ```
+   pacman -S intel-ucode
+   grub-mkconfig -o /boot/grub/grub.cfg
+   ```
+   the grub command enables intel microcode loading in bootloader stage.
+   
+5. As root, add user to sudoer file by running:
+   ```
+   EDITOR=emacs visudo
+   ```
+   and uncommenting the line `%wheel ALL=(ALL) ALL`.
+
+### Desktop Environment Installation
+
+1. Install the following pacman packages for GUI:
+   * cinnamon
+   * lightdm
+   * light-locker
+   * gnome-terminal
+   * blueberry (for bluetooth support)
+   * gnome-keyring
+   * gnome-screenshot
+   * chromium
+   * dhclient (NetworkManager only works with dhclient for public wifi)
+
+2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.  Go in that directory.
+
+3. Get lightdm-slick-greeter from AUR, and build with:
+   ```
+   git clone https://aur.archlinux.org/lightdm-slick-greeter.git
+   cd lightdm-slick-greeter
+   makepkg -si
+   ```
+
+4. Modify the file `/etc/lightdm/lightdm.conf` with the following:
+   ```
+   [Seat:*]
+   ...
+   greeter-session=lightdm-yourgreeter-greeter
+   ...
+   ```
+
+5. Create a new file `/etc/NetworkManager/conf.d/dhcp-client.conf`, with the    content:
+   ```
+   [main]
+   dhcp=dhclient
+   ```
+   NetworkManager is not built with dhcpd support (the default Arch Linux 
+   DHCP program).  This allows NetworkManager to connect to public wifi.
+   
+6. Run the following to start the dekstop environment:
+   ```
+   systemctl enable lightdm.service
+   systemctl start lightdm.service
+   ```
+7. Once GUI started, enable NetworkManager:
+   ```
+   systemctl enable NetworkManager.service
+   systemctl start NetworkManager.service
+   ```
+
+8. Enable `fstrim.timer` to trim SSDs periodically:
+   ```
+   systemctl enable fstrim.timer
+   systemctl start fstrim.timer
+   ```
 
 ## Initial Setups
+
+1. In mouse and trackpad settings, enable multi-click for right click.
 
 1. In terminal perferences, change color scheme to tango dark.
 
 2. In file explorer, set all new folders to use list view in preferences, 
    and show hidden files (by using right-click context menu).
-
-3. Run the following installation commands to get essential programs:
-   ```
-   sudo pacman -Syu (make sure system is up to date)
-   sudo pacman -S emacs git ttf-dejavu (get git/emacs ready)
-   ```
    
-4. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
+3. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
 
 5. Follow the instructions at <https://github.com/pkerichang/linux_files.git>.
-
-5. remove the file `.bashrc.aliases`.  We don't use this file.
 
 6. close terminal, and restart.
 
 ## Finishing Setups
 
-1. Run the following command to rank antergos mirrors
-   ```
-   sudo rankmirrors -n 0 /etc/pacman.d/antergos-mirrorlist > /tmp/antergos-mirrorlist && sudo cp /tmp/antergos-mirrorlist /etc/pacman.d
-   ```
-
-2. Use pacman to install the following packages:
+1. Use pacman to install the following packages:
 
    * tigervnc
    * inkscape
@@ -212,22 +286,16 @@ This document described the steps I took to setup my Arch Linux system.
    * ibus-chewing (for chinese input)
    * x2goclient
    * qbittorrent
-   * gnome-disk-utility (for configuring automounting disks at startup)
-   * dropbox
-   * pacaur
    * networkmanager-openconnect (for cisco anyconnect VPN)
-   * pacman-contrib (get pactree for pacaur)
    * qpdf (for splitting PDFs)
    * ruby (for some optional dependencies of subversion and texlive-core)
    * pepper-flash (for chromium flash player)
    * adobe-source-han-sans-otc-fonts (asian fonts)
    * adobe-source-han-serif-otc-fonts (asian fonts)
    * noto-fonts (some fonts)
-   * noto-fonts-cjk (more fonts for asian characters)
-   * noto-fonts-tc (more fonts for traditional chinese)
-   
+   * noto-fonts-cjk (more fonts for asian characters)	
 
-4. Use pacman to install the following Python-related packages:
+2. Use pacman to install the following Python-related packages:
 
    * ipython
    * python-scipy
@@ -240,53 +308,40 @@ This document described the steps I took to setup my Arch Linux system.
    * python-pyzmq
    * python2-lxml (for inkscape/textext).
 
-5. Use the command `pacaur -S` to install the following packages:
+3. Install the following packages from AUR:
 
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
+   * noto-fonts-tc
+   * mint-x-icons
+   * mint-y-icons
    * mint-themes (for better Cinnamon themes)
+   * dropbox
    * nemo-dropbox (for nemo integration)
-   * fmt (C++ string formatting library)
    
-6. Start chromium, download Pycharm and CLion, then install.
+4. Start chromium, download Pycharm and CLion, then install.
 
-7. install following (prevent GStreamer plugin errors in xsesson) with pacman:
-
-   * qt5-declarative
-   * opencv
-   * libkate
-   * fluidsynth
-   * zbar
-   * lilv
-
-8. edit `/etc/lightdm/lightdm.conf`, under the [Seat:*] section, change the line:
-   ```
-   display-setup-script=xrandr --output DVI-D-1 --primary
-   ```
-   
-   so that the login screen shows up at the right monitor.  To figure out the monitor name, run `xrandr`.
-
-9. install the following with `pacman` for C++ development:
+5. install the following with `pacman` for C++ development:
 
    * boost
    * cmake
    * yaml-cpp
 
-10. To setup chinese input, at the command line, run:
-    ```
-    ibus-setup
-    ```
+6. To setup chinese input, at the command line, run:
+   ```
+   ibus-setup
+   ```
     
-    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
-    Since LightDM sources .xprofile, this will make ibus run at startup.
+   then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
+   Since LightDM sources .xprofile, this will make ibus run at startup.
     
-11. Switch themes to the following settings to have things more readable:
+7. Switch themes to the following settings to have things more readable:
 
-    * Window borders: Mint-Y-Dark
-    * Icons: Mint-Y
-    * Controls: Mint-Y-Dark
-    * Mouse Pointer: Adwaita
-    * Desktop: Mint-Y-Dark
+   * Window borders: Mint-Y-Dark
+   * Icons: Mint-Y
+   * Controls: Mint-Y-Dark
+   * Mouse Pointer: Adwaita
+   * Desktop: Mint-Y-Dark
 
 
 ## Customizations
@@ -302,11 +357,7 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    to disable annoying beeps when screen locks.
    
-3. Open Gnome Disk Utility, edit mount options for external drives to mount at startup.
-
-4. Set primary monitor display, if necessary.
-
-5. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
+3. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
    `/usr/share/app-info/icons/archlinux-arch-extra/128x128/chromium_chromium.png`.
 
 ### CLion
@@ -329,20 +380,6 @@ From AUR:
 
 ## Program Notes
 
-### Pacman
-
-1. There is a bug with color=never option that caused `pacaur` to crash.
-   This is solved by uncommenting the line containing a single word "Color" 
-   in `/etc/pacman.conf`.
-
-Sometime for some reason, some package cannot be downloaded due to GPG key
-being invalid.  This is finally solved by running:
-
-```
-sudo pacman -Scc (yes to all options)
-sudo pacman-key --refresh-keys
-sudo pacman -Syyu
-```
 
 ### Inkscape
 
