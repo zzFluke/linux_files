@@ -3,6 +3,8 @@
 ;; (package-initialize)
 ;; enable line numbers
 (global-linum-mode t)
+;; enable automatic file refresh
+(global-auto-revert-mode t)
 ;; add initialization files to load path
 (add-to-list 'load-path "~/emacs_init/site-lisp")
 ;; use space for indentation
