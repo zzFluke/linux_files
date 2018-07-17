@@ -278,6 +278,7 @@ This document described the steps I took to setup my Arch Linux system.
 
 1. Use pacman to install the following packages:
 
+   * namcap (Needed to verify custom built packages)
    * tigervnc
    * inkscape
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
@@ -298,6 +299,7 @@ This document described the steps I took to setup my Arch Linux system.
 2. Use pacman to install the following Python-related packages:
 
    * ipython
+   * python-pip
    * python-scipy
    * python-pyqt5
    * python-matplotlib
@@ -307,6 +309,7 @@ This document described the steps I took to setup my Arch Linux system.
    * python-jinja
    * python-pyzmq
    * python2-lxml (for inkscape/textext).
+   * python-yaml
 
 3. Install the following packages from AUR:
 

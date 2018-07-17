@@ -51,6 +51,7 @@ This document described the steps I took to setup my Antergos system.
 
 2. Use pacman to install the following packages:
 
+   * namcap (needed to verify custom built packages)
    * tigervnc
    * inkscape
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
@@ -76,6 +77,7 @@ This document described the steps I took to setup my Antergos system.
 4. Use pacman to install the following Python-related packages:
 
    * ipython
+   * python-pip
    * python-scipy
    * python-pyqt5
    * python-matplotlib
@@ -85,6 +87,7 @@ This document described the steps I took to setup my Antergos system.
    * python-jinja
    * python-pyzmq
    * python2-lxml (for inkscape/textext).
+   * python-yaml
 
 5. Use the command `pacaur -S` to install the following packages:
 
@@ -133,6 +136,18 @@ This document described the steps I took to setup my Antergos system.
     * Mouse Pointer: Adwaita
     * Desktop: Mint-Y-Dark
 
+## Switching to Nvidia drivers
+
+I find that with Nouveau driver, chromium sometimes have glitchy graphics,
+and one time the whole system even froze up (journalctl shows some fifo
+write fault error).  I decide to switch to Nvidia driver.
+
+1. install nvidia installer:
+   ```
+   sudo pacman -S nvidia-installer
+   ```
+
+2. 
 
 ## Customizations
 
