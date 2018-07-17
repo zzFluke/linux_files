@@ -281,6 +281,8 @@ This document described the steps I took to setup my Arch Linux system.
    * namcap (Needed to verify custom built packages)
    * tigervnc
    * inkscape
+   * zathura
+   * zathura-pdf-mupdf (A PDF viewer with keyboard shortcuts)
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
      latexextra, pictures, and science)
    * pdf2svg (for inkscape/textext)
@@ -299,6 +301,7 @@ This document described the steps I took to setup my Arch Linux system.
 2. Use pacman to install the following Python-related packages:
 
    * ipython
+   * cython
    * python-pip
    * python-scipy
    * python-pyqt5
@@ -377,9 +380,33 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Optional Programs
 
-From AUR:
+1. Mudlet:
 
-  * mudlet (for playing MUD)
+   Because I need to build from source (since I added traditional chinese
+   encoding), I need to figure out the dependencies manually.  This is
+   the steps I took to compile:
+
+   * clone mudlet from AUR, run `makepkg -si`.
+  
+   * get a list of dependencies on AUR, git clone those and install them
+    using `makepkg`.
+  
+   * install the following with `pacman` (found by running cmake to
+     figure out the missing dependencies):
+    
+     * lua51-filesystem
+     * qt5-tools
+     * qt5-multimedia
+     * qt5-gamepad
+     * libzip
+     * yajl
+     * pugixml
+    
+   * make a build folder, then cd and build using cmake.  Finally, 
+     make a softlink from ${MUDLET_DIR}/build/src/mudlet to ${HOME}/bin
+     
+   * copy the directory ${MUDLET_DIR}/src/mudlet-lua/lua to 
+     /usr/local/share/mudlet/lua
 
 ## Program Notes
 
