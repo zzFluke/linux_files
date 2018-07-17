@@ -259,6 +259,25 @@ This document described the steps I took to setup my Arch Linux system.
    systemctl start fstrim.timer
    ```
 
+## Intel UHD Graphics Driver Setup
+
+   Note: This is needed to setup the Intel UHD 620 driver on the LG laptop.
+   Without this, I experience some glitches on external monitor.
+
+1. enable early kernel mode setting by editing the following line in 
+   `/etc/mkinitcpio.conf`:
+   ```
+   MODULES=(ext4 i915)
+   ```
+   Then, create the file `/etc/modprobe.d/i915.conf`, with the line:
+   ```
+   options i915 enable_guc=3
+   ```
+   Finally, update boot image with the command:
+   ```
+   mkinitcpio -p linux
+   ```
+
 ## Initial Setups
 
 1. In mouse and trackpad settings, enable multi-click for right click.
