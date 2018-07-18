@@ -315,7 +315,9 @@ This document described the steps I took to setup my Arch Linux system.
    * adobe-source-han-sans-otc-fonts (asian fonts)
    * adobe-source-han-serif-otc-fonts (asian fonts)
    * noto-fonts (some fonts)
-   * noto-fonts-cjk (more fonts for asian characters)	
+   * noto-fonts-cjk (more fonts for asian characters)
+   * gtk-engines
+   * gtk-engine-murrine (to prevent GTK warnings on engine loading).
 
 2. Use pacman to install the following Python-related packages:
 
