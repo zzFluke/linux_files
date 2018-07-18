@@ -399,6 +399,16 @@ This document described the steps I took to setup my Arch Linux system.
 4. In inspection settings, uncheck "Unused class", "Unused method", 
    "Unused struct", and "Unused Global Definition".
 
+5. add the following line to the file `/etc/sysctl.d/90-override.conf`, 
+   create it if it doesn't exist:
+   ```
+   fs.inotify.max_user_watches = 524288
+   ```
+   then run the command:
+   ```
+   sudo sysctl -p --system
+   ```
+
 ## Optional Programs
 
 1. Mudlet:
