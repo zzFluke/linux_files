@@ -20,8 +20,8 @@ This document described the steps I took to setup my Arch Linux system.
    dd bs=4M if=<ISO file> of=/dev/sdX status=progress oflag=sync
    ```
    You can find the USB disk name with `sudo fdisk -l`.
-   
-   Then, plug in USB, boot computer and enter bios (by pressing F2 for 
+
+   Then, plug in USB, boot computer and enter bios (by pressing F2 for
    this laptop).  Disable secure EFI boot in bios, make USB the top
    boot priority, then boot into USB.
 
@@ -33,20 +33,20 @@ This document described the steps I took to setup my Arch Linux system.
    Then, use `n` to add the first partition, first sector is default,
    second sector is `+100M`, to create a 100MB partition.  The type code
    is `EF00` for EFI System.  This will be the EFI boot partition.
-   
+
    For the second partition, make it 250 MB boot partition, by having
    first sector be default and sector sector be `+250M`.  Type code is
    `8300`.  For the final partition, both sectors are default (to use up
    rest of the space), and type code is also `8300`.
-      
+
 3. Format the partitions, with:
    ```
    mkfs.vfat -F32 /dev/sdX1
    mkfs.ext2 /dev/sdX2
    ```
-   
+
    If they question you, just confirm.
-   
+
 4. Setup encryption on sdX3, by calling:
    ```
    cryptsetup -c aes-xts-plain64 -y --use-random luksFormat /dev/sdX3
@@ -54,7 +54,7 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    where `CRYPT_NAME` is a name of your choice (I use CRYPT_EC).  Enter your
    passphrase when prompted.
-   
+
 5. Create encrypted partitions with:
    ```
    pvcreate /dev/mapper/<CRYPT_NAME>
@@ -82,7 +82,7 @@ This document described the steps I took to setup my Arch Linux system.
    mkdir /mnt/boot/efi
    mount /dev/sdX1 /mnt/boot/efi
    ```
-   
+
 8. Install the base system with:
    ```
    pacstrap /mnt base base-devel emacs git grub efibootmgr dialog
@@ -92,28 +92,28 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    genfstab -pU /mnt >> /mnt/etc/fstab
    ```
-   
+
 10. chroot to the new system:
     ```
     arch-chroot /mnt /bin/bash
     ```
-    
+
     then edit fstab (using `emacs`), change all `relatime` to `noatime`
     (This is needed for SSDs).
-   
+
 11. Setup system clock:
     ```
     rm /etc/localtime
     ln -s /usr/share/zoneinfo/US/Pacific /etc/localtime
     hwclock --systohc --utc
     ```
-    
+
 12. Set hostname.  I choose "Husky":
     ```
     echo <HOSTNAME> > /etc/hostname
     ```
-    
-13. Set locale.  Uncomment "en_US.UTF-8 UTF-8" from the file 
+
+13. Set locale.  Uncomment "en_US.UTF-8 UTF-8" from the file
     `/etc/locale.gen`, then run:
     ```
     echo LANG=en_US.UTF-8 > /etc/locale.conf
@@ -130,7 +130,7 @@ This document described the steps I took to setup my Arch Linux system.
     ```
     useradd -m -g users -G wheel <USERNAME>
     ```
-    
+
 16. etc file `/etc/mkinitcpio.conf`.  Add 'ext4' to `MODULES`.  Add 'encrypt'
     and 'lvm2' to `HOOKS`, in that order, before 'filesystems'.  Afterwards,
     regenerate initrd image with:
@@ -143,7 +143,7 @@ This document described the steps I took to setup my Arch Linux system.
     WARNING: Possibly missing firmware for module: wd719x
     ```
     these are drivers for advance server hardware.
-    
+
 17. Setup grub with:
     ```
     grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
@@ -154,7 +154,7 @@ This document described the steps I took to setup my Arch Linux system.
     ```
     note that "allow-discards" option enable SSD triming (which improves performance), but
     comes with some security risk because of information leakage.
-    
+
     Finally, run the following command to finish setup:
     ```
     grub-mkconfig -o /boot/grub/grub.cfg
@@ -172,7 +172,7 @@ This document described the steps I took to setup my Arch Linux system.
     ```
 
 19. Shut down, unplug USB, then restart.
-    
+
 ## Post Installation
 
 ### Misc System Setup with Root
@@ -197,7 +197,7 @@ This document described the steps I took to setup my Arch Linux system.
    grub-mkconfig -o /boot/grub/grub.cfg
    ```
    the grub command enables intel microcode loading in bootloader stage.
-   
+
 5. As root, add user to sudoer file by running:
    ```
    EDITOR=emacs visudo
@@ -252,9 +252,9 @@ This document described the steps I took to setup my Arch Linux system.
    [main]
    dhcp=dhclient
    ```
-   NetworkManager is not built with dhcpd support (the default Arch Linux 
+   NetworkManager is not built with dhcpd support (the default Arch Linux
    DHCP program).  This allows NetworkManager to connect to public wifi.
-   
+
 6. Run the following to start the dekstop environment:
    ```
    systemctl enable lightdm.service
@@ -277,7 +277,7 @@ This document described the steps I took to setup my Arch Linux system.
    Note: This is needed to setup the Intel UHD 620 driver on the LG laptop.
    Without this, I experience some glitches on external monitor.
 
-1. enable early kernel mode setting by editing the following line in 
+1. enable early kernel mode setting by editing the following line in
    `/etc/mkinitcpio.conf`:
    ```
    MODULES=(ext4 i915)
@@ -297,9 +297,9 @@ This document described the steps I took to setup my Arch Linux system.
 
 1. In terminal perferences, change color scheme to tango dark.
 
-2. In file explorer, set all new folders to use list view in preferences, 
+2. In file explorer, set all new folders to use list view in preferences,
    and show hidden files (by using right-click context menu).
-   
+
 3. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
 
 5. Follow the instructions at <https://github.com/pkerichang/linux_files.git>.
@@ -359,7 +359,7 @@ This document described the steps I took to setup my Arch Linux system.
    * mint-themes (for better Cinnamon themes)
    * dropbox
    * nemo-dropbox (for nemo integration)
-   
+
 4. Start chromium, download Pycharm and CLion, then install.
 
 5. install the following with `pacman` for C++ development:
@@ -372,10 +372,10 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    ibus-setup
    ```
-    
+
    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
    Since LightDM sources .xprofile, this will make ibus run at startup.
-    
+
 7. Switch themes to the following settings to have things more readable:
 
    * Window borders: Mint-Y-Dark
@@ -397,23 +397,23 @@ This document described the steps I took to setup my Arch Linux system.
    blacklist pcspkr
    ```
    to disable annoying beeps when screen locks.
-   
+
 3. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
    `/usr/share/app-info/icons/archlinux-arch-extra/128x128/chromium_chromium.png`.
 
 ### CLion
 
-1. In Editor/General, set "Strip trailing spaces on Save" to "All", and 
+1. In Editor/General, set "Strip trailing spaces on Save" to "All", and
    uncheck "Always keep trailing spaces on caret line".
-   
+
 2. In Keymap, set to "Eclipse"
 
 3. In Editor/Code Style, set hard wrap at 100 columns.
 
-4. In inspection settings, uncheck "Unused class", "Unused method", 
+4. In inspection settings, uncheck "Unused class", "Unused method",
    "Unused struct", and "Unused Global Definition".
 
-5. add the following line to the file `/etc/sysctl.d/90-override.conf`, 
+5. add the following line to the file `/etc/sysctl.d/90-override.conf`,
    create it if it doesn't exist:
    ```
    fs.inotify.max_user_watches = 524288
@@ -427,40 +427,34 @@ This document described the steps I took to setup my Arch Linux system.
 
 ### Emacs for C++ Development
 
-1. Install rtags from AUR.  After installation, run:
+1. Install `ycmd-git` from AUR.
+
+2. Install `ripgrep` with `pacman`.
+
+3. Start emacs, wait for it to download and install packages.
+
+4. setup emacs server-client systemd service by running:
    ```
-   systemctl --user enable rdm.socket
-   systemctl --user start rdm.socket
+   systemctl --user enable emacsd.service
+   systemctl --user start emacsd.service
    ```
-
-1. Instal the following emacs packages:
-
-   * req-package
-   * company
-   * flycheck
-   * helm
-   * rtags
-
-2. install bash-completion using pacman.  Install rtags from AUR.
-
-3. 
 
 ### Mudlet:
 
 (Note: My pull request has been incorporated, so no need to build from
 source anymore.  This is left here as reference)
-Because I need to build from source (since I added traditional chinese 
-encoding), I need to figure out the dependencies manually.  This is 
+Because I need to build from source (since I added traditional chinese
+encoding), I need to figure out the dependencies manually.  This is
 the steps I took to compile:
 
 1. clone mudlet from AUR, run `makepkg -si`.
-  
-2. get a list of dependencies on AUR, git clone those and install them 
+
+2. get a list of dependencies on AUR, git clone those and install them
    using `makepkg`.
-  
+
 3. install the following with `pacman` (found by running cmake to
    figure out the missing dependencies):
-    
+
    * lua51-filesystem
    * qt5-tools
    * qt5-multimedia
@@ -468,11 +462,11 @@ the steps I took to compile:
    * libzip
    * yajl
    * pugixml
-    
-4. make a build folder, then cd and build using cmake.  Finally, 
+
+4. make a build folder, then cd and build using cmake.  Finally,
    make a softlink from ${MUDLET_DIR}/build/src/mudlet to ${HOME}/bin
-     
-5. copy the directory ${MUDLET_DIR}/src/mudlet-lua/lua to 
+
+5. copy the directory ${MUDLET_DIR}/src/mudlet-lua/lua to
    /usr/local/share/mudlet/lua
 
 ## Program Notes
@@ -484,7 +478,7 @@ Latex rendering in Inkscape got broken by Ghostscript 9.22 when they
 remove the DELAYBIND option, which breaks the pstoedit program.  The
 current experimental workaround is to use the textext extension, which
 has an experimental feature to use pdf2svg instead of pstoedit.
-   
+
 To get this to work, follow installation instructions above to install
 all the required packages.  Then, download the file textext.py from the
 following URL:
