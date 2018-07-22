@@ -88,38 +88,16 @@
   ;; set hot key to uncomment region in spice
   (local-set-key (kbd "C-c C-u") 'uncomment-region)
 )
-;; C++ mode configurations
-;; add custom C++ style
-;; (c-add-style "my-c++-style" 
-;;              '("stroustrup"
-;;                ;; use space for indentation
-;;                (indent-tabs-mode . nil)
-;;                ;; indent by 4 spaces
-;;                (c-basic-offset . 4)
-;;                ;; custom indentation rules
-;;                (c-offsets-alist . ((inline-open . 0)
-;;                                    (brace-list-open . 0)
-;;                                   (statement-case-open . +)))
-;;                )
-;; )
-;; (defun my-c++-mode-hook ()
-;;   (c-set-style "my-c++-style")
-;;   (auto-fill-mode)         
-;;   (c-toggle-auto-hungry-state 1)
-;; )
-
 ;; add custom configuration hooks
 (add-hook 'spice-mode-hook 'my-spice-hook)
 (add-hook 'prog-mode-hook 'my-prog-hook)
 (add-hook 'verilog-mode-hook 'my-verilog-hook)
-;; (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;; C++ development setup
 ;; see http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
 (req-package rtags
   :config
   (progn
-    (error "Does this even run?")
     (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
     (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
 
@@ -185,6 +163,10 @@
     ;; Use C-c h instead of default C-x c, it makes more sense.
     (global-set-key (kbd "C-c h") 'helm-command-prefix)
     (global-unset-key (kbd "C-x c"))
+    ;; configure tab completion
+    (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
+    (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-z") #'helm-select-action)
 
     (setq
      ;; move to end or beginning of source when reaching top or bottom of source.
@@ -234,6 +216,22 @@
     (helm-projectile-on)
     ))
 
+(require 'clang-format)
+(global-set-key (kbd "C-c C-f") 'clang-format-buffer)
+
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
+
+(with-eval-after-load 'cc-mode
+  (fset 'c-indent-region 'clang-format-region)
+  (bind-keys :map c-mode-base-map
+             ("<C-tab>" . company-complete)
+             ("C-M-\\" . clang-format-region)
+             ("C-i" . clang-format)))
+
+
+(req-package-finish)
+
 ;; automatic customizations
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -244,7 +242,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (helm-projectile flycheck-rtags company-rtags helm-rtags projectile rtags flycheck company req-package helm markdown-mode))))
+    (clang-format helm-projectile flycheck-rtags company-rtags helm-rtags projectile rtags flycheck company req-package helm markdown-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
