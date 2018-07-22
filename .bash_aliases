@@ -16,6 +16,7 @@ alias mv='mv -i'
 alias cp='cp -i'
 alias ssh='ssh -XY'
 alias so='source'
+alias ec='emacsclient -c'
 
 # utility aliases
 alias gitlso='git ls-files --others --exclude-standard'
