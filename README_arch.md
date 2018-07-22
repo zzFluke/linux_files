@@ -204,6 +204,19 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    and uncommenting the line `%wheel ALL=(ALL) ALL`.
 
+6. Install `thermald`, a daemon used to monitor CPU and prevent overheating.
+   I was experiencing freezes when CPU run on full power and overheats.
+   ```
+   pacman -S thermald
+   ```
+   and enable the service:
+   ```
+   systemctl enable thermald.service
+   systemctl start thermald.service
+   ```
+
+7. Also install `tlp`.  Just follow instructions on Arch wiki.
+
 ### Desktop Environment Installation
 
 1. Install the following pacman packages for GUI:
@@ -300,6 +313,7 @@ This document described the steps I took to setup my Arch Linux system.
    * namcap (Needed to verify custom built packages)
    * tigervnc
    * inkscape
+   * vlc
    * zathura
    * zathura-pdf-mupdf (A PDF viewer with keyboard shortcuts)
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
@@ -411,33 +425,55 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Optional Programs
 
-1. Mudlet:
+### Emacs for C++ Development
 
-   Because I need to build from source (since I added traditional chinese
-   encoding), I need to figure out the dependencies manually.  This is
-   the steps I took to compile:
+1. Install rtags from AUR.  After installation, run:
+   ```
+   systemctl --user enable rdm.socket
+   systemctl --user start rdm.socket
+   ```
 
-   * clone mudlet from AUR, run `makepkg -si`.
+1. Instal the following emacs packages:
+
+   * req-package
+   * company
+   * flycheck
+   * helm
+   * rtags
+
+2. install bash-completion using pacman.  Install rtags from AUR.
+
+3. 
+
+### Mudlet:
+
+(Note: My pull request has been incorporated, so no need to build from
+source anymore.  This is left here as reference)
+Because I need to build from source (since I added traditional chinese 
+encoding), I need to figure out the dependencies manually.  This is 
+the steps I took to compile:
+
+1. clone mudlet from AUR, run `makepkg -si`.
   
-   * get a list of dependencies on AUR, git clone those and install them
-    using `makepkg`.
+2. get a list of dependencies on AUR, git clone those and install them 
+   using `makepkg`.
   
-   * install the following with `pacman` (found by running cmake to
-     figure out the missing dependencies):
+3. install the following with `pacman` (found by running cmake to
+   figure out the missing dependencies):
     
-     * lua51-filesystem
-     * qt5-tools
-     * qt5-multimedia
-     * qt5-gamepad
-     * libzip
-     * yajl
-     * pugixml
+   * lua51-filesystem
+   * qt5-tools
+   * qt5-multimedia
+   * qt5-gamepad
+   * libzip
+   * yajl
+   * pugixml
     
-   * make a build folder, then cd and build using cmake.  Finally, 
-     make a softlink from ${MUDLET_DIR}/build/src/mudlet to ${HOME}/bin
+4. make a build folder, then cd and build using cmake.  Finally, 
+   make a softlink from ${MUDLET_DIR}/build/src/mudlet to ${HOME}/bin
      
-   * copy the directory ${MUDLET_DIR}/src/mudlet-lua/lua to 
-     /usr/local/share/mudlet/lua
+5. copy the directory ${MUDLET_DIR}/src/mudlet-lua/lua to 
+   /usr/local/share/mudlet/lua
 
 ## Program Notes
 
