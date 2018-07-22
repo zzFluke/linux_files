@@ -427,7 +427,7 @@ This document described the steps I took to setup my Arch Linux system.
 
 ### Emacs for C++ Development
 
-1. Install `ycmd-git` from AUR.
+1. Install `ycmd-git` and `universal-ctags-git` from AUR.
 
 2. Install `ripgrep` with `pacman`.
 
@@ -438,6 +438,19 @@ This document described the steps I took to setup my Arch Linux system.
    systemctl --user enable emacsd.service
    systemctl --user start emacsd.service
    ```
+
+Notes on using Emacs as C++ IDE:
+
+1. M-. jumps to code definition, M-, goes back to previous location.  M-t shows
+   all occurs of the current word.
+
+2. In new project directory, create a file named `clang-format` with the content:
+   ```
+   BaseOnStyle: LLVM
+   IndentWidth: 4
+   ```
+
+   for `clang-format` to format code properly.
 
 ### Mudlet:
 
