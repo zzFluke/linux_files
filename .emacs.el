@@ -83,8 +83,8 @@
 ;; Show column numbers by default
 (setq column-number-mode t)
 ;; Use CUA to delete selections
-(setq cua-mode t)
-(setq cua-enable-cua-keys nil)
+;; (setq cua-mode t)
+;; (setq cua-enable-cua-keys nil)
 ;; Prevent emacs from creating a bckup file filename~
 (setq make-backup-files nil)
 ;; Settings for searching
@@ -605,13 +605,13 @@
 ;; Add the LLVM coding style
 (c-add-style "llvm.org"
              '("gnu"
-	           (fill-column . 100)
-	           (c++-indent-level . 4)
-	           (c-basic-offset . 4)
-	           (indent-tabs-mode . nil)
-	           (c-offsets-alist . ((arglist-intro . ++)
-				                   (innamespace . 0)
-				                   (member-init-intro . ++)))))
+               (fill-column . 100)
+               (c++-indent-level . 4)
+               (c-basic-offset . 4)
+               (indent-tabs-mode . nil)
+               (c-offsets-alist . ((arglist-intro . ++)
+                                   (innamespace . 0)
+                                   (member-init-intro . ++)))))
 
 (setq c-default-style "llvm.org")
 
