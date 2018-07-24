@@ -102,16 +102,14 @@
 (setq-default auto-fill-function 'do-auto-fill)
 (setq-default fill-column 100)
 (turn-on-auto-fill)
-;; Disable auto-fill-mode in programming mode
-(add-hook 'prog-mode-hook (lambda () (auto-fill-mode -1)))
 
 ;; Global Keyboard Shortcuts
 ;; Set help to C-?
 (global-set-key (kbd "C-?") 'help-command)
 ;; Set mark paragraph to M-?
 (global-set-key (kbd "M-?") 'mark-paragraph)
-;; Set backspace to C-h
-(global-set-key (kbd "C-h") 'delete-backward-char)
+;; Set quit minibuffer
+(global-set-key (kbd "C-h") 'minibuffer-keyboard-quit)
 ;; Set backspace word to M-h
 (global-set-key (kbd "M-h") 'backward-kill-word)
 ;; Use meta+tab word completion
@@ -292,7 +290,8 @@
 (use-package swiper
   :ensure t
   :bind (("C-s" . swiper)
-         ("C-r" . swiper))
+         ("C-r" . swiper)
+         )
   )
 
 (use-package counsel
@@ -569,7 +568,7 @@
 ;; clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :ensure t
-  :bind (("C-c C-f" . clang-format-region))
+  :bind (("C-c C-f" . clang-format-buffer))
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

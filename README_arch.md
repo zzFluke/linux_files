@@ -348,6 +348,7 @@ This document described the steps I took to setup my Arch Linux system.
    * python-pyzmq
    * python2-lxml (for inkscape/textext).
    * python-yaml
+   * python-virtualenv
 
 3. Install the following packages from AUR:
 
@@ -439,7 +440,10 @@ This document described the steps I took to setup my Arch Linux system.
    systemctl --user start emacsd.service
    ```
 
-Notes on using Emacs as C++ IDE:
+5. after starting emacs, run `M-x jedi:install-server` to install jedi server for Python editing.
+
+
+Notes on using Emacs:
 
 1. M-. jumps to code definition, M-, goes back to previous location.  M-t shows
    all occurs of the current word.
@@ -451,6 +455,11 @@ Notes on using Emacs as C++ IDE:
    ```
 
    for `clang-format` to format code properly.
+
+3. Use `M-q` to auto-fill the current paragraph to line wrapping.
+
+4. Use `C-h` to quit minibuffer (useful when you have multiple minibuffers open due to repeated
+   search).
 
 ### Mudlet:
 
