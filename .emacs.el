@@ -11,8 +11,6 @@
 ;; Specify the ycmd server command and path to the ycmd directory *inside* the
 ;; cloned ycmd directory
 (defvar my:ycmd-server-command '("python" "/usr/share/ycmd/ycmd"))
-(defvar my:ycmd-extra-conf-whitelist '("~/.ycm_extra_conf.py"))
-(defvar my:ycmd-global-config "~/.ycm_extra_conf.py")
 
 ;; Compilation command for C/C++
 (defvar my:compile-command "clang++ -Wall -Wextra -std=c++17 ")
@@ -665,8 +663,7 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
       :config
       (progn
         (set-variable 'ycmd-server-command my:ycmd-server-command)
-        (set-variable 'ycmd-extra-conf-whitelist my:ycmd-extra-conf-whitelist)
-        (set-variable 'ycmd-global-config my:ycmd-global-config)
+        (set-variable 'ycmd-extra-conf-handler 'load)
         (setq ycmd-force-semantic-completion t)
         (use-package company-ycmd
           :ensure t
