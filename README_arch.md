@@ -5,12 +5,12 @@ This document described the steps I took to setup my Arch Linux system.
 
 1. I read that Manjaro have some hacky insecure stuffs.
 
-2. For this install I need LVM + LUKS encryption, and Antergos installer
-   is just not working for me.
+2. For this install I need LVM + LUKS encryption, and Antergos installer is just not working for me.
 
 ## Hardware Notes
 
 1. This is tested on LG Gram 2018 15 inch model.
+
 2. LG gives you an ethernet dongle, so I don't have to worry about wifi.
 
 ## Distro Installation
@@ -19,25 +19,24 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    dd bs=4M if=<ISO file> of=/dev/sdX status=progress oflag=sync
    ```
+
    You can find the USB disk name with `sudo fdisk -l`.
 
-   Then, plug in USB, boot computer and enter bios (by pressing F2 for
-   this laptop).  Disable secure EFI boot in bios, make USB the top
-   boot priority, then boot into USB.
+   Then, plug in USB, boot computer and enter bios (by pressing F2 for this laptop).  Disable secure
+   EFI boot in bios, make USB the top boot priority, then boot into USB.
 
 2. Do disk partition with the command:
    ```
    gdisk /dev/sdX
    ```
-   First command, use `o` to erase everything and get new GPT table.
-   Then, use `n` to add the first partition, first sector is default,
-   second sector is `+100M`, to create a 100MB partition.  The type code
-   is `EF00` for EFI System.  This will be the EFI boot partition.
 
-   For the second partition, make it 250 MB boot partition, by having
-   first sector be default and sector sector be `+250M`.  Type code is
-   `8300`.  For the final partition, both sectors are default (to use up
-   rest of the space), and type code is also `8300`.
+   First command, use `o` to erase everything and get new GPT table.  Then, use `n` to add the first
+   partition, first sector is default, second sector is `+100M`, to create a 100MB partition.  The
+   type code is `EF00` for EFI System.  This will be the EFI boot partition.
+
+   For the second partition, make it 250 MB boot partition, by having first sector be default and
+   sector sector be `+250M`.  Type code is `8300`.  For the final partition, both sectors are
+   default (to use up rest of the space), and type code is also `8300`.
 
 3. Format the partitions, with:
    ```
@@ -52,8 +51,9 @@ This document described the steps I took to setup my Arch Linux system.
    cryptsetup -c aes-xts-plain64 -y --use-random luksFormat /dev/sdX3
    cryptsetup luksOpen /dev/sdX3 <CRYPT_NAME>
    ```
-   where `CRYPT_NAME` is a name of your choice (I use CRYPT_EC).  Enter your
-   passphrase when prompted.
+
+   where `CRYPT_NAME` is a name of your choice (I use CRYPT_EC).  Enter your passphrase when
+   prompted.
 
 5. Create encrypted partitions with:
    ```
@@ -63,8 +63,9 @@ This document described the steps I took to setup my Arch Linux system.
    lvcreate --size 40G <VOL_GRP_NAME> --name root
    lvcreate -l +100%FREE <VOL_GRP_NAME> --name home
    ```
-   again `VOL_GRP_NAME` is a name of your choice (I use ARCH_EC).  This
-   creates separate root and home partitions.
+
+   again `VOL_GRP_NAME` is a name of your choice (I use ARCH_EC).  This creates separate root and
+   home partitions.
 
 6. Create filesystems on those partitions with:
    ```
@@ -98,8 +99,7 @@ This document described the steps I took to setup my Arch Linux system.
     arch-chroot /mnt /bin/bash
     ```
 
-    then edit fstab (using `emacs`), change all `relatime` to `noatime`
-    (This is needed for SSDs).
+    then edit fstab (using `emacs`), change all `relatime` to `noatime` (This is needed for SSDs).
 
 11. Setup system clock:
     ```
@@ -131,29 +131,35 @@ This document described the steps I took to setup my Arch Linux system.
     useradd -m -g users -G wheel <USERNAME>
     ```
 
-16. etc file `/etc/mkinitcpio.conf`.  Add 'ext4' to `MODULES`.  Add 'encrypt'
-    and 'lvm2' to `HOOKS`, in that order, before 'filesystems'.  Afterwards,
-    regenerate initrd image with:
+16. etc file `/etc/mkinitcpio.conf`.  Add 'ext4' to `MODULES`.  Add 'encrypt' and 'lvm2' to `HOOKS`,
+    in that order, before 'filesystems'.  Afterwards, regenerate initrd image with:
+
     ```
     mkinitcpio -p linux
     ```
+
     The only warnings should be:
+
     ```
     WARNING: Possibly missing firmware for module: aic94xx
     WARNING: Possibly missing firmware for module: wd719x
     ```
+
     these are drivers for advance server hardware.
 
 17. Setup grub with:
     ```
     grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
     ```
+
     then, edit the following lines in `/etc/default/grub`:
+
     ```
     GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards:resume=/dev/mapper/<VOL_GRP_NAME>-swap"
     ```
-    note that "allow-discards" option enable SSD triming (which improves performance), but
-    comes with some security risk because of information leakage.
+
+    note that "allow-discards" option enable SSD triming (which improves performance), but comes
+    with some security risk because of information leakage.
 
     Finally, run the following command to finish setup:
     ```
@@ -189,7 +195,8 @@ This document described the steps I took to setup my Arch Linux system.
    127.0.1.1 <HOSTNAME>.localdomain <HOSTNAME>
    ```
 
-3. Use `ip link` to find ethernet name, then use `systemctl start dhcpcd@<ETHERNET_NAME>.servce` to start internet.
+3. Use `ip link` to find ethernet name, then use `systemctl start dhcpcd@<ETHERNET_NAME>.servce` to
+   start internet.
 
 4. Install and enable Intel microcode updates:
    ```
@@ -204,8 +211,9 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    and uncommenting the line `%wheel ALL=(ALL) ALL`.
 
-6. Install `thermald`, a daemon used to monitor CPU and prevent overheating.
-   I was experiencing freezes when CPU run on full power and overheats.
+6. Install `thermald`, a daemon used to monitor CPU and prevent overheating.  I was experiencing
+   freezes when CPU run on full power and overheats.
+
    ```
    pacman -S thermald
    ```
@@ -230,7 +238,8 @@ This document described the steps I took to setup my Arch Linux system.
    * chromium
    * dhclient (NetworkManager only works with dhclient for public wifi)
 
-2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.  Go in that directory.
+2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.
+   Go in that directory.
 
 3. Get lightdm-slick-greeter from AUR, and build with:
    ```
@@ -252,8 +261,9 @@ This document described the steps I took to setup my Arch Linux system.
    [main]
    dhcp=dhclient
    ```
-   NetworkManager is not built with dhcpd support (the default Arch Linux
-   DHCP program).  This allows NetworkManager to connect to public wifi.
+
+   NetworkManager is not built with dhcpd support (the default Arch Linux DHCP program).  This
+   allows NetworkManager to connect to public wifi.
 
 6. Run the following to start the dekstop environment:
    ```
@@ -274,8 +284,8 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Intel UHD Graphics Driver Setup
 
-   Note: This is needed to setup the Intel UHD 620 driver on the LG laptop.
-   Without this, I experience some glitches on external monitor.
+   Note: This is needed to setup the Intel UHD 620 driver on the LG laptop.  Without this, I
+   experience some glitches on external monitor.
 
 1. enable early kernel mode setting by editing the following line in
    `/etc/mkinitcpio.conf`:
@@ -297,8 +307,8 @@ This document described the steps I took to setup my Arch Linux system.
 
 1. In terminal perferences, change color scheme to tango dark.
 
-2. In file explorer, set all new folders to use list view in preferences,
-   and show hidden files (by using right-click context menu).
+2. In file explorer, set all new folders to use list view in preferences, and show hidden files (by
+   using right-click context menu).
 
 3. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
 
@@ -375,8 +385,8 @@ This document described the steps I took to setup my Arch Linux system.
    ibus-setup
    ```
 
-   then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
-   Since LightDM sources .xprofile, this will make ibus run at startup.
+   then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.  Since LightDM sources
+   .xprofile, this will make ibus run at startup.
 
 7. Switch themes to the following settings to have things more readable:
 
@@ -405,18 +415,19 @@ This document described the steps I took to setup my Arch Linux system.
 
 ### CLion
 
-1. In Editor/General, set "Strip trailing spaces on Save" to "All", and
-   uncheck "Always keep trailing spaces on caret line".
+1. In Editor/General, set "Strip trailing spaces on Save" to "All", and uncheck "Always keep
+   trailing spaces on caret line".
 
 2. In Keymap, set to "Eclipse"
 
 3. In Editor/Code Style, set hard wrap at 100 columns.
 
-4. In inspection settings, uncheck "Unused class", "Unused method",
-   "Unused struct", and "Unused Global Definition".
+4. In inspection settings, uncheck "Unused class", "Unused method", "Unused struct", and "Unused
+   Global Definition".
 
-5. add the following line to the file `/etc/sysctl.d/90-override.conf`,
-   create it if it doesn't exist:
+5. add the following line to the file `/etc/sysctl.d/90-override.conf`, create it if it doesn't
+   exist:
+
    ```
    fs.inotify.max_user_watches = 524288
    ```
@@ -446,8 +457,8 @@ This document described the steps I took to setup my Arch Linux system.
 
 Notes on using Emacs:
 
-1. M-. jumps to code definition, M-, goes back to previous location.  M-t shows
-   all occurs of the current word.
+1. M-. jumps to code definition, M-, goes back to previous location.  M-t shows all occurs of the
+   current word.
 
 2. In new project directory, create a file named `clang-format` with the content:
    ```
@@ -464,19 +475,17 @@ Notes on using Emacs:
 
 ### Mudlet:
 
-(Note: My pull request has been incorporated, so no need to build from
-source anymore.  This is left here as reference)
-Because I need to build from source (since I added traditional chinese
-encoding), I need to figure out the dependencies manually.  This is
-the steps I took to compile:
+(Note: My pull request has been incorporated, so no need to build from source anymore.  This is left
+here as reference) Because I need to build from source (since I added traditional chinese encoding),
+I need to figure out the dependencies manually.  This is the steps I took to compile:
 
 1. clone mudlet from AUR, run `makepkg -si`.
 
 2. get a list of dependencies on AUR, git clone those and install them
    using `makepkg`.
 
-3. install the following with `pacman` (found by running cmake to
-   figure out the missing dependencies):
+3. install the following with `pacman` (found by running cmake to figure out the missing
+   dependencies):
 
    * lua51-filesystem
    * qt5-tools
@@ -486,47 +495,45 @@ the steps I took to compile:
    * yajl
    * pugixml
 
-4. make a build folder, then cd and build using cmake.  Finally,
-   make a softlink from ${MUDLET_DIR}/build/src/mudlet to ${HOME}/bin
+4. make a build folder, then cd and build using cmake.  Finally, make a softlink from
+   `${MUDLET_DIR}/build/src/mudlet` to `${HOME}/bin`
 
-5. copy the directory ${MUDLET_DIR}/src/mudlet-lua/lua to
-   /usr/local/share/mudlet/lua
+5. copy the directory `${MUDLET_DIR}/src/mudlet-lua/lua` to `/usr/local/share/mudlet/lua`
 
 ## Miscellaneous Notes
 
 ### USB stick
 
-Sometimes a badly configured USB stick won't get automounted.  This is
-because by default, if `udev` doesn't recognize a device, it will try to
-mount it using MTP (the smart phoen file transfer protocol).  If this happens,
-you need to add an exception rule to `udev` to treat it as USB drive by
+Sometimes a badly configured USB stick won't get automounted.  This is because by default, if `udev`
+doesn't recognize a device, it will try to mount it using MTP (the smart phoen file transfer
+protocol).  If this happens, you need to add an exception rule to `udev` to treat it as USB drive by
 doing the following:
 
-1. Plug in USB stick, then in the terminal, type `dmesg`.  Look for latest
-   message regarding a new USB divice, and find values of `idVendor` and `idProduct`.
-   For me, `idVendor = abcd`, and `idProduct = 1234`.
+1. Plug in USB stick, then in the terminal, type `dmesg`.  Look for latest message regarding a new
+   USB divice, and find values of `idVendor` and `idProduct`.  For me, `idVendor = abcd`, and
+   `idProduct = 1234`.
 
-2. Add a new file `/etc/udev/rules.d/90-myusb.rules` (with root permission),
-   with the following line:
+2. Add a new file `/etc/udev/rules.d/90-myusb.rules` (with root permission), with the following
+   line:
+
    ```
    SUBSYSTEMS=="usb", ENV{MODALIAS}=="usb:abcd:1234", ENV{MODALIAS}="usb-storage"
    ```
+
    where you substitute the correct values for `idVendor` and `idProduct`.
 
 3. Reboot (there should be a non-reboot way, but I didn't find out/verify).
 
 ### Inkscape
 
-Latex rendering in Inkscape got broken by Ghostscript 9.22 when they
-remove the DELAYBIND option, which breaks the pstoedit program.  The
-current experimental workaround is to use the textext extension, which
-has an experimental feature to use pdf2svg instead of pstoedit.
+Latex rendering in Inkscape got broken by Ghostscript 9.22 when they remove the DELAYBIND option,
+which breaks the pstoedit program.  The current experimental workaround is to use the textext
+extension, which has an experimental feature to use pdf2svg instead of pstoedit.
 
-To get this to work, follow installation instructions above to install
-all the required packages.  Then, download the file textext.py from the
-following URL:
+To get this to work, follow installation instructions above to install all the required packages.
+Then, download the file textext.py from the following URL:
 
 https://bitbucket.org/pitgarbe/textext/issues/57/pdf2svg-migration
 
-place this textext.py in the folder /usr/share/inkscape/extensions.  Make
-sure to make a backup of the original.
+place this textext.py in the folder /usr/share/inkscape/extensions.  Make sure to make a backup of
+the original.
