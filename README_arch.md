@@ -332,6 +332,7 @@ This document described the steps I took to setup my Arch Linux system.
    * noto-fonts-cjk (more fonts for asian characters)
    * gtk-engines
    * gtk-engine-murrine (to prevent GTK warnings on engine loading).
+   * nemo-fileroller (for extraction capability)
 
 2. Use pacman to install the following Python-related packages:
 
@@ -491,8 +492,28 @@ the steps I took to compile:
 5. copy the directory ${MUDLET_DIR}/src/mudlet-lua/lua to
    /usr/local/share/mudlet/lua
 
-## Program Notes
+## Miscellaneous Notes
 
+### USB stick
+
+Sometimes a badly configured USB stick won't get automounted.  This is
+because by default, if `udev` doesn't recognize a device, it will try to
+mount it using MTP (the smart phoen file transfer protocol).  If this happens,
+you need to add an exception rule to `udev` to treat it as USB drive by
+doing the following:
+
+1. Plug in USB stick, then in the terminal, type `dmesg`.  Look for latest
+   message regarding a new USB divice, and find values of `idVendor` and `idProduct`.
+   For me, `idVendor = abcd`, and `idProduct = 1234`.
+
+2. Add a new file `/etc/udev/rules.d/90-myusb.rules` (with root permission),
+   with the following line:
+   ```
+   SUBSYSTEMS=="usb", ENV{MODALIAS}=="usb:abcd:1234", ENV{MODALIAS}="usb-storage"
+   ```
+   where you substitute the correct values for `idVendor` and `idProduct`.
+
+3. Reboot (there should be a non-reboot way, but I didn't find out/verify).
 
 ### Inkscape
 
