@@ -372,6 +372,7 @@ This document described the steps I took to setup my Arch Linux system.
    * mint-themes (for better Cinnamon themes)
    * dropbox
    * nemo-dropbox (for nemo integration)
+   * xviewer (for image viewing)
 
 4. Start chromium, download Pycharm and CLion, then install.
 
