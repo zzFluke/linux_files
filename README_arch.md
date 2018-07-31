@@ -287,7 +287,18 @@ This document described the steps I took to setup my Arch Linux system.
    Note: This is needed to setup the Intel UHD 620 driver on the LG laptop.  Without this, I
    experience some glitches on external monitor.
 
-1. enable early kernel mode setting by editing the following line in
+1. Install `xf86-video-intel` using pacman.
+
+2. Add the file `/etc/X11/xorg.conf.d/20-intel.conf` with the following content:
+   ```
+   Section "Device"
+     Identifier "Intel Graphics"
+     Driver     "intel"
+     Option     "TearFree" "true"
+   EndSection
+   ```
+
+3. enable early kernel mode setting by editing the following line in
    `/etc/mkinitcpio.conf`:
    ```
    MODULES=(ext4 i915)
