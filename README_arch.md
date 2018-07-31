@@ -355,6 +355,7 @@ This document described the steps I took to setup my Arch Linux system.
    * gtk-engine-murrine (to prevent GTK warnings on engine loading).
    * nemo-fileroller (for extraction capability)
    * libreoffice (install from fresh)
+   * rsync (for remote file syncing)
 
 2. Use pacman to install the following Python-related packages:
 
