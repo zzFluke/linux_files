@@ -252,7 +252,7 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    [Seat:*]
    ...
-   greeter-session=lightdm-yourgreeter-greeter
+   greeter-session=lightdm-slick-greeter
    ...
    ```
 
@@ -316,16 +316,31 @@ This document described the steps I took to setup my Arch Linux system.
 
 1. In mouse and trackpad settings, enable multi-click for right click.
 
-1. In terminal perferences, change color scheme to tango dark.
+2. In terminal perferences, change color scheme to tango dark.3
 
-2. In file explorer, set all new folders to use list view in preferences, and show hidden files (by
+3. In file explorer, set all new folders to use list view in preferences, and show hidden files (by
    using right-click context menu).
 
-3. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
+4. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
 
-5. Follow the instructions at <https://github.com/pkerichang/linux_files.git>.
+5. Next, we need to install some packages needed by emacs.  Install `ycmd-git` and `universal-ctags-git` from AUR.
 
-6. close terminal, and restart.
+6. Install `ripgrep` with `pacman`.
+
+7. Follow the instructions at <https://github.com/pkerichang/linux_files.git>.
+
+8. close terminal, and restart.
+
+9. Start emacs, wait for it to download and install packages.
+
+10. setup emacs server-client systemd service by running:
+   ```
+   systemctl --user enable emacsd.service
+   systemctl --user start emacsd.service
+   ```
+
+11. after starting emacs, run `M-x jedi:install-server` to install jedi server for Python editing.
+
 
 ## Finishing Setups
 
@@ -452,24 +467,9 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Optional Programs
 
-### Emacs for C++ Development
+### Emacs
 
-1. Install `ycmd-git` and `universal-ctags-git` from AUR.
-
-2. Install `ripgrep` with `pacman`.
-
-3. Start emacs, wait for it to download and install packages.
-
-4. setup emacs server-client systemd service by running:
-   ```
-   systemctl --user enable emacsd.service
-   systemctl --user start emacsd.service
-   ```
-
-5. after starting emacs, run `M-x jedi:install-server` to install jedi server for Python editing.
-
-
-Notes on using Emacs:
+Usage Notes:
 
 1. M-. jumps to code definition, M-, goes back to previous location.  M-t shows all occurs of the
    current word.
@@ -487,7 +487,7 @@ Notes on using Emacs:
 4. Use `C-h` to quit minibuffer (useful when you have multiple minibuffers open due to repeated
    search).
 
-### Mudlet:
+### Mudlet
 
 (Note: My pull request has been incorporated, so no need to build from source anymore.  This is left
 here as reference) Because I need to build from source (since I added traditional chinese encoding),
