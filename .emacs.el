@@ -853,6 +853,13 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; cython-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package cython-mode
+  :ensure t
+  :mode ("\\.pyx\\'" "\\.pxd\\'"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yaml-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package yaml-mode
@@ -947,7 +954,9 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
  '(ivy-minibuffer-match-face-2 ((t (:background "#314f30" :weight bold))))
  '(ivy-minibuffer-match-face-3 ((t (:background "#48225b" :weight bold))))
  '(ivy-minibuffer-match-face-4 ((t (:background "#680a0a" :weight bold))))
- '(which-func ((t (:foreground "#8fb28f")))))
+ ;; '(which-func ((t (:foreground "#8fb28f"))))
+ )
+
 
 ;; I don't care to see the splash screen
 (setq inhibit-splash-screen t)
@@ -978,12 +987,12 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
 ;; Enable which function mode and set the header line to display both the
 ;; path and the function we're in
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(which-function-mode t)
+; (which-function-mode t)
 
 ;; Remove function from mode bar
-(setq mode-line-misc-info
-      (delete (assoc 'which-func-mode
-                     mode-line-misc-info) mode-line-misc-info))
+;; (setq mode-line-misc-info
+;;       (delete (assoc 'which-func-mode
+;;                      mode-line-misc-info) mode-line-misc-info))
 
 
 (defmacro with-face
@@ -1040,16 +1049,16 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
   "Create the header string and display it."
   ;; The dark blue in the header for which-func is terrible to read.
   ;; However, in the terminal it's quite nice
-  (if window-system
-      (custom-set-faces
-       '(which-func ((t (:foreground "#8fb28f")))))
-    (custom-set-faces
-     '(which-func ((t (:foreground "blue"))))))
+  ;; (if window-system
+  ;;     (custom-set-faces
+  ;;      '(which-func ((t (:foreground "#8fb28f")))))
+  ;;   (custom-set-faces
+  ;;    '(which-func ((t (:foreground "blue"))))))
   ;; Set the header line
   (setq header-line-format
 
         (list "-"
-              '(which-func-mode ("" which-func-format))
+              ; '(which-func-mode ("" which-func-format))
               '("" ;; invocation-name
                 (:eval (if (buffer-file-name)
                            (concat "[" (sl/make-header) "]")
@@ -1132,4 +1141,4 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
  '(git-gutter:update-interval 5)
  '(package-selected-packages
    (quote
-    (powerline sourcerer-theme auctex markdown-mode json-mode yaml-mode cmake-font-lock git-gutter magit-gerrit magit hungry-delete autopair vlf writegood-mode flycheck-pyflakes company-jedi flycheck-ycmd company-ycmd ycmd modern-cpp-font-lock clang-format yapfify elpy realgud zzz-to-char avy which-key beacon rainbow-delimiters origami wgrep window-numbering counsel-etags counsel swiper ivy auto-package-update s async use-package))))
+    (flycheck-cython cython-mode powerline sourcerer-theme auctex markdown-mode json-mode yaml-mode cmake-font-lock git-gutter magit-gerrit magit hungry-delete autopair vlf writegood-mode flycheck-pyflakes company-jedi flycheck-ycmd company-ycmd ycmd modern-cpp-font-lock clang-format yapfify elpy realgud zzz-to-char avy which-key beacon rainbow-delimiters origami wgrep window-numbering counsel-etags counsel swiper ivy auto-package-update s async use-package))))
