@@ -2,7 +2,7 @@
 <!DOCTYPE MudletPackage>
 <MudletPackage version="1.001">
 	<HostPackage>
-		<Host autoClearCommandLineAfterSend="no" disableAutoCompletion="no" printCommand="yes" USE_IRE_DRIVER_BUGFIX="yes" mUSE_FORCE_LF_AFTER_PROMPT="no" mUSE_UNIX_EOL="no" mNoAntiAlias="no" mEchoLuaErrors="no" runAllKeyMatches="no" AmbigousWidthGlyphsToBeWide="auto" mRawStreamDump="no" mIsLoggingTimestamps="no" logDirectory="" logFileName="" logFileNameFormat="" mAlertOnNewData="yes" mFORCE_NO_COMPRESSION="no" mFORCE_GA_OFF="no" mFORCE_SAVE_ON_EXIT="no" mEnableGMCP="yes" mEnableMSDP="no" mMapStrongHighlight="no" mLogStatus="no" mEnableSpellCheck="yes" mShowInfo="yes" mAcceptServerGUI="yes" mMapperUseAntiAlias="yes" mFORCE_MXP_NEGOTIATION_OFF="no" mRoomSize="0.5" mLineSize="10.0" mBubbleMode="no" mShowRoomIDs="no" mShowPanel="yes" mHaveMapperScript="no" mEditorTheme="Mudlet" mEditorThemeFile="Mudlet.tmTheme" mThemePreviewItemID="4" mThemePreviewType="trigger" mSearchEngineName="Google" mDoubleClickIgnore="&quot;'">
+		<Host autoClearCommandLineAfterSend="no" disableAutoCompletion="no" printCommand="yes" USE_IRE_DRIVER_BUGFIX="yes" mUSE_FORCE_LF_AFTER_PROMPT="no" mUSE_UNIX_EOL="no" mNoAntiAlias="no" mEchoLuaErrors="no" runAllKeyMatches="no" AmbigousWidthGlyphsToBeWide="auto" mRawStreamDump="no" mIsLoggingTimestamps="no" logDirectory="" logFileName="" logFileNameFormat="" mAlertOnNewData="yes" mFORCE_NO_COMPRESSION="no" mFORCE_GA_OFF="no" mFORCE_SAVE_ON_EXIT="no" mEnableGMCP="yes" mEnableMSDP="no" mMapStrongHighlight="no" mLogStatus="no" mEnableSpellCheck="yes" mShowInfo="yes" mAcceptServerGUI="yes" mMapperUseAntiAlias="yes" mFORCE_MXP_NEGOTIATION_OFF="no" mRoomSize="0.5" mLineSize="10.0" mBubbleMode="no" mShowRoomIDs="no" mShowPanel="yes" mHaveMapperScript="no" mEditorTheme="Mudlet" mEditorThemeFile="Mudlet.tmTheme" mThemePreviewItemID="4" mThemePreviewType="trigger" mSearchEngineName="Google" mDoubleClickIgnore="'&quot;">
 			<name>WF</name>
 			<mInstalledPackages>
 				<string>deleteOldProfiles</string>
@@ -1036,7 +1036,8 @@ end</script>
 					<name>learn</name>
 					<script>if learn_running then
   tempTimer(0.4, [[send(learn_cmd)]])
-	tempTimer(0.8, [[send('c')]])
+	tempTimer(0.8, [[send('v')]])
+	tempTimer(1.2, [[send('c')]])
 end</script>
 					<triggerType>0</triggerType>
 					<conditonLineDelta>0</conditonLineDelta>
@@ -1093,7 +1094,8 @@ playSoundFile(sound_file, sound_volume)
   learn_rep_cnt = learn_rep_cnt + 1
 	if learn_rep_cnt &lt; learn_rep then
 	  tempTimer(0.4, [[send(learn_cmd)]])
-	  tempTimer(0.8, [[send('c')]])
+		tempTimer(0.8, [[send('v')]])
+	  tempTimer(1.2, [[send('c')]])
 	else
 	  learn_rep_cnt = 0
   	tempTimer(0.4, [[expandAlias("addforce")]])
@@ -1170,6 +1172,7 @@ end
 	  exforce_bell = false
 	else
 	  tempTimer(0.4, [[send(exforce_learn_cmd)]])
+			tempTimer(2.0, [[expandAlias("addforce")]])
 	end
 end
 </script>
@@ -1547,8 +1550,7 @@ end
 				<script>io_file = io.open(chat_file, "a")  -- the "a" means append to end of file
 io.output(io_file)
 io.write(matches[2].."\n")
-io.close(io_file)
-playSoundFile(sound_file, sound_volume)</script>
+io.close(io_file)</script>
 				<triggerType>0</triggerType>
 				<conditonLineDelta>0</conditonLineDelta>
 				<mStayOpen>0</mStayOpen>
