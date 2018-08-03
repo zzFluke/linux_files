@@ -487,6 +487,10 @@ Usage Notes:
 4. Use `C-h` to quit minibuffer (useful when you have multiple minibuffers open due to repeated
    search).
 
+5. Use `C-x b` to switch between buffers.  You will get a list of buffers to select.
+
+6. Use `C-c g` to grep within the git repository.
+
 ### Mudlet
 
 (Note: My pull request has been incorporated, so no need to build from source anymore.  This is left
