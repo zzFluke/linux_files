@@ -961,11 +961,12 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
 (set-face-attribute 'header-line nil  :height my-font-size)
 ;; Set default window size and position
 (setq default-frame-alist
-      '((top . 0) (left . 0) ;; position
-        (width . 110) (height . 90) ;; size
+      '((width . 110) (height . 90) ;; size
         ))
 ;; Enable line numbers on the LHS
 (global-linum-mode -1)
+;; Update buffer when changed externally
+(global-auto-revert-mode t)
 ;; Set the font to size 9 (90/10).
 (set-face-attribute 'default nil :height my-font-size)
 
