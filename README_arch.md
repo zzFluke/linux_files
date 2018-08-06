@@ -555,3 +555,20 @@ https://bitbucket.org/pitgarbe/textext/issues/57/pdf2svg-migration
 
 place this textext.py in the folder /usr/share/inkscape/extensions.  Make sure to make a backup of
 the original.
+
+### Reinstall Emacs packages
+
+On 2017/08/06, Arch linux upgrade internal Python version from 3.6 to 3.7, and broke some emacs
+packages (some assume fixed version number).  To re-install all emacs packages, do the following:
+
+1. stop emacs daemon by running:
+
+   ```
+   systemctl --user stop emacsd.service
+   ```
+
+1. remove ~/.emacs.d and ~/.emacs.elc (just rename it in case you need them later.)
+
+2. start emacs, wait for packages to download.  You'll see some errors, but you can ignore them.
+
+3. run `M-x jedi:install-server`.  Restart emacs, double check that there are no errors.
