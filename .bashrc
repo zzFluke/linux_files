@@ -56,6 +56,14 @@ fi
 # set emacs as editor
 export EDITOR="emacs"
 
+# QT settings
+export QT_STYLE_OVERRIDE=gtk
+export QT_SELECT=qt5
+
+# Language settings
+if [[ $LANG = '' ]]; then
+	export LANG=en_US.UTF-8
+fi
 
 # add custom scripts to path
 export PATH="${HOME}/bin:${PATH}"

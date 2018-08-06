@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cmd="ssh -f eric@newton.ayarlabs -L ${1}:localhost:${1} -N"
+echo $cmd
+eval $cmd
+echo "done"
