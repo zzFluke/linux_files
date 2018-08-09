@@ -1499,9 +1499,13 @@ end</script>
 					<name>faint</name>
 					<script>if pspell_running then
   tempTimer(0.4, [[send("v")]])
-	tempTimer(0.8, [[send("kill mind bug")]])
-	tempTimer(0.8, [[send("kill mind beast")]])
-	tempTimer(0.9, [[expandAlias("p")]])
+  if pspell_is_bug then
+	  tempTimer(0.8, [[send("kill mind bug")]])
+	else
+	  tempTimer(0.8, [[send("kill mind beast")]])
+	  tempTimer(0.9, [[expandAlias("p")]])
+	end
+	pspell_is_bug = false
 end</script>
 					<triggerType>0</triggerType>
 					<conditonLineDelta>0</conditonLineDelta>
@@ -1566,6 +1570,32 @@ end</script>
 					</regexCodeList>
 					<regexCodePropertyList>
 						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>is_bug</name>
+					<script>if pspell_running then
+  if not pspell_is_bug then
+    pspell_is_bug = true
+	end
+end</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>看起來觀想蟲想殺死你</string>
+						<string>你的魂魄正被觀想蟲纏住</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>0</integer>
+						<integer>0</integer>
 					</regexCodePropertyList>
 				</Trigger>
 			</TriggerGroup>
@@ -2360,8 +2390,10 @@ send('meditate all')
 				<name>perf_spell</name>
 				<script>if matches[2] == 'stop' then
   pspell_running = false
+	pspell_is_bug = false
 else
   pspell_running = true
+	pspell_is_bug = false
 	num_meditate = tonumber(matches[3])
 	meditate_cmd = "meditate "..tostring(num_meditate)
 	echo("num_meditate: "..tostring(num_meditate).."\n")
