@@ -1474,7 +1474,10 @@ end
 				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 					<name>practice</name>
 					<script>if pspell_running then
-  tempTimer(0.4, [[send("practice spells for 1")]])
+  tempTimer(0.4, [[send("practice spells for 1;v")]])
+	tempTimer(0.5, [[perf_running = true]])
+	tempTimer(0.5, [[perf_check_issued = false]])
+	tempTimer(1.0, [[send('hp')]])
 end</script>
 					<triggerType>0</triggerType>
 					<conditonLineDelta>0</conditonLineDelta>
@@ -1498,12 +1501,10 @@ end</script>
 				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 					<name>faint</name>
 					<script>if pspell_running then
-  tempTimer(0.4, [[send("v")]])
   if pspell_is_bug then
 	  tempTimer(0.8, [[send("kill mind bug")]])
 	else
 	  tempTimer(0.8, [[send("kill mind beast")]])
-	  tempTimer(0.9, [[expandAlias("p")]])
 	end
 	pspell_is_bug = false
 end</script>
@@ -1529,6 +1530,8 @@ end</script>
 				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 					<name>dead</name>
 					<script>if pspell_running then
+  perf_running = false
+	perf_check_issued = false
   tempTimer(1.0, [[expandAlias("addforce")]])
 end</script>
 					<triggerType>0</triggerType>
@@ -1553,7 +1556,8 @@ end</script>
 				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 					<name>meditate</name>
 					<script>if pspell_running then
-  tempTimer(0.4, [[send(meditate_cmd)]])
+  tempTimer(0.2, [[send('v')]])
+  tempTimer(0.6, [[send(meditate_cmd)]])
 end</script>
 					<triggerType>0</triggerType>
 					<conditonLineDelta>0</conditonLineDelta>
@@ -1577,6 +1581,8 @@ end</script>
 					<script>if pspell_running then
   if not pspell_is_bug then
     pspell_is_bug = true
+		perf_running = false
+  	perf_check_issued = false
 	end
 end</script>
 					<triggerType>0</triggerType>
