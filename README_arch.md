@@ -491,6 +491,18 @@ Usage Notes:
 
 6. Use `C-c g` to grep within the git repository.
 
+#### Emacs-magit
+
+1. Use `M-x magit` to start git commit in emacs.
+
+2. Use arrow keys to move around, use TAB to expand and see diff file, use `s` to stage unstaged
+   files.  Use `g` to refresh files.
+
+3. Use `c` to pop up commit options.  You can toggle switches and specify options, after you're
+   done, you can then use `C-c C-c` to set the current options as default.  Press `c` again to
+   commit.
+
+
 ### Mudlet
 
 (Note: My pull request has been incorporated, so no need to build from source anymore.  This is left
