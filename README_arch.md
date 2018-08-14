@@ -294,9 +294,12 @@ This document described the steps I took to setup my Arch Linux system.
    Section "Device"
      Identifier "Intel Graphics"
      Driver     "intel"
-     Option     "TearFree" "true"
+     Option     "AccelMethod" "uxa"
    EndSection
    ```
+
+   this is because the default "sna" acceleration method causes glitches in external monitor when
+   drawing window shadows.
 
 3. enable early kernel mode setting by editing the following line in
    `/etc/mkinitcpio.conf`:
@@ -371,6 +374,7 @@ This document described the steps I took to setup my Arch Linux system.
    * nemo-fileroller (for extraction capability)
    * libreoffice (install from fresh)
    * rsync (for remote file syncing)
+   * xorg-xrandr
 
 2. Use pacman to install the following Python-related packages:
 
