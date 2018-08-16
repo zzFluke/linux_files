@@ -1336,7 +1336,7 @@ end</script>
 				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 					<name>refresh</name>
 					<script>if upspell_running then
-  tempTimer(0.3, [[send("v")]])
+  tempTimer(0.3, [[send(upspell_heal_cmd)]])
 end
 </script>
 					<triggerType>0</triggerType>
@@ -1354,6 +1354,88 @@ end
 						<string>靜坐冥思了一會兒</string>
 					</regexCodeList>
 					<regexCodePropertyList>
+						<integer>0</integer>
+						<integer>0</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>add_done</name>
+					<script>if upspell_running then
+	if upspell_mode == 0 then
+	  tempTimer(0.3, [[send(upspell_train_cmd)]])
+	else
+  	tempTimer(0.3, [[send(upspell_heal_cmd)]])
+	end
+end</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^addforce done$</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>meditate</name>
+					<script>if upspell_running then
+  tempTimer(0.4, [[send(upspell_train_cmd)]])
+end
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>妳略一凝神﹐深深的吸了口氣</string>
+						<string>你已經不需要收斂心神</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>0</integer>
+						<integer>0</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>stop</name>
+					<script>if upspell_running then
+  tempTimer(0.4, [[send(upspell_heal_cmd)]])
+  upspell_running = false
+  playSoundFile(sound_file, sound_volume)
+end
+</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>當你的法力增加的瞬間</string>
+						<string>你忽然覺得腦中一片混亂</string>
+						<string>你忽然覺得一陣天旋地轉</string>
+						<string>似乎靈力的修行已經遇到了瓶頸</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>0</integer>
+						<integer>0</integer>
 						<integer>0</integer>
 						<integer>0</integer>
 					</regexCodePropertyList>
@@ -1382,31 +1464,10 @@ end
 					</regexCodePropertyList>
 				</Trigger>
 				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>add_done</name>
+					<name>regenerate</name>
 					<script>if upspell_running then
-	tempTimer(0.3, [[send("v")]])
-end</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>0</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>^addforce done$</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>1</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>meditate</name>
-					<script>if upspell_running then
-  tempTimer(0.4, [[send("meditate all")]])
+  tempTimer(0.3, [[send(upspell_heal_cmd)]])
+  tempTimer(0.6, [[expandAlias("addforce")]])
 end
 </script>
 					<triggerType>0</triggerType>
@@ -1420,35 +1481,8 @@ end
 					<colorTriggerFgColor>#000000</colorTriggerFgColor>
 					<colorTriggerBgColor>#000000</colorTriggerBgColor>
 					<regexCodeList>
-						<string>妳略一凝神﹐深深的吸了口氣</string>
-						<string>你已經不需要收斂心神</string>
-					</regexCodeList>
-					<regexCodePropertyList>
-						<integer>0</integer>
-						<integer>0</integer>
-					</regexCodePropertyList>
-				</Trigger>
-				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
-					<name>stop</name>
-					<script>if upspell_running then
-  tempTimer(0.4, [[send("v")]])
-  upspell_running = false
-  playSoundFile(sound_file, sound_volume)
-end
-</script>
-					<triggerType>0</triggerType>
-					<conditonLineDelta>0</conditonLineDelta>
-					<mStayOpen>0</mStayOpen>
-					<mCommand></mCommand>
-					<packageName></packageName>
-					<mFgColor>#ff0000</mFgColor>
-					<mBgColor>#ffff00</mBgColor>
-					<mSoundFile></mSoundFile>
-					<colorTriggerFgColor>#000000</colorTriggerFgColor>
-					<colorTriggerBgColor>#000000</colorTriggerBgColor>
-					<regexCodeList>
-						<string>當你的法力增加的瞬間</string>
-						<string>你忽然覺得腦中一片混亂</string>
+						<string>你閉上眼睛</string>
+						<string>開始打坐</string>
 					</regexCodeList>
 					<regexCodePropertyList>
 						<integer>0</integer>
@@ -1505,6 +1539,8 @@ end</script>
 	  tempTimer(0.8, [[send("kill mind bug")]])
 	else
 	  tempTimer(0.8, [[send("kill mind beast")]])
+		tempTimer(1.0, [[send("kill mind goblin")]])
+		tempTimer(1.2, [[send("kill mind dragon")]])
 	end
 	pspell_is_bug = false
 end</script>
@@ -2378,11 +2414,19 @@ end
 				<Alias isActive="yes" isFolder="no">
 					<name>start</name>
 					<script>upspell_running = true
-send('meditate all')
+upspell_mode = tonumber(matches[2])
+if upspell_mode == 0 then
+  upspell_heal_cmd = 'c'
+	upspell_train_cmd = 'respirate all'
+else
+  upspell_heal_cmd = 'v'
+	upspell_train_cmd = 'meditate all'
+end
+send(upspell_train_cmd)
 </script>
 					<command></command>
 					<packageName></packageName>
-					<regex>^upspell$</regex>
+					<regex>^upspell (\d)$</regex>
 				</Alias>
 				<Alias isActive="yes" isFolder="no">
 					<name>stop</name>
