@@ -10,7 +10,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Specify the ycmd server command and path to the ycmd directory *inside* the
 ;; cloned ycmd directory
-(defvar my:ycmd-server-command '("python" "/usr/share/ycmd/ycmd"))
+(defvar my:ycmd-server-command '("/tools/projects/erichang/programs/anaconda3d6/bin/python3" "/tools/projects/erichang/programs/ycmd/ycmd"))
 
 ;; Compilation command for C/C++
 (defvar my:compile-command "clang++ -Wall -Wextra -std=c++17 ")
@@ -730,7 +730,7 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
     (declare-function global-flycheck-mode "flycheck.el"))
   :config
   ;; Turn flycheck on everywhere
-  (global-flycheck-mode t)
+  ;; (global-flycheck-mode t)
   ;; There are issues with company mode and flycheck in terminal mode.
   ;; This is outlined at:
   ;; https://github.com/abingham/emacs-ycmd
@@ -1130,6 +1130,9 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
                                (powerline-render rhs)))))))
   (powerline-right-theme)
   )
+
+;; Workaround for incorrect renderer on Emacs 25.3
+(add-hook 'desktop-after-read-hook 'powerline-reset)
 
 (provide '.emacs)
 ;;; .emacs ends here
