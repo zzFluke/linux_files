@@ -294,9 +294,12 @@ This document described the steps I took to setup my Arch Linux system.
    Section "Device"
      Identifier "Intel Graphics"
      Driver     "intel"
-     Option     "TearFree" "true"
+     Option     "AccelMethod" "uxa"
    EndSection
    ```
+
+   this is because the default "sna" acceleration method causes glitches in external monitor when
+   drawing window shadows.
 
 3. enable early kernel mode setting by editing the following line in
    `/etc/mkinitcpio.conf`:
@@ -344,7 +347,7 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Finishing Setups
 
-1. Use pacman to install the following packages:
+1. Use `pacman` to install the following packages:
 
    * namcap (Needed to verify custom built packages)
    * tigervnc
@@ -371,8 +374,9 @@ This document described the steps I took to setup my Arch Linux system.
    * nemo-fileroller (for extraction capability)
    * libreoffice (install from fresh)
    * rsync (for remote file syncing)
+   * xorg-xrandr
 
-2. Use pacman to install the following Python-related packages:
+2. Use `pacman` to install the following Python related packages:
 
    * ipython
    * cython
@@ -389,7 +393,25 @@ This document described the steps I took to setup my Arch Linux system.
    * python-yaml
    * python-virtualenv
 
-3. Install the following packages from AUR:
+3. Setup `yay`, an AUR helper, from AUR using makepkg.  To do so, first create the directory
+   `~/pkgs_arch`, then in that directory, run the following:
+
+   ```
+   git clone https://aur.archlinux.org/yay.git
+   cd yay
+   makepkg -si
+   ```
+
+   answer yes when asked to install.
+
+4. Use `yay` to install the following C++ related packages:
+
+   * boost
+   * cmake
+   * yaml-cpp (for reading/writing yaml files)
+   * spdlog-git (from AUR, for logging in C++)
+
+5. Install the following packages from AUR, using `yay -S <package_name>`:
 
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
@@ -401,15 +423,9 @@ This document described the steps I took to setup my Arch Linux system.
    * nemo-dropbox (for nemo integration)
    * xviewer (for image viewing)
 
-4. Start chromium, download Pycharm and CLion, then install.
+6. Start chromium, download Pycharm, then install.
 
-5. install the following with `pacman` for C++ development:
-
-   * boost
-   * cmake
-   * yaml-cpp
-
-6. To setup chinese input, at the command line, run:
+7. To setup chinese input, at the command line, run:
    ```
    ibus-setup
    ```
@@ -417,7 +433,7 @@ This document described the steps I took to setup my Arch Linux system.
    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.  Since LightDM sources
    .xprofile, this will make ibus run at startup.
 
-7. Switch themes to the following settings to have things more readable:
+7. Switch themes to the following settings (in System Settings->Themes) to have things more readable:
 
    * Window borders: Mint-Y-Dark
    * Icons: Mint-Y
@@ -439,10 +455,9 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    to disable annoying beeps when screen locks.
 
-3. add chromium shortcut to task bar.  The executable is `/usr/bin/chromium`, the icon is at
-   `/usr/share/app-info/icons/archlinux-arch-extra/128x128/chromium_chromium.png`.
+3. add chromium shortcut to task bar.  You should be able to just drag and drop from menu.
 
-### CLion
+### Pycharm/CLion
 
 1. In Editor/General, set "Strip trailing spaces on Save" to "All", and uncheck "Always keep
    trailing spaces on caret line".
@@ -451,10 +466,7 @@ This document described the steps I took to setup my Arch Linux system.
 
 3. In Editor/Code Style, set hard wrap at 100 columns.
 
-4. In inspection settings, uncheck "Unused class", "Unused method", "Unused struct", and "Unused
-   Global Definition".
-
-5. add the following line to the file `/etc/sysctl.d/90-override.conf`, create it if it doesn't
+4. add the following line to the file `/etc/sysctl.d/90-override.conf`, create it if it doesn't
    exist:
 
    ```
@@ -491,19 +503,26 @@ Usage Notes:
 
 6. Use `C-c g` to grep within the git repository.
 
+#### Emacs-magit
+
+1. Use `M-x magit` to start git commit in emacs.
+
+2. Use arrow keys to move around, use TAB to expand and see diff file, use `s` to stage unstaged
+   files.  Use `g` to refresh files.
+
+3. Use `c` to pop up commit options.  You can toggle switches and specify options, after you're
+   done, you can then use `C-c C-c` to set the current options as default.  Press `c` again to
+   commit.
+
+
 ### Mudlet
 
 (Note: My pull request has been incorporated, so no need to build from source anymore.  This is left
 here as reference) Because I need to build from source (since I added traditional chinese encoding),
 I need to figure out the dependencies manually.  This is the steps I took to compile:
 
-1. clone mudlet from AUR, run `makepkg -si`.
-
-2. get a list of dependencies on AUR, git clone those and install them
-   using `makepkg`.
-
-3. install the following with `pacman` (found by running cmake to figure out the missing
-   dependencies):
+1. install mudlet from AUR using `yay` to get all the dependencies.  For reference, the following
+   are needed from `pacman`:
 
    * lua51-filesystem
    * qt5-tools
@@ -513,7 +532,8 @@ I need to figure out the dependencies manually.  This is the steps I took to com
    * yajl
    * pugixml
 
-4. make a build folder, then cd and build using cmake.  Finally, make a softlink from
+2. clone a separate mudlet repo, make a build folder, then cd and build using cmake.
+   Finally, make a softlink from
    `${MUDLET_DIR}/build/src/mudlet` to `${HOME}/bin`
 
 5. copy the directory `${MUDLET_DIR}/src/mudlet-lua/lua` to `/usr/local/share/mudlet/lua`
@@ -555,3 +575,20 @@ https://bitbucket.org/pitgarbe/textext/issues/57/pdf2svg-migration
 
 place this textext.py in the folder /usr/share/inkscape/extensions.  Make sure to make a backup of
 the original.
+
+### Reinstall Emacs packages
+
+On 2017/08/06, Arch linux upgrade internal Python version from 3.6 to 3.7, and broke some emacs
+packages (some assume fixed version number).  To re-install all emacs packages, do the following:
+
+1. stop emacs daemon by running:
+
+   ```
+   systemctl --user stop emacsd.service
+   ```
+
+1. remove ~/.emacs.d and ~/.emacs.elc (just rename it in case you need them later.)
+
+2. start emacs, wait for packages to download.  You'll see some errors, but you can ignore them.
+
+3. run `M-x jedi:install-server`.  Restart emacs, double check that there are no errors.

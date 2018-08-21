@@ -822,9 +822,8 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
   :config
   ;; If you enable global minor mode
   (global-git-gutter-mode t)
-  ;; Auto update every 5 seconds
-  (custom-set-variables
-   '(git-gutter:update-interval 5))
+  ;; Update when gain focus
+  (add-to-list 'git-gutter:update-hooks 'focus-in-hook)
 
   ;; Set the foreground color of modified lines to something obvious
   (set-face-foreground 'git-gutter:modified "purple")
@@ -953,9 +952,7 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
  '(ivy-minibuffer-match-face-1 ((((class color) (background light)) (:background "#555555")) (((class color) (background dark)) (:background "#555555"))))
  '(ivy-minibuffer-match-face-2 ((t (:background "#314f30" :weight bold))))
  '(ivy-minibuffer-match-face-3 ((t (:background "#48225b" :weight bold))))
- '(ivy-minibuffer-match-face-4 ((t (:background "#680a0a" :weight bold))))
- ;; '(which-func ((t (:foreground "#8fb28f"))))
- )
+ '(ivy-minibuffer-match-face-4 ((t (:background "#680a0a" :weight bold)))))
 
 
 ;; I don't care to see the splash screen
@@ -1142,6 +1139,7 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(git-gutter:update-interval 5)
+ '(magit-commit-arguments (quote ("--all")))
  '(package-selected-packages
    (quote
     (flycheck-cython cython-mode powerline sourcerer-theme auctex markdown-mode json-mode yaml-mode cmake-font-lock git-gutter magit-gerrit magit hungry-delete autopair vlf writegood-mode flycheck-pyflakes company-jedi flycheck-ycmd company-ycmd ycmd modern-cpp-font-lock clang-format yapfify elpy realgud zzz-to-char avy which-key beacon rainbow-delimiters origami wgrep window-numbering counsel-etags counsel swiper ivy auto-package-update s async use-package))))
