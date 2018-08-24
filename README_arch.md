@@ -211,7 +211,9 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    and uncommenting the line `%wheel ALL=(ALL) ALL`.
 
-6. Install `thermald`, a daemon used to monitor CPU and prevent overheating.  I was experiencing
+6. Uncomment the "Color" option in `/etc/pacman.conf`.
+
+7. Install `thermald`, a daemon used to monitor CPU and prevent overheating.  I was experiencing
    freezes when CPU run on full power and overheats.
 
    ```
@@ -223,7 +225,7 @@ This document described the steps I took to setup my Arch Linux system.
    systemctl start thermald.service
    ```
 
-7. Also install `tlp`.  Just follow instructions on Arch wiki.
+8. Also install `tlp`.  Just follow instructions on Arch wiki.
 
 ### Desktop Environment Installation
 
