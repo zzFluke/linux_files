@@ -203,6 +203,16 @@
 (global-set-key (kbd "C-c C-y") 'my-paste-from-xclipboard)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; neotree - directory tree viewer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package neotree
+  :ensure t
+  :bind* (("M-m SPC n". neotree-toggle))
+  :init
+  (setq neo-smart-open t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; async - library for async/thread processing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package async
@@ -586,6 +596,29 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C++ keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Add the LLVM coding style
+(defun llvm-lineup-statement (langelem)
+  (let ((in-assign (c-lineup-assignments langelem)))
+    (if (not in-assign)
+        '++
+      (aset in-assign 0
+            (+ (aref in-assign 0)
+               (* 2 c-basic-offset)))
+      in-assign)))
+
+(c-add-style "llvm.org"
+             '("gnu"
+               (fill-column . 100)
+               (c++-indent-level . 4)
+               (c-basic-offset . 4)
+               (indent-tabs-mode . nil)
+               (c-offsets-alist . ((arglist-intro . ++)
+                                   (innamespace . 0)
+                                   (member-init-intro . ++)
+                                   (statement-cont . llvm-lineup-statement)))))
+
+(setq c-default-style "llvm.org")
+
 (use-package cc-mode
   :ensure t
   :init
@@ -598,19 +631,6 @@
 
 ;; Change tab key behavior to insert spaces instead
 (setq-default indent-tabs-mode nil)
-
-;; Add the LLVM coding style
-(c-add-style "llvm.org"
-             '("gnu"
-               (fill-column . 100)
-               (c++-indent-level . 4)
-               (c-basic-offset . 4)
-               (indent-tabs-mode . nil)
-               (c-offsets-alist . ((arglist-intro . ++)
-                                   (innamespace . 0)
-                                   (member-init-intro . ++)))))
-
-(setq c-default-style "llvm.org")
 
 ;; Set the size that a tab CHARACTER is interpreted as
 ;; (unnecessary if there are no tab characters in the file!)
@@ -1139,4 +1159,4 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
  '(magit-commit-arguments (quote ("--all")))
  '(package-selected-packages
    (quote
-    (flycheck-cython cython-mode powerline sourcerer-theme auctex markdown-mode json-mode yaml-mode cmake-font-lock git-gutter magit-gerrit magit hungry-delete autopair vlf writegood-mode flycheck-pyflakes company-jedi flycheck-ycmd company-ycmd ycmd modern-cpp-font-lock clang-format yapfify elpy realgud zzz-to-char avy which-key beacon rainbow-delimiters origami wgrep window-numbering counsel-etags counsel swiper ivy auto-package-update s async use-package))))
+    (neotree flycheck-cython cython-mode powerline sourcerer-theme auctex markdown-mode json-mode yaml-mode cmake-font-lock git-gutter magit-gerrit magit hungry-delete autopair vlf writegood-mode flycheck-pyflakes company-jedi flycheck-ycmd company-ycmd ycmd modern-cpp-font-lock clang-format yapfify elpy realgud zzz-to-char avy which-key beacon rainbow-delimiters origami wgrep window-numbering counsel-etags counsel swiper ivy auto-package-update s async use-package))))
