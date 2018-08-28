@@ -391,6 +391,8 @@ This document described the steps I took to setup my Arch Linux system.
    * rsync (for remote file syncing)
    * xorg-xrandr
    * mlocate (for the locate command)
+   * cups (for printing)
+   * cups-pdf (for printing to pdf)
 
 2. Use `pacman` to install the following Python related packages:
 
@@ -438,7 +440,7 @@ This document described the steps I took to setup my Arch Linux system.
    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.  Since LightDM sources
    `.xprofile`, this will make ibus run at startup.
 
-7. Switch themes to the following settings (in System Settings->Themes) to have things more readable:
+8. Switch themes to the following settings (in System Settings->Themes) to have things more readable:
 
    * Window borders: Mint-Y-Dark
    * Icons: Mint-Y
@@ -446,6 +448,11 @@ This document described the steps I took to setup my Arch Linux system.
    * Mouse Pointer: Adwaita
    * Desktop: Mint-Y-Dark
 
+9. Start CUPS printing service:
+   ```
+   sudo systemctl enable org.cups.cupsd.service
+   sudo systemctl start org.cups.cupsd.service
+   ```
 
 ## Customizations
 
@@ -597,3 +604,12 @@ packages (some assume fixed version number).  To re-install all emacs packages, 
 2. start emacs, wait for packages to download.  You'll see some errors, but you can ignore them.
 
 3. run `M-x jedi:install-server`.  Restart emacs, double check that there are no errors.
+
+### Adding network printer using CUPS
+
+1. Open web browser, go to `localhost:631`.
+
+2. Go to administrative tab, click "Add Printer".  Use "root" as username and type in root password.
+
+3. Follow through the instructions.  Print a test page from the web interface at the end to make
+   sure it works.
