@@ -252,10 +252,9 @@ This document described the steps I took to setup my Arch Linux system.
 
    answer yes when asked to install.
 
-4. install lightdm-slick-greeter with `yay` by running:
-   ```
-   yay -S lightdm-slick-greeter
-   ```
+4. the following with `yay -S`:
+   * lightdm-slick-greeter
+   * lightdm-settings
 
 5. Modify the file `/etc/lightdm/lightdm.conf` with the following:
    ```
@@ -391,6 +390,7 @@ This document described the steps I took to setup my Arch Linux system.
    * libreoffice (install from fresh)
    * rsync (for remote file syncing)
    * xorg-xrandr
+   * mlocate (for the locate command)
 
 2. Use `pacman` to install the following Python related packages:
 
