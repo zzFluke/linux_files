@@ -839,6 +839,9 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
   (eval-when-compile
     ;; Silence missing function warnings
     (declare-function global-git-gutter-mode "git-gutter.el"))
+  :bind (("M-g M-u" . git-gutter:update-all-windows)
+         ("M-g M-r" . git-gutter:revert-hunk)
+         )
   :config
   ;; If you enable global minor mode
   (global-git-gutter-mode t)
