@@ -211,7 +211,9 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    and uncommenting the line `%wheel ALL=(ALL) ALL`.
 
-6. Install `thermald`, a daemon used to monitor CPU and prevent overheating.  I was experiencing
+6. Uncomment the "Color" option in `/etc/pacman.conf`.
+
+7. Install `thermald`, a daemon used to monitor CPU and prevent overheating.  I was experiencing
    freezes when CPU run on full power and overheats.
 
    ```
@@ -223,7 +225,7 @@ This document described the steps I took to setup my Arch Linux system.
    systemctl start thermald.service
    ```
 
-7. Also install `tlp`.  Just follow instructions on Arch wiki.
+8. Also install `tlp`.  Just follow instructions on Arch wiki.
 
 ### Desktop Environment Installation
 
@@ -241,22 +243,35 @@ This document described the steps I took to setup my Arch Linux system.
 2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.
    Go in that directory.
 
-3. Get lightdm-slick-greeter from AUR, and build with:
+3. Setup `yay`, an AUR helper, from AUR using makepkg:
    ```
-   git clone https://aur.archlinux.org/lightdm-slick-greeter.git
-   cd lightdm-slick-greeter
+   git clone https://aur.archlinux.org/yay.git
+   cd yay
    makepkg -si
    ```
 
-4. Modify the file `/etc/lightdm/lightdm.conf` with the following:
+   answer yes when asked to install.
+
+4. the following with `yay -S`:
+   * lightdm-slick-greeter
+   * lightdm-settings
+
+5. Modify the file `/etc/lightdm/lightdm.conf` with the following:
    ```
+   [LightDM]
+   ...
+   logind-check-graphical=true
+   ...
    [Seat:*]
    ...
    greeter-session=lightdm-slick-greeter
    ...
    ```
 
-5. Create a new file `/etc/NetworkManager/conf.d/dhcp-client.conf`, with the    content:
+   The `logind-check-graphical` option is used to tell lightDM to wait until the graphics driver
+   are loaded before starting, thus preventing black screen.
+
+6. Create a new file `/etc/NetworkManager/conf.d/dhcp-client.conf`, with the    content:
    ```
    [main]
    dhcp=dhclient
@@ -265,18 +280,18 @@ This document described the steps I took to setup my Arch Linux system.
    NetworkManager is not built with dhcpd support (the default Arch Linux DHCP program).  This
    allows NetworkManager to connect to public wifi.
 
-6. Run the following to start the dekstop environment:
+7. Run the following to start the dekstop environment:
    ```
    systemctl enable lightdm.service
    systemctl start lightdm.service
    ```
-7. Once GUI started, enable NetworkManager:
+8. Once GUI started, enable NetworkManager:
    ```
    systemctl enable NetworkManager.service
    systemctl start NetworkManager.service
    ```
 
-8. Enable `fstrim.timer` to trim SSDs periodically:
+9. Enable `fstrim.timer` to trim SSDs periodically:
    ```
    systemctl enable fstrim.timer
    systemctl start fstrim.timer
@@ -284,24 +299,7 @@ This document described the steps I took to setup my Arch Linux system.
 
 ## Intel UHD Graphics Driver Setup
 
-   Note: This is needed to setup the Intel UHD 620 driver on the LG laptop.  Without this, I
-   experience some glitches on external monitor.
-
-1. Install `xf86-video-intel` using pacman.
-
-2. Add the file `/etc/X11/xorg.conf.d/20-intel.conf` with the following content:
-   ```
-   Section "Device"
-     Identifier "Intel Graphics"
-     Driver     "intel"
-     Option     "AccelMethod" "uxa"
-   EndSection
-   ```
-
-   this is because the default "sna" acceleration method causes glitches in external monitor when
-   drawing window shadows.
-
-3. enable early kernel mode setting by editing the following line in
+1. enable early kernel mode setting by editing the following line in
    `/etc/mkinitcpio.conf`:
    ```
    MODULES=(ext4 i915)
@@ -375,6 +373,9 @@ This document described the steps I took to setup my Arch Linux system.
    * libreoffice (install from fresh)
    * rsync (for remote file syncing)
    * xorg-xrandr
+   * mlocate (for the locate command)
+   * cups (for printing)
+   * cups-pdf (for printing to pdf)
 
 2. Use `pacman` to install the following Python related packages:
 
@@ -393,17 +394,6 @@ This document described the steps I took to setup my Arch Linux system.
    * python-yaml
    * python-virtualenv
 
-3. Setup `yay`, an AUR helper, from AUR using makepkg.  To do so, first create the directory
-   `~/pkgs_arch`, then in that directory, run the following:
-
-   ```
-   git clone https://aur.archlinux.org/yay.git
-   cd yay
-   makepkg -si
-   ```
-
-   answer yes when asked to install.
-
 4. Use `yay` to install the following C++ related packages:
 
    * boost
@@ -411,7 +401,7 @@ This document described the steps I took to setup my Arch Linux system.
    * yaml-cpp (for reading/writing yaml files)
    * spdlog-git (from AUR, for logging in C++)
 
-5. Install the following packages from AUR, using `yay -S <package_name>`:
+5. Use `yay` to install the following AUR packages:
 
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
@@ -431,9 +421,9 @@ This document described the steps I took to setup my Arch Linux system.
    ```
 
    then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.  Since LightDM sources
-   .xprofile, this will make ibus run at startup.
+   `.xprofile`, this will make ibus run at startup.
 
-7. Switch themes to the following settings (in System Settings->Themes) to have things more readable:
+8. Switch themes to the following settings (in System Settings->Themes) to have things more readable:
 
    * Window borders: Mint-Y-Dark
    * Icons: Mint-Y
@@ -441,6 +431,11 @@ This document described the steps I took to setup my Arch Linux system.
    * Mouse Pointer: Adwaita
    * Desktop: Mint-Y-Dark
 
+9. Start CUPS printing service:
+   ```
+   sudo systemctl enable org.cups.cupsd.service
+   sudo systemctl start org.cups.cupsd.service
+   ```
 
 ## Customizations
 
@@ -592,3 +587,12 @@ packages (some assume fixed version number).  To re-install all emacs packages, 
 2. start emacs, wait for packages to download.  You'll see some errors, but you can ignore them.
 
 3. run `M-x jedi:install-server`.  Restart emacs, double check that there are no errors.
+
+### Adding network printer using CUPS
+
+1. Open web browser, go to `localhost:631`.
+
+2. Go to administrative tab, click "Add Printer".  Use "root" as username and type in root password.
+
+3. Follow through the instructions.  Print a test page from the web interface at the end to make
+   sure it works.
