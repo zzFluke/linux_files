@@ -101,6 +101,12 @@ This document described the steps I took to setup my Arch Linux system.
 
     then edit fstab (using `emacs`), change all `relatime` to `noatime` (This is needed for SSDs).
 
+    Also add the following entry to fstab:
+    ```
+    /dev/mapper/<VOL_GRP_NAME>-home /home ext4 defaults 0 1
+    ```
+    so that the home partition is correctly mapped.
+
 11. Setup system clock:
     ```
     rm /etc/localtime
@@ -412,6 +418,7 @@ This document described the steps I took to setup my Arch Linux system.
    * dropbox
    * nemo-dropbox (for nemo integration)
    * xviewer (for image viewing)
+   * qdirstat (for disk usage viewing)
 
 6. Start chromium, download Pycharm, then install.
 
