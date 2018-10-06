@@ -535,6 +535,13 @@ I need to figure out the dependencies manually.  This is the steps I took to com
 
 ## Miscellaneous Notes
 
+### Open magnet links with qbittorrent
+
+Edit `~/.config/mimeapps.list`, in the "Default Applications" section, add the line:
+```
+x-scheme-handler/magnet=qbittorrent.desktop
+```
+
 ### USB stick
 
 Sometimes a badly configured USB stick won't get automounted.  This is because by default, if `udev`
