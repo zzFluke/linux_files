@@ -222,6 +222,9 @@ This document described the steps I took to setup my Arch Linux system.
 7. Install `thermald`, a daemon used to monitor CPU and prevent overheating.  I was experiencing
    freezes when CPU run on full power and overheats.
 
+   before installing `thermald`, install `lm_sensors` and run the script `sensors-detect` on
+   command line.  Then enable/start `lm_sensors.service`.
+
    ```
    pacman -S thermald
    ```
