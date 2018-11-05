@@ -228,13 +228,19 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    pacman -S thermald
    ```
-   and enable the service:
+
+8. To generate configuration file for thermald, clone the auto config generation repo with:
+   ```
+   git clone git@github.com:intel/dptfxtract.git
+   ```
+   then run the script with root permission to generate configuration file in `/var`.  When done,
+   enable `thermald` with:
    ```
    systemctl enable thermald.service
    systemctl start thermald.service
    ```
 
-8. Also install `tlp`.  Just follow instructions on Arch wiki.
+9. Also install `tlp`.  Just follow instructions on Arch wiki.
 
 ### Desktop Environment Installation
 
