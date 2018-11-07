@@ -233,8 +233,8 @@ This document described the steps I took to setup my Arch Linux system.
    ```
    git clone git@github.com:intel/dptfxtract.git
    ```
-   then run the script with root permission to generate configuration file in `/var`.  When done,
-   enable `thermald` with:
+   then run the script with root permission to generate configuration file in `/var/run/thermald`,
+   and copy it to `/etc/thermald/thermald-conf.xml`.  When done, enable `thermald` with:
    ```
    systemctl enable thermald.service
    systemctl start thermald.service
