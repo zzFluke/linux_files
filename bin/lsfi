@@ -11,4 +11,5 @@ export LBS_CLUSTER_MASTER="bwrcrdsl-2.eecs.berkeley.edu"
 # block out 720-14 because firefox doesn't work there
 bsub -Is -XF \
      -R "select[hname!='bwrcr640-3.eecs.berkeley.edu']" \
+     -R "select[hname!='bwrcr720-14.eecs.berkeley.edu']" \
      -q "interactive" "urxvt256c" &

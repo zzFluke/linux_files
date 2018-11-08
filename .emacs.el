@@ -94,7 +94,7 @@
 (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
 
 ;; Remove trailing white space upon saving
-(add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Auto-wrap at 100 characters
 (setq-default auto-fill-function 'do-auto-fill)
@@ -719,6 +719,7 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
   (add-hook 'after-init-hook 'global-company-mode)
   ;; remove unused backends
   (setq company-backends (delete 'company-semantic company-backends))
+  (setq company-backends (delete 'company-files company-backends))
   (setq company-backends (delete 'company-eclim company-backends))
   (setq company-backends (delete 'company-xcode company-backends))
   (setq company-backends (delete 'company-clang company-backends))
