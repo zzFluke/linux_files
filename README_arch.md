@@ -161,7 +161,7 @@ This document described the steps I took to setup my Arch Linux system.
     then, edit the following lines in `/etc/default/grub`:
 
     ```
-    GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards:resume=/dev/mapper/<VOL_GRP_NAME>-swap"
+    GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards resume=/dev/mapper/<VOL_GRP_NAME>-swap"
     ```
 
     note that "allow-discards" option enable SSD triming (which improves performance), but comes
