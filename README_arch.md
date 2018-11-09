@@ -242,6 +242,19 @@ This document described the steps I took to setup my Arch Linux system.
 
 9. Also install `tlp`.  Just follow instructions on Arch wiki.
 
+### Disabling Swap
+
+I keep on having problems with freezes when doing large workload, some research suggests having
+an encrypted LVM swap partition could cause this.  To disable:
+
+1. As root, comment out the swap partition entry in `/etc/fstab`.
+
+2. As root, run `swapoff -a`.
+
+3. Run `swapon -v`, make sure there's no output.  Run `free -m`, make sure nothing in swap.
+
+4. Restart, if you want peace of mind.
+
 ### Desktop Environment Installation
 
 1. Install the following pacman packages for GUI:
