@@ -535,10 +535,7 @@
   )
 
 ;; Automatically format buffer on save
-(add-hook 'c-mode-common-hook
-          (function (lambda ()
-                      (add-hook 'before-save-hook
-                                'clang-format-buffer))))
+(add-hook 'c-mode-common-hook 'clang-format-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package: ycmd (YouCompleteMeDaemon)
