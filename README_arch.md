@@ -164,8 +164,9 @@ This document described the steps I took to setup my Arch Linux system.
     GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards resume=/dev/mapper/<VOL_GRP_NAME>-swap"
     ```
 
-    note that "allow-discards" option enable SSD triming (which improves performance), but comes
-    with some security risk because of information leakage.
+    (remove the resume line if you disable swap, see later) note that "allow-discards" option
+    enable SSD triming (which improves performance), but comes with some security risk
+    because of information leakage.
 
     Finally, run the following command to finish setup:
     ```
@@ -242,7 +243,7 @@ This document described the steps I took to setup my Arch Linux system.
 
 9. Also install `tlp`.  Just follow instructions on Arch wiki.
 
-### Disabling Swap
+### Trying to fix freezing
 
 I keep on having problems with freezes when doing large workload, some research suggests having
 an encrypted LVM swap partition could cause this.  To disable:
@@ -254,6 +255,10 @@ an encrypted LVM swap partition could cause this.  To disable:
 3. Run `swapon -v`, make sure there's no output.  Run `free -m`, make sure nothing in swap.
 
 4. Restart, if you want peace of mind.
+
+5. That didn't solve it.  Trying intel_idle.max_cstate = 1 in kernel parameter.
+
+6. Didn't work either, try removing /etc/modprobe.d/i915.conf, which enable guc firmware.
 
 ### Desktop Environment Installation
 
