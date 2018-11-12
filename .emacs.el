@@ -12,9 +12,6 @@
 ;; cloned ycmd directory
 (defvar my:ycmd-server-command '("python" "/usr/share/ycmd/ycmd"))
 
-;; Compilation command for C/C++
-(defvar my:compile-command "clang++ -Wall -Wextra -std=c++17 ")
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set packages to install
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -97,9 +94,9 @@
 (add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
 
 ;; Auto-wrap at 100 characters
-(setq-default auto-fill-function 'do-auto-fill)
-(setq-default fill-column 100)
-(turn-on-auto-fill)
+;; (setq-default auto-fill-function 'do-auto-fill)
+;; (setq-default fill-column 100)
+;; (turn-on-auto-fill)
 
 ;; Global Keyboard Shortcuts
 ;; Set help to C-?
@@ -213,12 +210,6 @@
   (setq neo-smart-open t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; async - library for async/thread processing
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package async
-  :ensure t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; s is used by ycmd, origami, etc and sometimes during Emacs
 ;; upgrades disappears so we try to install it on its own.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -262,21 +253,6 @@
      (file-truename "~/.emacs.el")
      (file-truename "~/.emacs.elc"))
     (byte-compile-init-files "~/.emacs.el"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; auto-package-update
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Auto update packages once a week
-(use-package auto-package-update
-  :ensure t
-  :commands (auto-package-update-maybe)
-  :config
-  (setq auto-package-update-delete-old-versions t)
-  (setq auto-package-update-hide-results t)
-  (auto-package-update-maybe)
-  (add-hook 'auto-package-update-before-hook
-          (lambda () (message "I will update packages now")))
-  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Ivy config
@@ -425,20 +401,6 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Window numbering
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Package window-numbering installed from package list
-;; Allows switching between buffers using meta-(# key)
-(use-package window-numbering
-  :ensure t
-  :config
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function window-numbering-mode "window-numbering.el"))
-  (window-numbering-mode t)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; wgrep
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; wgrep allows you to edit all files in a grep result. For example,
@@ -450,34 +412,6 @@
   :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Origami - Does code folding, ie hide the body of an
-;; if/else/for/function so that you can fit more code on your screen
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package origami
-  :ensure t
-  :commands (origami-mode)
-  :bind (:map origami-mode-map
-              ("C-c o :" . origami-recursively-toggle-node)
-              ("C-c o a" . origami-toggle-all-nodes)
-              ("C-c o t" . origami-toggle-node)
-              ("C-c o o" . origami-show-only-node)
-              ("C-c o u" . origami-undo)
-              ("C-c o U" . origami-redo)
-              ("C-c o C-r" . origami-reset)
-              )
-  :config
-  (setq origami-show-fold-header t)
-  ;; The python parser currently doesn't fold if/for/etc. blocks, which is
-  ;; something we want. However, the basic indentation parser does support
-  ;; this with one caveat: you must toggle the node when your cursor is on
-  ;; the line of the if/for/etc. statement you want to collapse. You cannot
-  ;; fold the statement by toggling in the body of the if/for/etc.
-  (add-to-list 'origami-parser-alist '(python-mode . origami-indent-parser))
-  :init
-  (add-hook 'prog-mode-hook 'origami-mode)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rainbow Delimiters -  have delimiters be colored by their depth
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package rainbow-delimiters
@@ -487,19 +421,6 @@
     ;; Silence missing function warnings
     (declare-function rainbow-delimiters-mode "rainbow-delimiters.el"))
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Beacon-mode: flash the cursor when switching buffers or scrolling
-;;              the goal is to make it easy to find the cursor
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package beacon
-  :ensure t
-  :init
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function beacon-mode "beacon.el"))
-  :config
-  (beacon-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; which-key: when you pause on a keyboard shortcut it provides
@@ -515,38 +436,6 @@
   (which-key-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; avy: always fast jump to char inside the current view buffer
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package avy
-  :ensure t
-  :bind (("M-c" . avy-goto-char)
-         ("M-s" . avy-goto-word-1))
-  ;; Set keys for Dvorak mode instead of qwerty
-  :init (setq avy-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n ?s
-                            ?A ?O ?E ?U ?I ?D ?H ?T ?N ?S
-                            ?p ?y ?f ?g ?c ?r ?l
-                            ?P ?Y ?F ?G ?C ?R ?L)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; zzz-to-char: replaces the built-in zap-to-char with avy-like
-;;              replacement options
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package zzz-to-char
-  :ensure t
-  :bind ("M-z" . zzz-up-to-char))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; RealGud - https://github.com/realgud/realgud
-;; A rewrite of GUD
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package realgud
-  :ensure t
-  :init
-  (setenv "TERM" "dumb")
-  :config
-  (setq realgud:pdb-command-name "python -m pdb"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python mode settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default python-indent 4)
@@ -554,7 +443,7 @@
 (add-hook 'python-mode-hook
           (lambda ()
             (setq tab-width 4)))
-(setq-default pdb-command-name "python -m pdb")
+
 (use-package elpy
   :ensure t
   :commands (elpy-enable)
@@ -571,12 +460,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Clang-format
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; clang-format can be triggered using C-c C-f
 ;; Create clang-format file using google style
 ;; clang-format -style=google -dump-config > .clang-format
 (use-package clang-format
   :ensure t
-  :bind (("C-c C-f" . clang-format-buffer))
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -623,10 +510,6 @@
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
-  :config
-  (define-key c++-mode-map (kbd "C-c C-c") 'compile)
-  (define-key c++-mode-map (kbd "C-c C-k") 'kill-compilation)
-  (setq compile-command my:compile-command)
 )
 
 ;; Change tab key behavior to insert spaces instead
@@ -651,8 +534,8 @@
   (global-whitespace-mode t)
   )
 
-;; Enable hide/show of code blocks
-(add-hook 'c-mode-common-hook 'hs-minor-mode)
+;; Automatically format buffer on save
+(add-hook 'c-mode-common-hook 'clang-format-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package: ycmd (YouCompleteMeDaemon)
@@ -762,21 +645,6 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
   :after python)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Org-Mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq org-log-done 'time
-      org-todo-keywords '((sequence "TODO" "INPROGRESS" "DONE"))
-      org-todo-keyword-faces '(("INPROGRESS" . (:foreground "blue" :weight bold))))
-(use-package writegood-mode
-  :ensure t
-  :init
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function writegood-mode "writegood-mode.el"))
-  (add-hook 'org-mode-hook #'writegood-mode)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; vlf - handle open very large files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package vlf
@@ -794,20 +662,6 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
     (declare-function autopair-global-mode "autopair.el"))
   :config
   (autopair-global-mode t)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load hungry Delete, caus we're lazy
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set hungry delete:
-(use-package hungry-delete
-  :ensure t
-  :init
-  (eval-when-compile
-    ;; Silence missing function warnings
-    (declare-function global-hungry-delete-mode "hungry-delete.el"))
-  :config
-  (global-hungry-delete-mode t)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

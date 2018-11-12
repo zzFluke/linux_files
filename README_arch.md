@@ -532,6 +532,11 @@ Usage Notes:
 
 6. Use `C-c g` to grep within the git repository.
 
+7. When searching inside Ivy across multiple files, use `C-c C-o` to enter ivy-occur mode, which
+   will display results in a buffer.  Then, you can press `w` to enable wgrep edit mode.  After
+   editing and saving, the changes will propagate to all buffers, and you can use `C-x s !` to save
+   all buffers at once.
+
 #### Emacs-magit
 
 1. Use `M-x magit` to start git commit in emacs.
