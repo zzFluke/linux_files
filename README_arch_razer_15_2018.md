@@ -406,9 +406,6 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    systemctl --user start emacsd.service
    ```
 
-11. after starting emacs, run `M-x jedi:install-server` to install jedi server for Python editing.
-
-
 ## Finishing Setups
 
 1. Use `pacman` to install the following packages:
@@ -456,6 +453,10 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    * python2-lxml (for inkscape/textext).
    * python-yaml
    * python-virtualenv
+
+3. Start emacs, run `M-x jedi:install-server` to install jedi
+   server for Python editing.
+
 
 4. Use `yay` to install the following C++ related packages:
 
