@@ -510,6 +510,7 @@
   :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
 )
 
 ;; Change tab key behavior to insert spaces instead

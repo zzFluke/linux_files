@@ -455,6 +455,8 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    * python2-lxml (for inkscape/textext).
    * python-yaml
    * python-virtualenv
+   * python-pytest-xdist (for distributed unit testing)
+   * python-sortedcontainers
 
 3. Start emacs, run `M-x jedi:install-server` to install jedi
    server for Python editing.
@@ -465,6 +467,7 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    * boost
    * yaml-cpp (for reading/writing yaml files)
    * spdlog-git (from AUR, for logging in C++)
+   * catch2 (C++ unit testing)
 
 5. Use `yay` to install the following AUR packages:
 
