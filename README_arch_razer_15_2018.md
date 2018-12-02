@@ -509,7 +509,8 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    optimus-manager --set-startup intel
    ```
 
-   to switch video card, run `optimus-manager --swtich <intel/nvidia>`.
+   To switch video card, run `optimus-manager --swtich <intel/nvidia>`.  NOTE: I noticed that
+   I need to restart in order for this to take effect.
 
 
 ## Customizations
