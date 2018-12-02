@@ -1017,4 +1017,4 @@ Please set my:ycmd-server-command appropriately in ~/.emacs.el.\n"
  '(magit-commit-arguments (quote ("--all")))
  '(package-selected-packages
    (quote
-    (neotree flycheck-cython cython-mode powerline sourcerer-theme auctex markdown-mode json-mode yaml-mode cmake-font-lock git-gutter magit-gerrit magit hungry-delete autopair vlf writegood-mode flycheck-pyflakes company-jedi flycheck-ycmd company-ycmd ycmd modern-cpp-font-lock clang-format yapfify elpy realgud zzz-to-char avy which-key beacon rainbow-delimiters origami wgrep window-numbering counsel-etags counsel swiper ivy auto-package-update s async use-package))))
+    (jedi neotree flycheck-cython cython-mode powerline sourcerer-theme auctex markdown-mode json-mode yaml-mode cmake-font-lock git-gutter magit-gerrit magit hungry-delete autopair vlf writegood-mode flycheck-pyflakes company-jedi flycheck-ycmd company-ycmd ycmd modern-cpp-font-lock clang-format yapfify elpy realgud zzz-to-char avy which-key beacon rainbow-delimiters origami wgrep window-numbering counsel-etags counsel swiper ivy auto-package-update s async use-package))))

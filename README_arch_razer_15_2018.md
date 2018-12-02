@@ -461,7 +461,6 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
 4. Use `yay` to install the following C++ related packages:
 
    * boost
-   * cmake
    * yaml-cpp (for reading/writing yaml files)
    * spdlog-git (from AUR, for logging in C++)
 
@@ -473,8 +472,6 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    * mint-x-icons
    * mint-y-icons
    * mint-themes (for better Cinnamon themes)
-   * dropbox
-   * nemo-dropbox (for nemo integration)
    * xviewer (for image viewing)
    * qdirstat (for disk usage viewing)
 
@@ -501,6 +498,19 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    sudo systemctl enable org.cups.cupsd.service
    sudo systemctl start org.cups.cupsd.service
    ```
+
+## Graphics Card Setup
+
+1. Install and setup `optimus-manager` package:
+   ```
+   yay -S optimus-manager
+   sudo systemctl enable optimus-manager.service
+   sudo systemctl start optimus-manager.service
+   optimus-manager --set-startup intel
+   ```
+
+   to switch video card, run `optimus-manager --swtich <intel/nvidia>`.
+
 
 ## Customizations
 
