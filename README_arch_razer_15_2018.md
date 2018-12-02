@@ -380,6 +380,7 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
 ## Initial Setups
 
 1. In mouse and trackpad settings, enable multi-click for right click.
+   Also disable reverse scrolling direction.
 
 2. In terminal perferences, change color scheme to tango dark.
 
@@ -390,7 +391,8 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    for erichang.key.  Make config file and private key permission to be
    600.
 
-5. Next, we need to install some packages needed by emacs.  Install `ycmd-git` and `universal-ctags-git` from AUR.
+5. Next, we need to install some packages needed by emacs.  Install
+   `ycmd-git` and `universal-ctags-git` from AUR.
 
 6. Install `ripgrep` with `pacman`.
 
@@ -482,10 +484,11 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    ibus-setup
    ```
 
-   then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.  Since LightDM sources
-   `.xprofile`, this will make ibus run at startup.
+   then make a soft link from `.xprofile_antergos_cinnamon` to `.xprofile`.
+   Since LightDM sources `.xprofile`, this will make ibus run at startup.
 
-8. Switch themes to the following settings (in System Settings->Themes) to have things more readable:
+8. Switch themes to the following settings (in System Settings->Themes) to
+   have things more readable:
 
    * Window borders: Mint-Y-Dark
    * Icons: Mint-Y
@@ -509,13 +512,14 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    optimus-manager --set-startup intel
    ```
 
-   To switch video card, run `optimus-manager --swtich <intel/nvidia>`.  NOTE: I noticed that
-   I need to restart in order for this to take effect.
+   To switch video card, run `optimus-manager --swtich <intel/nvidia>`.
+   NOTE: I noticed that I need to restart in order for this to take effect.
 
 
 ## Customizations
 
-1. To disable terminal tab completion sound, edit `/etc/inputrc`, and add/uncomment the line:
+1. To disable terminal tab completion sound, edit `/etc/inputrc`, and
+   add/uncomment the line:
    ```
    set bell-style none
    ```
@@ -526,19 +530,23 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    ```
    to disable annoying beeps when screen locks.
 
-3. add chromium shortcut to task bar.  You should be able to just drag and drop from menu.
+3. add chromium shortcut to task bar.  You should be able to just drag and
+   drop from menu.
+
+4. In clock settings, change time display format to 12Hr, and add date and
+   second display.
 
 ### Pycharm/CLion
 
-1. In Editor/General, set "Strip trailing spaces on Save" to "All", and uncheck "Always keep
-   trailing spaces on caret line".
+1. In Editor/General, set "Strip trailing spaces on Save" to "All", and
+   uncheck "Always keep trailing spaces on caret line".
 
 2. In Keymap, set to "Eclipse"
 
 3. In Editor/Code Style, set hard wrap at 100 columns.
 
-4. add the following line to the file `/etc/sysctl.d/90-override.conf`, create it if it doesn't
-   exist:
+4. add the following line to the file `/etc/sysctl.d/90-override.conf`,
+   create it if it doesn't exist:
 
    ```
    fs.inotify.max_user_watches = 524288
@@ -554,10 +562,11 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
 
 Usage Notes:
 
-1. M-. jumps to code definition, M-, goes back to previous location.  M-t shows all occurs of the
-   current word.
+1. M-. jumps to code definition, M-, goes back to previous location.  M-t
+   shows all occurs of the current word.
 
-2. In new project directory, create a file named `clang-format` with the content:
+2. In new project directory, create a file named `clang-format` with the
+   content:
    ```
    BaseOnStyle: LLVM
    IndentWidth: 4
@@ -567,75 +576,54 @@ Usage Notes:
 
 3. Use `M-q` to auto-fill the current paragraph to line wrapping.
 
-4. Use `C-h` to quit minibuffer (useful when you have multiple minibuffers open due to repeated
-   search).
+4. Use `C-h` to quit minibuffer (useful when you have multiple minibuffers
+   open due to repeated search).
 
-5. Use `C-x b` to switch between buffers.  You will get a list of buffers to select.
+5. Use `C-x b` to switch between buffers.  You will get a list of buffers to
+   select.
 
 6. Use `C-c g` to grep within the git repository.
 
-7. When searching inside Ivy across multiple files, use `C-c C-o` to enter ivy-occur mode, which
-   will display results in a buffer.  Then, you can press `w` to enable wgrep edit mode.  After
-   editing and saving, the changes will propagate to all buffers, and you can use `C-x s !` to save
-   all buffers at once.
+7. When searching inside Ivy across multiple files, use `C-c C-o` to enter
+   ivy-occur mode, which will display results in a buffer.  Then, you can press
+   `w` to enable wgrep edit mode.  After editing and saving, the changes will
+   propagate to all buffers, and you can use `C-x s !` to save all buffers at
+   once.
 
 #### Emacs-magit
 
 1. Use `M-x magit` to start git commit in emacs.
 
-2. Use arrow keys to move around, use TAB to expand and see diff file, use `s` to stage unstaged
-   files.  Use `g` to refresh files.
+2. Use arrow keys to move around, use TAB to expand and see diff file, use `s`
+   to stage unstaged files.  Use `g` to refresh files.
 
-3. Use `c` to pop up commit options.  You can toggle switches and specify options, after you're
-   done, you can then use `C-c C-c` to set the current options as default.  Press `c` again to
-   commit.
-
-
-### Mudlet
-
-(Note: My pull request has been incorporated, so no need to build from source anymore.  This is left
-here as reference) Because I need to build from source (since I added traditional chinese encoding),
-I need to figure out the dependencies manually.  This is the steps I took to compile:
-
-1. install mudlet from AUR using `yay` to get all the dependencies.  For reference, the following
-   are needed from `pacman`:
-
-   * lua51-filesystem
-   * qt5-tools
-   * qt5-multimedia
-   * qt5-gamepad
-   * libzip
-   * yajl
-   * pugixml
-
-2. clone a separate mudlet repo, make a build folder, then cd and build using cmake.
-   Finally, make a softlink from
-   `${MUDLET_DIR}/build/src/mudlet` to `${HOME}/bin`
-
-5. copy the directory `${MUDLET_DIR}/src/mudlet-lua/lua` to `/usr/local/share/mudlet/lua`
+3. Use `c` to pop up commit options.  You can toggle switches and specify
+   options, after you're done, you can then use `C-c C-c` to set the current
+   options as default.  Press `c` again to commit.
 
 ## Miscellaneous Notes
 
 ### Open magnet links with qbittorrent
 
-Edit `~/.config/mimeapps.list`, in the "Default Applications" section, add the line:
+Edit `~/.config/mimeapps.list`, in the "Default Applications" section, add
+the line:
 ```
 x-scheme-handler/magnet=qbittorrent.desktop
 ```
 
 ### USB stick
 
-Sometimes a badly configured USB stick won't get automounted.  This is because by default, if `udev`
-doesn't recognize a device, it will try to mount it using MTP (the smart phoen file transfer
-protocol).  If this happens, you need to add an exception rule to `udev` to treat it as USB drive by
-doing the following:
+Sometimes a badly configured USB stick won't get automounted.  This is because
+by default, if `udev` doesn't recognize a device, it will try to mount it using
+MTP (the smart phoen file transfer protocol).  If this happens, you need to add
+an exception rule to `udev` to treat it as USB drive by doing the following:
 
-1. Plug in USB stick, then in the terminal, type `dmesg`.  Look for latest message regarding a new
-   USB divice, and find values of `idVendor` and `idProduct`.  For me, `idVendor = abcd`, and
-   `idProduct = 1234`.
+1. Plug in USB stick, then in the terminal, type `dmesg`.  Look for latest
+   message regarding a new USB divice, and find values of `idVendor` and
+   `idProduct`.  For me, `idVendor = abcd`, and `idProduct = 1234`.
 
-2. Add a new file `/etc/udev/rules.d/90-myusb.rules` (with root permission), with the following
-   line:
+2. Add a new file `/etc/udev/rules.d/90-myusb.rules` (with root permission),
+   with the following line:
 
    ```
    SUBSYSTEMS=="usb", ENV{MODALIAS}=="usb:abcd:1234", ENV{MODALIAS}="usb-storage"
@@ -647,22 +635,24 @@ doing the following:
 
 ### Inkscape
 
-Latex rendering in Inkscape got broken by Ghostscript 9.22 when they remove the DELAYBIND option,
-which breaks the pstoedit program.  The current experimental workaround is to use the textext
-extension, which has an experimental feature to use pdf2svg instead of pstoedit.
+Latex rendering in Inkscape got broken by Ghostscript 9.22 when they remove the
+DELAYBIND option, which breaks the pstoedit program.  The current experimental
+workaround is to use the textext extension, which has an experimental feature
+to use pdf2svg instead of pstoedit.
 
-To get this to work, follow installation instructions above to install all the required packages.
-Then, download the file textext.py from the following URL:
+To get this to work, follow installation instructions above to install all the
+required packages. Then, download the file textext.py from the following URL:
 
 https://bitbucket.org/pitgarbe/textext/issues/57/pdf2svg-migration
 
-place this textext.py in the folder /usr/share/inkscape/extensions.  Make sure to make a backup of
-the original.
+place this textext.py in the folder /usr/share/inkscape/extensions.  Make sure
+to make a backup of the original.
 
 ### Reinstall Emacs packages
 
-On 2017/08/06, Arch linux upgrade internal Python version from 3.6 to 3.7, and broke some emacs
-packages (some assume fixed version number).  To re-install all emacs packages, do the following:
+On 2017/08/06, Arch linux upgrade internal Python version from 3.6 to 3.7, and
+broke some emacs packages (some assume fixed version number).  To re-install
+all emacs packages, do the following:
 
 1. stop emacs daemon by running:
 
@@ -670,17 +660,21 @@ packages (some assume fixed version number).  To re-install all emacs packages, 
    systemctl --user stop emacsd.service
    ```
 
-1. remove ~/.emacs.d and ~/.emacs.elc (just rename it in case you need them later.)
+1. remove ~/.emacs.d and ~/.emacs.elc (just rename it in case you need them
+   later.)
 
-2. start emacs, wait for packages to download.  You'll see some errors, but you can ignore them.
+2. start emacs, wait for packages to download.  You'll see some errors, but you
+   can ignore them.
 
-3. run `M-x jedi:install-server`.  Restart emacs, double check that there are no errors.
+3. run `M-x jedi:install-server`.  Restart emacs, double check that there are
+   no errors.
 
 ### Adding network printer using CUPS
 
 1. Open web browser, go to `localhost:631`.
 
-2. Go to administrative tab, click "Add Printer".  Use "root" as username and type in root password.
+2. Go to administrative tab, click "Add Printer".  Use "root" as username and
+   type in root password.
 
-3. Follow through the instructions.  Print a test page from the web interface at the end to make
-   sure it works.
+3. Follow through the instructions.  Print a test page from the web interface
+   at the end to make sure it works.
