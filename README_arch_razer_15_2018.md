@@ -1,144 +1,220 @@
-# Arch Linux install notes
+# Archlinux Installation
 This document described the steps I took to setup my Arch Linux system.
 
-## Why Arch (instead of Antergos or Manjaro)
+## Installation options
 
-1. I read that Manjaro have some hacky insecure stuffs.
+1. Installed with LVM on LUKS encryption, no dual boot.
 
-2. For this install I need LVM + LUKS encryption, and Antergos installer is just not working for me.
+2. Using systemd-boot instead of GRUB on UEFI, as it's more lightweight.
 
 ## Hardware Notes
 
-1. This is tested on LG Gram 2018 15 inch model.
+1. Installed on Razer Blade 15in 2018 model.
 
-2. LG gives you an ethernet dongle, so I don't have to worry about wifi.
+## Installation Media
 
-## Distro Installation
+1. Plug in USB.  Open "Disks" GUI utility, delete existing USB partitions and
+   create a new FAT partition. Also, note the disk name, mine is `/dev/sde`.
 
-1. Download Arch ISO, burn to USB using the command:
+2. Download Arch ISO, burn to USB using the command:
    ```
-   dd bs=4M if=<ISO file> of=/dev/sdX status=progress oflag=sync
-   ```
-
-   You can find the USB disk name with `sudo fdisk -l`.
-
-   Then, plug in USB, boot computer and enter bios (by pressing F2 for this laptop).  Disable secure
-   EFI boot in bios, make USB the top boot priority, then boot into USB.
-
-2. Do disk partition with the command:
-   ```
-   gdisk /dev/sdX
+   sudo dd bs=4M if=<ISO file> of=<disk name> status=progress oflag=sync
    ```
 
-   First command, use `o` to erase everything and get new GPT table.  Then, use `n` to add the first
-   partition, first sector is default, second sector is `+100M`, to create a 100MB partition.  The
-   type code is `EF00` for EFI System.  This will be the EFI boot partition.
+   then eject and unplug USB.
 
-   For the second partition, make it 250 MB boot partition, by having first sector be default and
-   sector sector be `+250M`.  Type code is `8300`.  For the final partition, both sectors are
-   default (to use up rest of the space), and type code is also `8300`.
+## Boot from USB disk
 
-3. Format the partitions, with:
+1. Plug in USB to laptop, boot and enter BIOS setup (by pressing F12
+   repeatedly).  Disable fast boot under "Boot" (Linux don't use/need it),
+   and  disable secure boot under "Security", then save and exit.  On reboot,
+   press F12 again and choose to boot from USB.
+
+2. Use `fdisk -l` to find the disk name (`/dev/nvme0n1` for me), then run:
    ```
-   mkfs.vfat -F32 /dev/sdX1
-   mkfs.ext2 /dev/sdX2
-   ```
-
-   If they question you, just confirm.
-
-4. Setup encryption on sdX3, by calling:
-   ```
-   cryptsetup -c aes-xts-plain64 -y --use-random luksFormat /dev/sdX3
-   cryptsetup luksOpen /dev/sdX3 <CRYPT_NAME>
+   gdisk <disk name>
    ```
 
-   where `CRYPT_NAME` is a name of your choice (I use CRYPT_EC).  Enter your passphrase when
-   prompted.
+   Enter `o` to erase everything and get new GPT table.  Then enter `w` to
+   save and exit `gdisk`.
 
-5. Create encrypted partitions with:
+## Erase Disk
+
+Reference: https://wiki.archlinux.org/index.php/Dm-crypt/Drive_preparation
+
+1. Run:
+   ```
+   cryptsetup open --type plain -d /dev/urandom <disk name> to_be_wiped
+   ```
+   to start wiping the disk.  Type "YES" when prompted.
+
+2. Run:
+   ```
+   dd bs=4M if=/dev/zero of=/dev/mapper/to_be_wiped status=progress
+   ```
+   to overwrite disk with all zeros.  Finally, run:
+   ```
+   cryptsetup close to_be_wiped
+   ```
+   to close the temporary container.
+
+## Disk setup
+
+Reference: https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS
+Reference (UEFI): https://wiki.voidlinux.eu/Install_LVM_LUKS_on_UEFI_GPT
+
+Note: We're using UEFI boot, so instead of a boot partition, a UEFI
+partition is created instead.
+
+1. Run `gdisk` again, use `o` to create new partition table.  Then,
+   use `n` to add the first partition, first sector (i.e. start location)
+   is default, second sector is `+260M`, to create a 260MB partition.
+   The type code is `EF00` for EFI System.  This will be the EFI boot
+   partition.
+
+   For the second partition, both sectors are default (to use up rest of
+   the space), and type code is `8300`.  Then, use `w` to save and write
+   the partitions.
+
+   Use fdisk -l to find the names of the two partitions.  Format UEFI
+   with FAT32 by typing:
+   ```
+   mkfs.vfat -F32 <UEFI partition name>
+   ```
+
+2. Setup encryption on the second partition, by calling:
+   ```
+   cryptsetup luksFormat --type luks2 <main partition name>
+   cryptsetup open <main partition name> <CRYPT_NAME>
+   ```
+
+   where `CRYPT_NAME` is a name of your choice (I use CRYPT_EC).  Enter
+   your passphrase when prompted.
+
+3. Create encrypted partitions with:
    ```
    pvcreate /dev/mapper/<CRYPT_NAME>
    vgcreate <VOL_GRP_NAME> /dev/mapper/<CRYPT_NAME>
-   lvcreate --size 512M <VOL_GRP_NAME> --name swap
-   lvcreate --size 40G <VOL_GRP_NAME> --name root
-   lvcreate -l +100%FREE <VOL_GRP_NAME> --name home
+   lvcreate -L 8G <VOL_GRP_NAME> -n swap
+   lvcreate -L 40G <VOL_GRP_NAME> -n root
+   lvcreate -l 100%FREE <VOL_GRP_NAME> -n home
    ```
 
-   again `VOL_GRP_NAME` is a name of your choice (I use ARCH_EC).  This creates separate root and
-   home partitions.
+   again `VOL_GRP_NAME` is a name of your choice (I use ARCH_EC).  This
+   creates separate root and home partitions.
 
-6. Create filesystems on those partitions with:
+   NOTE: technically, to ensure 100% hibernation success, swap space
+   need to be large enough to store all memory in DRAM.  However,
+   there is some magical compression that happen, and I don't think I'll
+   hibernate with bunch of used memory anyways, so I just pick 8G.
+
+4. Create filesystems on those partitions with:
    ```
-   mkfs.ext4 /dev/mapper/<VOL_GRP_NAME>-root
-   mkfs.ext4 /dev/mapper/<VOL_GRP_NAME>-home
-   mkswap /dev/mapper/<VOL_GRP_NAME>-swap
+   mkfs.ext4 /dev/mapper/<VOL_GRP_NAME>/root
+   mkfs.ext4 /dev/mapper/<VOL_GRP_NAME>/home
+   mkswap /dev/mapper/<VOL_GRP_NAME>/swap
    ```
 
-7. Mount the new systems:
+5. Mount the new systems:
    ```
-   mount /dev/mapper/<VOL_GRP_NAME>-root /mnt
-   swapon /dev/mapper/<VOL_GRP_NAME>-swap
+   mount /dev/mapper/<VOL_GRP_NAME>/root /mnt
+   mkdir /mnt/home
+   mount /dev/mapper/<VOL_GRP_NAME>/home /mnt/home
+   swapon /dev/mapper/<VOL_GRP_NAME>/swap
    mkdir /mnt/boot
-   mount /dev/sdX2 /mnt/boot
-   mkdir /mnt/boot/efi
-   mount /dev/sdX1 /mnt/boot/efi
+   mount <UEFI partition name> /mnt/boot
    ```
 
-8. Install the base system with:
+## OS Install
+
+Reference (wireless): https://wiki.archlinux.org/index.php/Wireless_network_configuration
+Reference (install): https://wiki.archlinux.org/index.php/installation_guide
+Reference (noatime): https://wiki.debian.org/SSDOptimization
+Reference (systemd-boot): https://wiki.archlinux.org/index.php/Systemd-boot
+Reference (suspend-to-disk): https://wiki.archlinux.org/index.php/Dm-crypt/Swap_encryption
+Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/System_configuration#Boot_loader
+
+
+
+1. First, we need to connect to wifi.  Use `ip link` to find the wireless interface name
+   (`wlp2s0` for me).  Then, create a new `netctl` profile with:
    ```
-   pacstrap /mnt base base-devel emacs git grub efibootmgr dialog
+   cp /etc/netctl/examples/wireless-wpa /etc/netctl/<profile_name>
    ```
 
-9. Generate fstab with:
+2. Edit the file using `nano`.  Change "Interface" field to wireless interface name,
+   change "ESSID" field to name of the wifi network, change "key" field to the wifi
+   password.  Finally, press Ctrl+O, Enter, then Ctrl+X to save and exit.
+
+3. Change to directory `/etc/netctl`, run `netctl start <profile_name>`.  Then you
+   should be connected to the internet.
+
+4. Install the base system with:
    ```
-   genfstab -pU /mnt >> /mnt/etc/fstab
+   pacstrap /mnt base base-devel emacs git grub efibootmgr dialog intel-ucode wpa_supplicant
    ```
 
-10. chroot to the new system:
-    ```
-    arch-chroot /mnt /bin/bash
-    ```
+5. Generate fstab with:
+   ```
+   genfstab -U /mnt >> /mnt/etc/fstab
+   ```
 
-    then edit fstab (using `emacs`), change all `relatime` to `noatime` (This is needed for SSDs).
+6. chroot to the new system:
+   ```
+   arch-chroot /mnt
+   ```
 
-    Also add the following entry to fstab:
-    ```
-    /dev/mapper/<VOL_GRP_NAME>-home /home ext4 defaults 0 1
-    ```
-    so that the home partition is correctly mapped.
+   then edit `/etc/fstab` (using `emacs`), change all `relatime` to `noatime`
+   (To reduce disk writes for SSDs).
 
-11. Setup system clock:
-    ```
-    rm /etc/localtime
-    ln -s /usr/share/zoneinfo/US/Pacific /etc/localtime
-    hwclock --systohc --utc
-    ```
+7. Setup system clock:
+   ```
+   ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime
+   hwclock --systohc
+   ```
 
-12. Set hostname.  I choose "Husky":
-    ```
-    echo <HOSTNAME> > /etc/hostname
-    ```
+8. Set hostname.  I choose "Husky":
+   ```
+   echo <HOSTNAME> > /etc/hostname
+   ```
+   and add the following to `/etc/hosts`:
+   ```
+   127.0.0.1    localhost
+   ::1          localhost
+   127.0.1.1    <HOSTNAME>.localdomain <HOSTNAME>
+   ```
 
-13. Set locale.  Uncomment "en_US.UTF-8 UTF-8" from the file
-    `/etc/locale.gen`, then run:
-    ```
-    echo LANG=en_US.UTF-8 > /etc/locale.conf
-    echo KEYMAP=us > /etc/vconsole.conf
-    local-gen
-    ```
+9. Set locale.  Uncomment "en_US.UTF-8 UTF-8" from the file
+   `/etc/locale.gen`, then run:
+   ```
+   local-gen
+   echo LANG=en_US.UTF-8 > /etc/locale.conf
+   echo KEYMAP=us > /etc/vconsole.conf
+   ```
 
-14. Set root password:
+10. Set root password:
     ```
     passwd
     ```
 
-15. Add new user:
+11. Add new user:
     ```
     useradd -m -g users -G wheel <USERNAME>
+    passwd <USERNAME>
     ```
 
-16. etc file `/etc/mkinitcpio.conf`.  Add 'ext4' to `MODULES`.  Add 'encrypt' and 'lvm2' to `HOOKS`,
-    in that order, before 'filesystems'.  Afterwards, regenerate initrd image with:
+    then type in the user password.
+
+12. etc file `/etc/mkinitcpio.conf`.  Change "HOOKS" field to the following:
+    ```
+    HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)
+    ```
+    The notable changes are:
+
+    1. "udev" changed to "systemd"
+    2. "keyboard" moved before "block", added "sd-vconsole" before "block".
+    3. added "sd-encrypt" and "sd-lvm2" after "block" and before
+       "filesystems".
 
     ```
     mkinitcpio -p linux
@@ -153,38 +229,37 @@ This document described the steps I took to setup my Arch Linux system.
 
     these are drivers for advance server hardware.
 
-17. Setup grub with:
+13. Install systemd-boot with:
     ```
-    grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux
-    ```
-
-    then, edit the following lines in `/etc/default/grub`:
-
-    ```
-    GRUB_CMDLINE_LINUX="cryptdevice=/dev/sdX3:luks:allow-discards resume=/dev/mapper/<VOL_GRP_NAME>-swap"
+    bootctl --path=/boot install
     ```
 
-    (remove the resume line if you disable swap, see later) note that "allow-discards" option
-    enable SSD triming (which improves performance), but comes with some security risk
-    because of information leakage.
-
-    Finally, run the following command to finish setup:
+    edit `/boot/loader/loader.conf`, and add the following lines:
     ```
-    grub-mkconfig -o /boot/grub/grub.cfg
-    ```
-    the only warnings (quite a few lines) should be:
-    ```
-    WARNING: Failed to connect to lvmetad.  Falling back to device scanning.
+    timeout 2
+    editor no
+    default arch
     ```
 
-18. Exit the chroot environment:
+14. Add the file `/boot/loader/entries/arch.conf`, with the following:
+    ```
+    title   Arch Linux
+    linux   /vmlinuz-linux
+    initrd  /intel-ucode.img
+    initrd  /initramfs-linux.img
+    options rd.luks.name=<UUID>=cryptroot root=/dev/<VOL_GRP_NAME>/root resume=/dev/<VOL_GRP_NAME>/swap rd.luks.options=discard
+    ```
+
+    where UUID is uuid of the main partition, found with `blkid`.
+
+15. Exit the chroot environment and shutdown:
     ```
     exit
     umount -R /mnt
     swapoff -a
+    shutdown 0
     ```
-
-19. Shut down, unplug USB, then restart.
+    Thne unplug USB, then restart.
 
 ## Post Installation
 
@@ -195,70 +270,34 @@ This document described the steps I took to setup my Arch Linux system.
    timedatectl set-ntp true
    ```
 
-2. Write the following to `/etc/hosts`:
-   ```
-   127.0.0.1 localhost
-   ::1       localhost
-   127.0.1.1 <HOSTNAME>.localdomain <HOSTNAME>
-   ```
-
-3. Use `ip link` to find ethernet name, then use `systemctl start dhcpcd@<ETHERNET_NAME>.servce` to
-   start internet.
-
-4. Install and enable Intel microcode updates:
-   ```
-   pacman -S intel-ucode
-   grub-mkconfig -o /boot/grub/grub.cfg
-   ```
-   the grub command enables intel microcode loading in bootloader stage.
-
-5. As root, add user to sudoer file by running:
+2. As root, add user to sudoer file by running:
    ```
    EDITOR=emacs visudo
    ```
    and uncommenting the line `%wheel ALL=(ALL) ALL`.
 
-6. Uncomment the "Color" option in `/etc/pacman.conf`.
+3. Uncomment the "Color" option in `/etc/pacman.conf`.
 
-7. Install `thermald`, a daemon used to monitor CPU and prevent overheating.  I was experiencing
-   freezes when CPU run on full power and overheats.
-
-   before installing `thermald`, install `lm_sensors` and run the script `sensors-detect` on
-   command line.  Then enable/start `lm_sensors.service`.
+4. Start wifi using instructions from before.  Then, before installing
+   `thermald`, install `lm_sensors` and run the script `sensors-detect` on
+   command line.  Then enable/start `lm_sensors.service`.  Finally, run:
 
    ```
    pacman -S thermald
    ```
 
-8. To generate configuration file for thermald, clone the auto config generation repo with:
+8. (This doesn't work, left as reference) To generate configuration file for
+   thermald, clone the auto config generation repo with:
    ```
-   git clone git@github.com:intel/dptfxtract.git
+   git clone https://github.com/intel/dptfxtract.git
    ```
-   then run the script with root permission to generate configuration file in `/var/run/thermald`,
-   and copy it to `/etc/thermald/thermald-conf.xml`.  When done, enable `thermald` with:
+   then run the script with root permission to generate configuration file
+   in `/var/run/thermald`, and copy it to `/etc/thermald/thermald-conf.xml`.
+   When done, enable `thermald` with:
    ```
    systemctl enable thermald.service
    systemctl start thermald.service
    ```
-
-9. Also install `tlp`.  Just follow instructions on Arch wiki.
-
-### Trying to fix freezing
-
-I keep on having problems with freezes when doing large workload, some research suggests having
-an encrypted LVM swap partition could cause this.  To disable:
-
-1. As root, comment out the swap partition entry in `/etc/fstab`.
-
-2. As root, run `swapoff -a`.
-
-3. Run `swapon -v`, make sure there's no output.  Run `free -m`, make sure nothing in swap.
-
-4. Restart, if you want peace of mind.
-
-5. That didn't solve it.  Trying intel_idle.max_cstate = 1 in kernel parameter.
-
-6. Didn't work either, try removing /etc/modprobe.d/i915.conf, which enable guc firmware.
 
 ### Desktop Environment Installation
 
@@ -272,9 +311,11 @@ an encrypted LVM swap partition could cause this.  To disable:
    * gnome-screenshot
    * chromium
    * dhclient (NetworkManager only works with dhclient for public wifi)
+   * clang (needed to build tools later)
+   * cmake (needed to build tools later)
 
-2. Exit root, sign in as user, and create a folder `pkgs_arch` in home directory for AUR packages.
-   Go in that directory.
+2. Exit root, sign in as user, and create a folder `pkgs_arch` in home
+   directory for AUR packages.  Go in that directory.
 
 3. Setup `yay`, an AUR helper, from AUR using makepkg:
    ```
@@ -285,9 +326,10 @@ an encrypted LVM swap partition could cause this.  To disable:
 
    answer yes when asked to install.
 
-4. the following with `yay -S`:
+4. Install the following with `yay -S`:
    * lightdm-slick-greeter
    * lightdm-settings
+   * systemd-boot-pacman-hook
 
 5. Modify the file `/etc/lightdm/lightdm.conf` with the following:
    ```
@@ -301,24 +343,27 @@ an encrypted LVM swap partition could cause this.  To disable:
    ...
    ```
 
-   The `logind-check-graphical` option is used to tell lightDM to wait until the graphics driver
-   are loaded before starting, thus preventing black screen.
+   The `logind-check-graphical` option is used to tell lightDM to wait
+   until the graphics driver are loaded before starting, thus preventing
+   black screen.
 
-6. Create a new file `/etc/NetworkManager/conf.d/dhcp-client.conf`, with the    content:
+6. Create a new file `/etc/NetworkManager/conf.d/dhcp-client.conf`, with the
+   content:
    ```
    [main]
    dhcp=dhclient
    ```
 
-   NetworkManager is not built with dhcpd support (the default Arch Linux DHCP program).  This
-   allows NetworkManager to connect to public wifi.
+   NetworkManager is not built with dhcpd support (the default Arch Linux
+   DHCP program).  This allows NetworkManager to connect to public wifi.
 
 7. Run the following to start the dekstop environment:
    ```
    systemctl enable lightdm.service
    systemctl start lightdm.service
    ```
-8. Once GUI started, enable NetworkManager:
+8. Once GUI started, stop `netctl@<wifi name>.service`, then enable
+   NetworkManager:
    ```
    systemctl enable NetworkManager.service
    systemctl start NetworkManager.service
@@ -330,32 +375,20 @@ an encrypted LVM swap partition could cause this.  To disable:
    systemctl start fstrim.timer
    ```
 
-## Intel UHD Graphics Driver Setup
-
-1. enable early kernel mode setting by editing the following line in
-   `/etc/mkinitcpio.conf`:
-   ```
-   MODULES=(ext4 i915)
-   ```
-   Then, create the file `/etc/modprobe.d/i915.conf`, with the line:
-   ```
-   options i915 enable_guc=3
-   ```
-   Finally, update boot image with the command:
-   ```
-   mkinitcpio -p linux
-   ```
+10. Also install `tlp`.  Just follow instructions on Arch wiki.
 
 ## Initial Setups
 
 1. In mouse and trackpad settings, enable multi-click for right click.
 
-2. In terminal perferences, change color scheme to tango dark.3
+2. In terminal perferences, change color scheme to tango dark.
 
-3. In file explorer, set all new folders to use list view in preferences, and show hidden files (by
-   using right-click context menu).
+3. In file explorer, set all new folders to use list view in preferences,
+   and show hidden files (by using right-click context menu).
 
-4. Copy `.ssh/config` and private/public keys over.  Create a softlink for erichang.key.
+4. Copy `.ssh/config` and private/public keys over.  Create a softlink
+   for erichang.key.  Make config file and private key permission to be
+   600.
 
 5. Next, we need to install some packages needed by emacs.  Install `ycmd-git` and `universal-ctags-git` from AUR.
 
@@ -380,12 +413,9 @@ an encrypted LVM swap partition could cause this.  To disable:
 
 1. Use `pacman` to install the following packages:
 
-   * namcap (Needed to verify custom built packages)
    * tigervnc
    * inkscape
    * vlc
-   * zathura
-   * zathura-pdf-mupdf (A PDF viewer with keyboard shortcuts)
    * texlive-most (I select bibtexextra, core, fontsextra, formatextra,
      latexextra, pictures, and science)
    * pdf2svg (for inkscape/textext)
