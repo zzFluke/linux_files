@@ -533,11 +533,17 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    ```
    to disable annoying beeps when screen locks.
 
-3. add chromium shortcut to task bar.  You should be able to just drag and
-   drop from menu.
-
-4. In clock settings, change time display format to 12Hr, and add date and
+3. In clock settings, change time display format to 12Hr, and add date and
    second display.
+
+4. Right click task bar, in Panel Settings, change height to 24, and all
+   icon scales optimally with panel size.
+
+5. Delete all task bar applets except menu, system tray, and time.  Then
+   add panel launcher and window list applet.  Right click task bar and
+   enable "Panel edit mode" to drag those applets to the right place.
+   Finally, add chormium to panel launcher (You can drag and drop from
+   menu).
 
 ### Pycharm/CLion
 
@@ -681,3 +687,15 @@ all emacs packages, do the following:
 
 3. Follow through the instructions.  Print a test page from the web interface
    at the end to make sure it works.
+
+### External Monitor
+
+1. After plugging in HDMI, it seems like I need to open the cinnamon display
+   dialog before the screen shows up.
+
+2. To add task bar to external monitor, right click on current task bar,
+   select "Modify Panel", then "Add panel", then click on the highlighted
+   location on the external monitor.
+
+   You can copy task bar configuration over by right clicking the original
+   task bar.
