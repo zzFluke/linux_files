@@ -308,8 +308,8 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    * gnome-terminal
    * blueberry (for bluetooth support)
    * gnome-keyring
-   * gnome-screenshot
    * chromium
+   * flameshot (Great screenshot tool)
    * dhclient (NetworkManager only works with dhclient for public wifi)
    * clang (needed to build tools later)
    * cmake (needed to build tools later)
