@@ -438,6 +438,8 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    * mlocate (for the locate command)
    * cups (for printing)
    * cups-pdf (for printing to pdf)
+   * pinta (for simple image manipulation, like cropping)
+   * net-tools (ifconfig)
 
 2. Use `pacman` to install the following Python related packages:
 
@@ -473,12 +475,14 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
 
    * textext (for inkscape latex rendering)
    * ttf-tw (for Taiwan standard Chinese fonts)
+   * ttf-ms-fonts (legacy Microsoft fonts, does not require windows ISO)
    * noto-fonts-tc
    * mint-x-icons
    * mint-y-icons
    * mint-themes (for better Cinnamon themes)
    * xviewer (for image viewing)
    * qdirstat (for disk usage viewing)
+   * caffeine-ng (for not going to sleep)
 
 6. Start chromium, download Pycharm, then install.
 
