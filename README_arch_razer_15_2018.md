@@ -549,6 +549,14 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    Finally, add chormium to panel launcher (You can drag and drop from
    menu).
 
+### Print-Screen using Flameshot
+
+1. Open Start Menu->System Settings->Keyboard, go to "Shortcuts" tab.
+
+2. Click on "Add custom shortcut", type "Flameshot" as name, "flameshot gui"
+   as the command, then confirm.  Finally, associate PrtSc key with this
+   shortcut.
+
 ### Pycharm/CLion
 
 1. In Editor/General, set "Strip trailing spaces on Save" to "All", and
