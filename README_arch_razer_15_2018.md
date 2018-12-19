@@ -205,7 +205,14 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
 
     then type in the user password.
 
-12. etc file `/etc/mkinitcpio.conf`.  Change "HOOKS" field to the following:
+12. edit file `/etc/mkinitcpio.conf`.
+
+    Change "MODULES" field to the following:
+    ```
+    MODULES=(ext4 intel_agp i915 nouveau)
+    ```
+
+    to enable early kernel mode setting.  Change "HOOKS" field to the following:
     ```
     HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)
     ```
@@ -711,3 +718,12 @@ all emacs packages, do the following:
 
    You can copy task bar configuration over by right clicking the original
    task bar.
+
+### LaTeX setup
+
+1. install `biber` with `pacman`, and `texlive-localmanager-git` with `yay`.
+
+2. Use `tllocalmgr` to install CTAN packages.  run `sudo texconfig rehash`
+   to update packages after install.
+
+3. Use latexmk on commandline to both build and clean latex output files.
