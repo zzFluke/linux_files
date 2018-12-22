@@ -556,6 +556,9 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    Finally, add chormium to panel launcher (You can drag and drop from
    menu).
 
+6. In "Power Management", enable hybrid sleep.  In "Screensaver", enable
+   locking the computer when put to sleep.
+
 ### Print-Screen using Flameshot
 
 1. Open Start Menu->System Settings->Keyboard, go to "Shortcuts" tab.
