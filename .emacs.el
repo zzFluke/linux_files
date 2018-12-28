@@ -537,7 +537,7 @@
 
 ;; Automatically format buffer on save
 (add-hook 'c-mode-common-hook
-          (lambda () (add-hook 'before-save-hook 'clang-format-buffer nil 'local)))
+          (lambda () (add-hook 'before-save-hook (lambda () (clang-format-buffer "file" "foo.cpp")) nil 'local)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package: ycmd (YouCompleteMeDaemon)

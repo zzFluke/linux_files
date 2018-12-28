@@ -466,6 +466,7 @@ Reference (boot configuration): https://wiki.archlinux.org/index.php/Dm-crypt/Sy
    * python-virtualenv
    * python-pytest-xdist (for distributed unit testing)
    * python-sortedcontainers
+   * python-certifi (needed by emacs ycmd)
 
 3. Start emacs, run `M-x jedi:install-server` to install jedi
    server for Python editing.
